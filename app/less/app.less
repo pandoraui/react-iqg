@@ -1,0 +1,61 @@
+@import "../../node_modules/amazeui/less/variables";
+@import "../../node_modules/amazeui/less/mixins";
+
+
+html,
+body {
+  // height: 100%;
+}
+
+.am-header .am-header-title{
+  margin: 0 25%;
+}
+.am-header .am-header-left{
+  left: 5px;
+}
+.am-header .am-header-right{
+  right: 5px;
+}
+.am-header-default .am-header-nav>a{
+  min-width: 40px;
+}
+.am-header-default .am-header-nav>a+a{
+  margin-left: 0;
+}
+
+.ask-pages {
+  //height: 100%;
+  // overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+}
+.ask-page{
+  padding-top: 50px;
+  box-sizing: border-box;
+}
+.ask-header {
+  margin-bottom: 0;
+}
+
+.ask-main {
+  flex: 1;
+}
+
+.ask-banner {
+  background-color: #f8f8f8;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.ask-footer {
+  background-color: @gray;
+  color: @gray-light;
+
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  p {
+    font-size: 1.3rem;
+    margin: 0;
+  }
+}
