@@ -126,10 +126,11 @@ body{color: #333; font-family: @base-font-family; font-size: 14px; }
 .iqg-tabs .iqg-tab-active{ background-color:@mainColor; color: @white; }
 .iqg-topbar{height: 80px;}
 
-.iqg-list{ padding: 1px 26px;}
-.iqg-list ul{margin: 0;padding: 0;overflow: hidden; list-style: none;}
-.iqg-list li{margin-top: -1px; border-top: 1px solid @midGray; min-height: 44px; 
-line-height: 44px; overflow: hidden;}
+.iqg-list{}
+.iqg-list .list-box{ overflow: hidden;}
+.iqg-list .link-block{display: block;box-sizing: border-box; overflow: hidden; padding: 1px 26px; width: 100%; margin-top: -1px;}
+.iqg-list .link-block .item{overflow: hidden; margin-top: -1px; min-height: 44px; 
+line-height: 44px; border-top: 1px solid @midGray;}
 .iqg-list a .title{font-size: 16px;color: @black; float: left;}
 .iqg-list a .num{color: @smallGray; float: right; }
 

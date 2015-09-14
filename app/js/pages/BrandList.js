@@ -43,32 +43,44 @@ var View = React.createClass({
           </div>
         </div>
         <div className="iqg-list">
-          <ul>
-            <li><a href="">
-              <span className="title">展示</span>
-              <span className="num">12233</span>
-            </a></li>
-            <li><a href="">
-              <span className="title">砍价的</span>
-              <span className="num">12434</span>
-            </a></li>
-            <li><a href="">
-              <span className="title">了解我的</span>
-              <span className="num">12434</span>
-            </a></li>
-            <li><a href="">
-              <span className="title">传播我的</span>
-              <span className="num">12434</span>
-            </a></li>
-            <li><a href="">
-              <span className="title">购买的</span>
-              <span className="num">12434</span>
-            </a></li>
-            <li><a href="">
-              <span className="title">兑换的</span>
-              <span className="num">12434</span>
-            </a></li>
-          </ul>
+          <div className="list-box">
+            <a className="link-block" href="">
+              <div className="item">
+                <span className="title">展示</span>
+                <span className="num">12233</span>
+              </div>
+            </a>
+            <a className="link-block" href="">
+              <div className="item">
+                <span className="title">砍价的</span>
+                <span className="num">12233</span>
+              </div>
+            </a>
+            <a className="link-block" href="">
+              <div className="item">
+                <span className="title">传播我的</span>
+                <span className="num">12233</span>
+              </div>
+            </a>
+            <a className="link-block" href="">
+              <div className="item">
+                <span className="title">了解我的</span>
+                <span className="num">12233</span>
+              </div>
+            </a>
+            <a className="link-block" href="">
+              <div className="item">
+                <span className="title">购买的</span>
+                <span className="num">12233</span>
+              </div>
+            </a>
+            <a className="link-block" href="">
+              <div className="item">
+                <span className="title">兑换的</span>
+                <span className="num">12233</span>
+              </div>
+            </a>
+          </div>
         </div>
 
         <div className="sub-list-box">
@@ -80,37 +92,38 @@ var View = React.createClass({
                 <i className="iqg-icon-arr"></i>
               </span>
             </div>
-            
           </div>
           <div className="iqg-list sub-list">
-            <ul>
-              <li><a href="">
-                <span className="title">达美乐（澳门路店）</span>
-                <span className="num">23</span>
-              </a></li>
-              <li><a href="">
-                <span className="title">达美乐（亚运村店）</span>
-                <span className="num">26</span>
-              </a></li>
-              <li><a href="">
-                <span className="title">达美乐（澳门路店）
-                  <div className="iqg-star"><span width="80%"><i className="icon-star"></i></span></div>
-                </span>
-                <span className="num">23</span>
-              </a></li>
-              <li><a href="">
-                <span className="title">达美乐（亚运村店）
-                  <div className="iqg-star"><span width="80%"><i className="icon-star"></i></span></div>
-                </span>
-                <span className="num">26</span>
-              </a></li>
-              <li><a href="">
-                <span className="title">达美乐（双安店）
-                  <div className="iqg-star"><span width="80%"><i className="icon-star"></i></span></div>
-                </span>
-                <span className="num">34</span>
-              </a></li>
-            </ul>
+            <div className="list-box">
+              <a className="link-block" href="">
+                <div className="item">
+                  <span className="title">达美乐（澳门路店）</span>
+                  <span className="num">23</span>
+                </div>
+              </a>
+              <a className="link-block" href="">
+                <div className="item">
+                  <span className="title">达美乐（亚运村店）</span>
+                  <span className="num">23</span>
+                </div>
+              </a>
+              <a className="link-block" href="">
+                <div className="item">
+                  <span className="title">达美乐（澳门路店）
+                    <div className="iqg-star"><span width="80%"><i className="icon-star"></i></span></div>
+                  </span>
+                  <span className="num">23</span>
+                </div>
+              </a>
+              <a className="link-block" href="">
+                <div className="item">
+                  <span className="title">达美乐（亚运村店）
+                    <div className="iqg-star"><span width="80%"><i className="icon-star"></i></span></div>
+                  </span>
+                  <span className="num">23</span>
+                </div>
+              </a>
+            </div>
           </div>
         </div>
         <div className="iqg-banner">
