@@ -1,61 +1,186 @@
-@import "../../node_modules/amazeui/less/variables";
-@import "../../node_modules/amazeui/less/mixins";
+// @import "../../node_modules/amazeui/less/variables";
+// @import "../../node_modules/amazeui/less/mixins";
 
+@ns: ~"iqg-";
 
-html,
-body {
-  // height: 100%;
-}
+.clearfix() {
+  &:before,
+  &:after {
+    content: " ";
+    display: table;
+  }
 
-.am-header .am-header-title{
-  margin: 0 25%;
-}
-.am-header .am-header-left{
-  left: 5px;
-}
-.am-header .am-header-right{
-  right: 5px;
-}
-.am-header-default .am-header-nav>a{
-  min-width: 40px;
-}
-.am-header-default .am-header-nav>a+a{
-  margin-left: 0;
-}
-
-.ask-pages {
-  //height: 100%;
-  // overflow-y: scroll;
-  display: flex;
-  flex-direction: column;
-}
-.ask-page{
-  padding-top: 50px;
-  box-sizing: border-box;
-}
-.ask-header {
-  margin-bottom: 0;
-}
-
-.ask-main {
-  flex: 1;
-}
-
-.ask-banner {
-  background-color: #f8f8f8;
-  padding-top: 50px;
-  padding-bottom: 50px;
-}
-
-.ask-footer {
-  background-color: @gray;
-  color: @gray-light;
-
-  padding-top: 20px;
-  padding-bottom: 20px;
-
-  p {
-    font-size: 1.3rem;
-    margin: 0;
+  &:after {
+    clear: both;
   }
 }
+
+.@{ns}cf {
+  .clearfix();
+}
+
+.fl,.fr{display: inline;}
+.fl{float: left;}
+.fr{float: right;}
+
+@black:           #000;
+@white:           #fff;
+@gray-darker:     lighten(@black, 13.5%); // #222
+@gray-dark:       lighten(@black, 20%);   // #333
+@gray:            lighten(@black, 33.5%); // #555
+@gray-light:      lighten(@black, 60%);   // #999
+@gray-lighter:    lighten(@black, 93.5%); // #eee
+
+@mainColor: #FC6522;
+@lightGray: #eee;
+@midGray: #ddd;
+@white: #fff;
+@smallGray: #999;
+
+
+@global-font-size:        1.6rem; //16px
+@global-line-height:      1.6;
+@font-size-base:          @global-font-size;
+
+@fa-font-path: '//dn-amui.qbox.me/font-awesome/4.3.0/fonts';
+@fa-css-prefix: ~"@{ns}icon";
+@fa-version: '4.3.0';
+
+@font-face {
+  font-family: 'FontAwesome';
+  src: url('@{fa-font-path}/fontawesome-webfont.eot?v=@{fa-version}');
+  src: url('@{fa-font-path}/fontawesome-webfont.eot?#iefix&v=@{fa-version}') format('embedded-opentype'),
+  url('@{fa-font-path}/fontawesome-webfont.woff2?v=@{fa-version}') format('woff2'),
+  url('@{fa-font-path}/fontawesome-webfont.woff?v=@{fa-version}') format('woff'),
+  url('@{fa-font-path}/fontawesome-webfont.ttf?v=@{fa-version}') format('truetype'),
+  url('@{fa-font-path}/fontawesome-webfont.svg?v=@{fa-version}#fontawesomeregular') format('svg');
+  //  src: url('@{fa-font-path}/FontAwesome.otf') format('opentype'); // used when developing fonts
+  font-weight: normal;
+  font-style: normal;
+}
+.am-icon-font() {
+  display: inline-block; // 1
+  font: normal normal normal @global-font-size/1 "FontAwesome", sans-serif; // shortening font declaration
+  /*font-weight: normal; // 2
+  font-style: normal; // 2
+  vertical-align: baseline; // 3
+  line-height: 1; // 4*/
+  font-size: inherit; // can't have font-size inherit on line above, so need to override
+  text-rendering: auto; // optimizelegibility throws things off #1094
+  -webkit-font-smoothing: antialiased; // 5
+  -moz-osx-font-smoothing: grayscale;
+  transform: translate(0, 0); // ensures no half-pixel rendering in firefox
+}
+[class*="@{ns}icon-"] {
+  display: inline-block;
+  font-style: normal;
+
+  &:before {
+    .am-icon-font;
+  }
+}
+@fa-var-spinner: "\f110";
+@fa-var-star: "\f005";
+.@{fa-css-prefix}-spinner:before {
+  content: @fa-var-spinner;
+}
+.@{fa-css-prefix}-star:before {
+  content: @fa-var-star;
+}
+@keyframes icon-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(359deg);
+  }
+}
+
+.@{ns}icon-spin {
+  animation: icon-spin 2s infinite linear;
+}
+
+
+@font-family-sans-serif: "Segoe UI", "Lucida Grande", Helvetica, Arial, "Microsoft YaHei", FreeSans, Arimo, "Droid Sans","wenquanyi micro hei","Hiragino Sans GB", "Hiragino Sans GB W3", "FontAwesome", sans-serif;
+
+@base-font-family: @font-family-sans-serif;
+
+h1,h2,h3,h4,p{margin:5px 0;}
+h3,h4{font-size: 14px;}
+html{-webkit-tap-highlight-color: rgba(0, 0, 0, 0);}
+body,input,textarea,select,button{text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased;}
+a{text-decoration: none;}
+body{color: #333; font-family: @base-font-family; font-size: 14px; }
+.gray{color: @smallGray;}
+.iqg-pages {display: flex;flex-direction: column;}
+.iqg-page{box-sizing: border-box;}
+.iqg-header {margin-bottom: 0;}
+
+.iqg-main { flex: 1;}
+
+// tabs 日期选择 
+.box-title{ background-color:@lightGray; padding: 10px 26px 1px;}
+.iqg-tabs{ border-bottom: 1px solid @midGray; }
+.iqg-tabs .iqg-tab{ display: inline-block;color: @mainColor; font-size: 14px; width: 44px; height: 34px; line-height: 34px; text-align: center; border-radius: 2px;}
+.iqg-tabs .iqg-tab-active{ background-color:@mainColor; color: @white; }
+.iqg-topbar{height: 80px;}
+
+.iqg-list{ padding: 1px 26px;}
+.iqg-list ul{margin: 0;padding: 0;overflow: hidden; list-style: none;}
+.iqg-list li{margin-top: -1px; border-top: 1px solid @midGray; min-height: 44px; 
+line-height: 44px; overflow: hidden;}
+.iqg-list a .title{font-size: 16px;color: @black; float: left;}
+.iqg-list a .num{color: @smallGray; float: right; }
+
+
+// 二级列表
+.sub-list-title{ font-size: 14px; }
+.sub-list-title h3{font-weight: normal; float: left; }
+.iqg-star{display: block; overflow: hidden; clear: both; width: 100px;height: 16px; margin: -10px 0 8px;}
+.iqg-star span,.iqg-star i{float: left; line-height: 1; overflow: hidden;}
+.iqg-star i{box-sizing: border-box;width: 100px; padding: 0 4px; }
+.iqg-star i:before{.am-icon-font; content: '\f005\20\f005\20\f005\20\f005\20\f005'; font-size: 16px; color: #F3F210; text-shadow: 1px 1px rgb(216, 216, 159);}
+.iqg-select-btn{float: right; color: @mainColor;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

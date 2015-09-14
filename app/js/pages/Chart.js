@@ -2,7 +2,6 @@
 
 var React = require('react');
 // var RUI = require('amazeui-react');
-var RUI = require('../reactUI');
 var NavLink = require('../components/NavLink');
 var AppActions = require('../actions/AppActions');
 
@@ -51,21 +50,21 @@ var chartOptions = {
   legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
 };
 
-var ChartJs = React.createClass({
+var View = React.createClass({
   componentDidMount: function() {
-    AppActions.updateHeader(pageInfo);
+    AppActions.updateView(pageInfo);
   },
   render: function() {
     return (
       <div className="ask-page">
         <NavLink/>
-        <RUI.Container className="am-padding-vertical-lg">
+        <div className="am-padding-vertical-lg">
           <h2>Chart 图表</h2>
           <LineChart data={chartData} options={chartOptions}/>
-        </RUI.Container>
+        </div>
       </div>
     );
   }
 });
 
-module.exports = ChartJs;
+module.exports = View;

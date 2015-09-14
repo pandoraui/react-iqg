@@ -66,8 +66,7 @@ gulp.task('copy', function () {
     '!app/js',
     '!app/less',
     '!app/i',
-    'node_modules/amazeui/dist/css/amazeui.min.css',
-    'node_modules/amazeui/dist/fonts/*'
+    'bower_components/pure/pure-min.css'
   ], {
     dot: true
   }).pipe(gulp.dest(function(file) {
@@ -183,5 +182,6 @@ gulp.task('dev', ['default', 'watch'], function () {
 
 // 默认任务
 gulp.task('default', function (cb) {
-  runSequence('clean', ['styles', 'jshint', 'html', 'images', 'copy', 'browserify'], cb);
+  //runSequence('clean', ['styles', 'jshint', 'html', 'images', 'copy', 'browserify'], cb);
+  runSequence('clean', ['styles', 'html', 'images', 'copy', 'browserify'], cb);
 });

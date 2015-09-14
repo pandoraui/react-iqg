@@ -38,10 +38,10 @@ var AppActions = {
     delete _options.react_actionType;
     $._ajax(_options);
   },
-  updateHeader: function(obj) {
+  updateView: function(data) {
     AppDispatcher.dispatch({
-      actionType: AppConstants.APP_HEADER,
-      obj: obj
+      actionType: AppConstants.APP_VIEW,
+      data: data
     });
   },
   create: function(text) {

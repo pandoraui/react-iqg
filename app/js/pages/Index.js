@@ -1,35 +1,31 @@
 'use strict';
 
 var React = require('react');
-var Router = require('react-router');
-var Route = Router.Route;
-var Link = Router.Link;
 
 var AppActions = require('../actions/AppActions');
-
-var RUI = require('../reactUI');
 var NavLink = require('../components/NavLink');
 
 var pageInfo = {
-  title: '首页'
+  title: '推广效果'
 };
 
 var Index = React.createClass({
   getInitialState: function() {
     return {};
   },
+  
   componentDidMount: function() {
-    AppActions.updateHeader(pageInfo);
+    AppActions.updateView(pageInfo);
   },
   render: function() {
     return (
-      <div className="ask-page">
+      <div className="iqg-page">
         <NavLink/>
-        <div className="ask-banner">
-          <RUI.Container>
+        <div className="iqg-banner">
+          <div>
             <h1>Hello World!</h1>
             <h2>欢迎使用 Amaze UI React 入门套件。</h2>
-          </RUI.Container>
+          </div>
         </div>
       </div>
     );

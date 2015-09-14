@@ -10,29 +10,16 @@ var NotFoundRoute = Router.NotFoundRoute;
 // Pages
 var Application = require('./pages/Application');
 var Index = require('./pages/Index');
-var Page1 = require('./pages/Page1');
-var About = require('./pages/About');
-var Login = require('./pages/Login');
-var List = require('./pages/List');
-var Company = require('./pages/Company');
-var Action = require('./pages/Action');
-var Ajax = require('./pages/Ajax');
-var Complex = require('./pages/Complex');
+var BrandList = require('./pages/BrandList');
+var BranchList = require('./pages/BranchList');
 var Chart = require('./pages/Chart');
 var NotFound = require('./pages/NotFound');
 
 var routes = (
   <Route name="home" path="/" handler={Application}>
     <DefaultRoute handler={Index}/>
-    <Route name='page1' handler={Page1}/>
-    <Route name='about' handler={About}/>
-    <Route name='login' handler={Login}/>
-    <Route name='list' path="list" handler={List}/>
-    <Route name='detail' path="list/:id" handler={List}/>
-    <Route name="company" path="about/company" handler={Company}/>
-    <Route name="action" handler={Action}/>
-    <Route name="ajax" handler={Ajax}/>
-    <Route name="complex" handler={Complex}/>
+    <Route name='brand' path="/brand/:brand_id" handler={BrandList} />
+    <Route name="branch" path="/brand/:brand_id/branch/:branch_id" handler={BranchList} />
     <Route name="chart" handler={Chart}/>
 
     <NotFoundRoute handler={NotFound} />

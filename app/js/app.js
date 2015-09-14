@@ -71,10 +71,9 @@ var routes = require('./routes');
   </Route>
 </Route>
 */
-
+//    // Router.HashLocation,
 document.addEventListener('DOMContentLoaded', function() {
   Router.run(routes,
-    Router.HashLocation,
     function(Handler) {
       React.render(<Handler />, document.body);
     });

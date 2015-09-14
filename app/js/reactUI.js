@@ -11,4 +11,8 @@
 // global.uiRequire = uiRequire;
 
 // module.exports = uiRequire;
-module.exports = require('../../../src/AMUIReact');
+// 
+var uiRequire = {};
+module.exports = uiRequire;
+// module.exports = require('../../../src/AMUIReact');
+// 
