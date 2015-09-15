@@ -52,7 +52,7 @@ var chartOptions = {
 
 var View = React.createClass({
   componentDidMount: function() {
-    AppActions.updateView(pageInfo);
+    // AppActions.updateView(pageInfo);
   },
   render: function() {
     return (

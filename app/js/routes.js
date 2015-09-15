@@ -12,7 +12,9 @@ var Application = require('./pages/Application');
 var Index = require('./pages/Index');
 var BrandList = require('./pages/BrandList');
 var BranchList = require('./pages/BranchList');
+var ItemList = require('./pages/ItemList');
 var Chart = require('./pages/Chart');
+var Detail = require('./pages/Detail');
 var NotFound = require('./pages/NotFound');
 
 var routes = (
@@ -20,7 +22,9 @@ var routes = (
     <DefaultRoute handler={Index}/>
     <Route name='brand' path="/brand/:brand_id" handler={BrandList} />
     <Route name="branch" path="/brand/:brand_id/branch/:branch_id" handler={BranchList} />
+    <Route name="item" path="/brand/:brand_id/branch/:branch_id/item/:item_id" handler={ItemList} />
     <Route name="chart" handler={Chart}/>
+    <Route name="detail" path="detail/:detail_id" handler={Detail}/>
 
     <NotFoundRoute handler={NotFound} />
   </Route>

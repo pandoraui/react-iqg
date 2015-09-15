@@ -8,14 +8,9 @@
 
 
 var uiRequire = function (src) {
-  var tempUI = global.reactUI;
-  if (tempUI && tempUI[src]) {
-    return tempUI[src];
-  } else if (src) {
-    tempUI[src] = require('../../../src/' + src);
-    return tempUI[src];
+  if (src) {
+    return require('../module/' + src);
   } else {
-    console.error('必须输入 src');
     return require('../../../src/AMUIReact');
   }
 };

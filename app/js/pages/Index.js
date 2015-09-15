@@ -6,14 +6,13 @@ var AppActions = require('../actions/AppActions');
 var NavLink = require('../components/NavLink');
 
 var pageInfo = {
-  title: '推广效果'
+  title: '入口页面'
 };
 
 var Index = React.createClass({
   getInitialState: function() {
     return {};
   },
-  
   componentDidMount: function() {
     AppActions.updateView(pageInfo);
   },

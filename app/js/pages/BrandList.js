@@ -5,9 +5,108 @@ var React = require('react');
 var AppActions = require('../actions/AppActions');
 var NavLink = require('../components/NavLink');
 
+var TopBar = require('../modules/TopBar');
+var ListOverview = require('../modules/ListOverview');
+var ListData = require('../modules/ListData');
+var SubTitle = require('../modules/SubTitle');
+
 var pageInfo = {
-  title: '推广'
+  title: '推广效果'
 };
+
+var dataTopBar = {
+  time: '2015年8月10日',
+  text: '品牌总体数据',
+  days: [
+  {
+    name: '昨天',
+    value: 1
+  },
+  {
+    name: '7天',
+    value: 7
+  },
+  {
+    name: '30天',
+    value: 30
+  },
+  {
+    name: '90天',
+    value: 90
+  }
+]};
+
+var dataOverview = [
+  {
+    id: 1,
+    name: "展示",
+    value: 4567
+  }
+  , {
+    id: 2,
+    name: "砍价的",
+    value: 542
+  }
+  , {
+    id: 3,
+    name: "传播我的",
+    value: 134
+  }
+  , {
+    id: 4,
+    name: "了解我的",
+    value: 345
+  }
+  , {
+    id: 5,
+    name: "购买的",
+    value: 115
+  }
+  , {
+    id: 6,
+    name: "兑换的",
+    value: 98
+  }
+];
+
+var dataSubTitle = {
+  time: '2015年8月10日',
+  title: '门店总体数据',
+  filter: [{
+    name: '抢购率',
+    sort: 'sort',
+    selected: true
+  }]
+};
+
+var dataList = {
+  last_id: 20,
+  list: [
+    {
+      id: 2,
+      name: '达乐美（澳门路店）',
+      value: 45,
+      star: 3.5
+    }
+    , {
+      id: 3,
+      name: '达乐美（亚运村店）',
+      value: 56,
+      star: 4.2
+    }
+    , {
+      id: 4,
+      name: '达乐美（澳门路店）',
+      value: 23,
+      star: 2.6
+    }
+    , {
+      id: 5,
+      name: '达乐美（亚运村店）',
+      value: 88,
+      star: 4.5
+    }
+]};
 
 var View = React.createClass({
   getInitialState: function() {
@@ -15,6 +114,9 @@ var View = React.createClass({
       type: 'brand',
       brand_id: this.props.params.brand_id
     };
+  },
+  componentDidMount: function() {
+    AppActions.updateView(pageInfo);
   },
   componentDidUpdate: function() {
     console.log(333);
@@ -33,105 +135,16 @@ var View = React.createClass({
   render: function() {
     return (
       <div className="iqg-page">
-        <div className="iqg-topbar">
-          <div className="iqg-tabs box-title">
-            <a className="iqg-tab iqg-tab-active" data-value="1">昨天</a>
-            <a className="iqg-tab" data-value="7">7天</a>
-            <a className="iqg-tab" data-value="30">30天</a>
-            <a className="iqg-tab" data-value="90">90天</a>
-            <p className="gray">2015年8月10日 品牌总体数据</p>
-          </div>
-        </div>
+        <TopBar dataTopBar={dataTopBar} index="0" />
         <div className="iqg-list">
-          <div className="list-box">
-            <a className="link-block" href="">
-              <div className="item">
-                <span className="title">展示</span>
-                <span className="num">12233</span>
-              </div>
-            </a>
-            <a className="link-block" href="">
-              <div className="item">
-                <span className="title">砍价的</span>
-                <span className="num">12233</span>
-              </div>
-            </a>
-            <a className="link-block" href="">
-              <div className="item">
-                <span className="title">传播我的</span>
-                <span className="num">12233</span>
-              </div>
-            </a>
-            <a className="link-block" href="">
-              <div className="item">
-                <span className="title">了解我的</span>
-                <span className="num">12233</span>
-              </div>
-            </a>
-            <a className="link-block" href="">
-              <div className="item">
-                <span className="title">购买的</span>
-                <span className="num">12233</span>
-              </div>
-            </a>
-            <a className="link-block" href="">
-              <div className="item">
-                <span className="title">兑换的</span>
-                <span className="num">12233</span>
-              </div>
-            </a>
-          </div>
+          <ListOverview dataOverview={dataOverview} />
         </div>
-
         <div className="sub-list-box">
-          <div className="sub-list-title box-title iqg-cf">
-            <h3 className="gray">2015年8月10日 门店<br/>总体数据</h3>
-            <div className="iqg-select-btn">
-              <span className="iqg-arr-btn">抢购率</span>
-              <span className="iqg-sort">
-                <i className="iqg-icon-arr"></i>
-              </span>
-            </div>
-          </div>
+          <SubTitle dataSubTitle={dataSubTitle} />
           <div className="iqg-list sub-list">
-            <div className="list-box">
-              <a className="link-block" href="">
-                <div className="item">
-                  <span className="title">达美乐（澳门路店）</span>
-                  <span className="num">23</span>
-                </div>
-              </a>
-              <a className="link-block" href="">
-                <div className="item">
-                  <span className="title">达美乐（亚运村店）</span>
-                  <span className="num">23</span>
-                </div>
-              </a>
-              <a className="link-block" href="">
-                <div className="item">
-                  <span className="title">达美乐（澳门路店）
-                    <div className="iqg-star"><span width="80%"><i className="icon-star"></i></span></div>
-                  </span>
-                  <span className="num">23</span>
-                </div>
-              </a>
-              <a className="link-block" href="">
-                <div className="item">
-                  <span className="title">达美乐（亚运村店）
-                    <div className="iqg-star"><span width="80%"><i className="icon-star"></i></span></div>
-                  </span>
-                  <span className="num">23</span>
-                </div>
-              </a>
-            </div>
+            <ListData data={dataList} params={this.props.params} />
           </div>
         </div>
-        <div className="iqg-banner">
-          <p>数据类型：{this.state.type}</p>
-          <p>数据类型：品牌</p>
-          <p>数据ID：{this.state.brand_id}</p>
-        </div>
-        <NavLink/>
       </div>
     );
   }

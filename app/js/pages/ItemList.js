@@ -11,8 +11,7 @@ var ListData = require('../modules/ListData');
 var SubTitle = require('../modules/SubTitle');
 
 var pageInfo = {
-  title: '分店',
-  data: null
+  title: '商品详情'
 };
 
 var dataTopBar = {
@@ -37,80 +36,44 @@ var dataTopBar = {
   }
 ]};
 
-var dataSubTitle = {
-  time: '2015年8月10日',
-  title: '商品总体数据',
-  filter: [{
-    name: '抢购率',
-    sort: 'sort',
-    selected: true
-  }]
-};
-
 var dataOverview = [
   {
     id: 1,
     name: "展示",
-    value: 1567
+    value: 4567
   }
   , {
     id: 2,
     name: "砍价的",
-    value: 189
+    value: 542
   }
   , {
     id: 3,
     name: "传播我的",
-    value: 56
+    value: 134
   }
   , {
     id: 4,
     name: "了解我的",
-    value: 130
+    value: 345
   }
   , {
     id: 5,
     name: "购买的",
-    value: 68
+    value: 115
   }
   , {
     id: 6,
     name: "兑换的",
-    value: 62
+    value: 98
   }
 ];
-
-var dataList = {
-  last_id: 20,
-  list: [
-    {
-      id: 12,
-      name: '金牌迷你蛋挞（1份）',
-      value: 45
-    }
-    , {
-      id: 13,
-      name: '9寸新奥尔良脆香鸡披萨（另需任意饮品）',
-      value: 56
-    }
-    , {
-      id: 14,
-      name: '培根意面（一份）',
-      value: 23
-    }
-    , {
-      id: 15,
-      name: '水果披萨（一份）',
-      value: 88
-    }
-]};
 
 var View = React.createClass({
   getInitialState: function() {
     return {
-      type: 'branch',
-      brand_id: this.props.params.brand_id,
-      branch_id: this.props.params.branch_id
+      type: 'brand',
+      item_id: this.props.params.item_id
     };
   },
   componentDidMount: function() {
@@ -124,9 +87,9 @@ var View = React.createClass({
     //     brand: this.props.params.brand
     //   });
     // }
-    if (this.state.branch_id !== this.props.params.branch_id) {
+    if (this.state.item_id !== this.props.params.item_id) {
       this.setState({
-        branch_id: this.props.params.branch_id
+        item_id: this.props.params.item_id
       });
     }
   },
@@ -136,12 +99,6 @@ var View = React.createClass({
         <TopBar dataTopBar={dataTopBar} index="0" />
         <div className="iqg-list">
           <ListOverview dataOverview={dataOverview} />
-        </div>
-        <div className="sub-list-box">
-          <SubTitle dataSubTitle={dataSubTitle} />
-          <div className="iqg-list sub-list">
-            <ListData data={dataList} params={this.props.params} />
-          </div>
         </div>
       </div>
     );
