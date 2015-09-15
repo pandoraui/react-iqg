@@ -133,7 +133,7 @@ var View = React.createClass({
   render: function() {
     return (
       <div className="iqg-page">
-        <TopBar dataTopBar={dataTopBar} index="0" />
+        <TopBar dataTopBar={dataTopBar} />
         <div className="iqg-list">
           <ListOverview dataOverview={dataOverview} params={this.props.params} />
         </div>

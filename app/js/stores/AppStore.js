@@ -8,7 +8,8 @@ var assign = require('object-assign');
 var CHANGE_EVENT = 'change';
 
 var _pageInfo = {
-  title: '推广效果'
+  title: '推广效果',
+  timeLength: 1
 }
 
 function update(data) {

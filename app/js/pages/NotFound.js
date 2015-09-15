@@ -1,12 +1,10 @@
 'use strict';
 
 var React = require('react');
-var Router = require('react-router');
-var Route = Router.Route;
-var Link = Router.Link;
+// var Router = require('react-router');
+// var Route = Router.Route;
+// var Link = Router.Link;
 
-var RUI = require('../reactUI');
-var NavLink = require('../components/NavLink');
 var AppActions = require('../actions/AppActions');
 
 var pageInfo = {
@@ -15,16 +13,14 @@ var pageInfo = {
 
 var NotFound = React.createClass({
   componentDidMount: function() {
-    AppActions.updateHeader(pageInfo);
+    AppActions.updateView(pageInfo);
   },
   render: function() {
     return (
-      <div className="ask-page">
-        <div className="ask-banner">
-          <RUI.Container>
-            <h1>404 页面未找到！！！</h1>
-            <h2>点此返回<a className="am-btn am-btn-link" href="#/">首页</a></h2>
-          </RUI.Container>
+      <div className="iqg-page">
+        <div className="iqg-banner">
+          <h1>404 页面未找到！！！</h1>
+          <p>点此返回 <a className="pure-button" href="#/">首页</a></p>
         </div>
       </div>
     );

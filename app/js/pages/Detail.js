@@ -121,7 +121,7 @@ var View = React.createClass({
   render: function() {
     return (
       <div className="iqg-page">
-        <TopBar dataTopBar={dataTopBar} index="0" />
+        <TopBar dataTopBar={dataTopBar} />
         <Chart data={this.formatChartData()} />
         <ListDetail dataListDetail={dataListDetail} opts={detailOpt[pageInfo.opts]} />
       </div>
