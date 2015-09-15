@@ -23,7 +23,7 @@ var Index = React.createClass({
         <div className="iqg-banner">
           <div>
             <h1>Hello World!</h1>
-            <h2>欢迎使用 Amaze UI React 入门套件。</h2>
+            <h2>欢迎使用 ReactUI 入门套件。</h2>
           </div>
         </div>
       </div>

@@ -57,7 +57,6 @@ var View = React.createClass({
   render: function() {
     return (
       <div className="ask-page">
-        <NavLink/>
         <div className="am-padding-vertical-lg">
           <h2>Chart 图表</h2>
           <LineChart data={chartData} options={chartOptions}/>

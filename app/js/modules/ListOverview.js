@@ -10,7 +10,15 @@ var View = React.createClass({
     };
   },
   renderMap: function() {
-    var data = this.props.dataOverview;
+    var data = this.props.dataOverview,
+        params = this.props.params;
+
+    var preLink = '#/brand/' + params.brand_id;
+    if(!params.branch_id){
+      preLink += '/branch/'
+    }else{
+      preLink += '/branch/' + params.branch_id + '/item/';
+    }
     return data.map(function(item) {
       var link = "#detail/" + item.id;
       return (

@@ -98,7 +98,7 @@ var View = React.createClass({
       <div className="iqg-page">
         <TopBar dataTopBar={dataTopBar} index="0" />
         <div className="iqg-list">
-          <ListOverview dataOverview={dataOverview} />
+          <ListOverview dataOverview={dataOverview} params={this.props.params} />
         </div>
       </div>
     );
