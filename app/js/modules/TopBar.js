@@ -5,41 +5,43 @@ var React = require('react');
 var AppActions = require('../actions/AppActions');
 var AppStore = require('../stores/AppStore');
 
-var timeLength = 1;
+var timeLength;
+var days;
 
 var View = React.createClass({
   getInitialState: function() {
+    timeLength = AppStore.updateTime();
     return {
       timeLength: timeLength
     }
   },
-  // componentDidMount: function() {
-  //   AppStore.addChangeListener(this._onChange);
-  // },
-  // componentWillUnmount: function() {
-  //   AppStore.removeChangeListener(this._onChange);
-  // },
-  // _onChange: function() {
-  //   //此处要更新一下 TDK，目前只提供 title 的
-  //   //console.log(React.findDOMNode())
-  //   var timeLength = AppStore.updateTime();
-  //   this.setState(timeLength);
-  // },
+  handleClick: function(index) {
+    // e.preventDefault();
+    timeLength = days[index].value;
+    this.setState({
+      timeLength: AppActions.updateTime(timeLength)
+    });
+  },
   renderMap: function() {
-    var days = this.props.dataTopBar.days;
+    days = this.props.dataTopBar.days;
     //如果当前选中昨天，但最小值不是昨天，则自动变更为7天
     if (timeLength === 1 && days[0].value !== 1) {
       timeLength = 7;
     }
-    return days.map(function(day,i) {
+
+    return days.map(function(day, i) {
       var style = "iqg-tab";
       if (day.value == timeLength) {
         style = "iqg-tab iqg-tab-active";
       }
       return (
-        <a className={style} data-value={day.value}>{day.name}</a>
+        <a className={style}
+           onClick={this.handleClick.bind(this, i)}
+           key={i}>
+          {day.name}
+        </a>
       );
-    });
+    }.bind(this) );
   },
   render: function() {
     var time = this.props.dataTopBar.time;

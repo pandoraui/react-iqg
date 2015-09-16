@@ -20,7 +20,7 @@ var View = React.createClass({
     return list.map(function(item) {
       var link = preLink + item.id;
       var cssStyle = {
-        width: item.star * 20 + '%'
+        width: item.rating * 20 + '%'
       };
       return (
         <a className="link-block" href={link}>
@@ -28,7 +28,7 @@ var View = React.createClass({
             <span className="num">{item.value}</span>
             <div className="title">
               <p>{item.name}</p>
-              {item.star ? (<div className="iqg-star" title={item.star}><span style={cssStyle}><i className="icon-star"></i></span></div>) : ''}
+              {item.rating ? (<div className="iqg-star" title={item.rating}><span style={cssStyle}><i className="icon-star"></i></span></div>) : ''}
             </div>
           </div>
         </a>

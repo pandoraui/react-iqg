@@ -15,6 +15,8 @@ var BranchList = require('./pages/BranchList');
 var ItemList = require('./pages/ItemList');
 var Chart = require('./pages/Chart');
 var Detail = require('./pages/Detail');
+var Ajax = require('./pages/Ajax');
+var Test = require('./pages/Test');
 var NotFound = require('./pages/NotFound');
 
 var routes = (
@@ -23,8 +25,11 @@ var routes = (
     <Route name='brand' path="/brand/:brand_id" handler={BrandList} />
     <Route name="branch" path="/brand/:brand_id/branch/:branch_id" handler={BranchList} />
     <Route name="item" path="/brand/:brand_id/branch/:branch_id/item/:item_id" handler={ItemList} />
+    
     <Route name="chart" handler={Chart}/>
     <Route name="detail" path="detail/:detail_id" handler={Detail}/>
+    <Route name="ajax" path="ajax" handler={Ajax}/>
+    <Route name="test" path="test" handler={Test}/>
 
     <NotFoundRoute handler={NotFound} />
   </Route>

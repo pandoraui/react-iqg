@@ -44,6 +44,12 @@ var AppActions = {
       data: data
     });
   },
+  updateTime: function(data) {
+    AppDispatcher.dispatch({
+      actionType: AppConstants.APP_TIME_LENGTH,
+      data: data
+    });
+  },
   create: function(text) {
     AppDispatcher.dispatch({
       actionType: AppConstants.APP_CREATE,

@@ -1,6 +1,7 @@
 'use strict';
 
 var $ = require('npm-zepto');
+var ApiPath = require('./ApiPath');
 
 //这里统一添加一些公共参数
 var dealParams = function(params) {
@@ -75,5 +76,7 @@ $._ajax = _ajax;
 $._get = _get;
 $._post = _post;
 $._getJSON = _getJSON;
+
+$.Api = ApiPath;
 
 module.exports = $;

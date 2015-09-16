@@ -11,6 +11,8 @@ var _pageInfo = {
   title: '推广效果',
   timeLength: 1
 }
+//默认选中一天
+var timeLength = 1;
 
 function update(data) {
   if(data){
@@ -23,6 +25,9 @@ var pageInfo = assign({},_pageInfo);
 var AppStore = assign({}, EventEmitter.prototype, {
   updateView: function() {
     return pageInfo;
+  },
+  updateTime: function() {
+    return timeLength;
   },
   emitChange: function() {
     this.emit(CHANGE_EVENT);
@@ -38,7 +43,6 @@ var AppStore = assign({}, EventEmitter.prototype, {
 // Register callback to handle all updates
 AppDispatcher.register( function(action) {
   var text;
-
   switch (action.actionType) {
     case AppConstants.APP_AJAX:
       if (action.obj) {
@@ -51,6 +55,12 @@ AppDispatcher.register( function(action) {
         update(action.data);
       }
       AppStore.emitChange();
+      break;
+    case AppConstants.APP_TIME_LENGTH:
+      if (timeLength !== action.data) {
+        timeLength = action.data;
+        AppStore.emitChange();
+      }
       break;
     default:
       // no op

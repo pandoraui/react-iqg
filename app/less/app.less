@@ -22,6 +22,7 @@
 .fl,.fr{display: inline;}
 .fl{float: left;}
 .fr{float: right;}
+.tc{text-align: center;}
 
 @black:           #000;
 @white:           #fff;
@@ -42,7 +43,8 @@
 @global-line-height:      1.6;
 @font-size-base:          @global-font-size;
 
-@fa-font-path: '//dn-amui.qbox.me/font-awesome/4.3.0/fonts';
+// @fa-font-path: '//dn-amui.qbox.me/font-awesome/4.3.0/fonts';
+@fa-font-path: '../fonts';
 @fa-css-prefix: ~"@{ns}icon";
 @fa-version: '4.3.0';
 
@@ -132,6 +134,21 @@ body{color: #333; font-family: @base-font-family; font-size: 14px; }
 
 .iqg-panel .pure-button{margin:5px;}
 
+.ajax-loading{
+  // height: 100%;
+  // min-height: 200px;
+  // text-align: center;
+  // &:before{content: '';width: 0; height: 100%; vertical-align: middle;}
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  min-height: 200px;
+  text-align: center;
+  
+  .iqg-icon-spinner{vertical-align: middle;}
+  .iqg-icon-spinner:before{font-size: 2em;}
+}
+
 // headerBar
 .header-bar{height: 49px;}
 .@{ns}header{
@@ -150,13 +167,13 @@ body{color: #333; font-family: @base-font-family; font-size: 14px; }
   .@{ns}header-title{ color: @white;}
   .@{ns}header-icon{font-size: 20px;}
 }
-.@{ns}header-fixed{position: fixed;}
+.@{ns}header-fixed{position: fixed; z-index: 100;}
 
 // tabs 日期选择 
 .box-title{ background-color:@lightGray; padding: 10px 26px;}
 .box-title p{margin: 6px 0 0;}
 .iqg-tabs{ border-bottom: 1px solid @midGray;
-  .iqg-tab{ display: inline-block;color: @mainColor; font-size: 14px; width: 44px; height: 34px; line-height: 34px; text-align: center; border-radius: 2px; margin-right: 10px;}
+  .iqg-tab{ display: inline-block;color: @mainColor; font-size: 14px; width: 44px; height: 34px; line-height: 34px; text-align: center; border-radius: 2px; margin-right: 10px;cursor: pointer;}
   .iqg-tab-active{ background-color:@mainColor; color: @white; }
 }
 .iqg-topbar{min-height: 80px;}
@@ -179,13 +196,13 @@ line-height: 44px; border-top: 1px solid @midGray;}
   h3{font-weight: normal; float: left; }
  }
 .iqg-star{
-  display: block; overflow: hidden; clear: both; width: 100px;height: 16px; margin: -10px 0 8px;
+  display: block; overflow: hidden; clear: both; width: 100px;height: 16px; margin: -10px 0 8px -3px;
   span,i{float: left; line-height: 1; overflow: hidden;}
   i{box-sizing: border-box;width: 100px; padding: 0 4px;}
   i:before{.am-icon-font; content: '\f005\20\f005\20\f005\20\f005\20\f005'; font-size: 16px; color: #F3F210; text-shadow: 1px 1px rgb(216, 216, 159);}
 }
 .iqg-select-btn{float: right; color: @mainColor;}
-.load-more{ text-align: center; height: 40px; line-height: 40px;}
+.load-more{ text-align: center; height: 40px; line-height: 40px; cursor: pointer;}
 
 //详情列表
 .list-detail {

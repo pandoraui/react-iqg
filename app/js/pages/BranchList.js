@@ -135,7 +135,7 @@ var View = React.createClass({
       <div className="iqg-page">
         <TopBar dataTopBar={dataTopBar} />
         <div className="iqg-list">
-          <ListOverview dataOverview={dataOverview} params={this.props.params} />
+          <ListOverview data={dataOverview} params={this.props.params} />
         </div>
         <div className="sub-list-box">
           <SubTitle dataSubTitle={dataSubTitle} />

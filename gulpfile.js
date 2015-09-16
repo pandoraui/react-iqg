@@ -158,7 +158,7 @@ gulp.task('html', function () {
 
 // 洗刷刷
 gulp.task('clean', function(cb) {
-  del(['dist/*', '!dist/.git'], {dot: true}, cb);
+  del(['dist/*', '!dist/.git', '!dist/fonts', '!dist/venders'], {dot: true}, cb);
 });
 
 // 监视源文件变化自动cd编译

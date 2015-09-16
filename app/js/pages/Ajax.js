@@ -5,8 +5,6 @@ var Router = require('react-router');
 var Route = Router.Route;
 var Link = Router.Link;
 
-var RUI = require('../reactUI');
-
 var NavLink = require('../components/NavLink');
 
 var AppActions = require('../actions/AppActions');
@@ -17,8 +15,6 @@ var $ = require('../utils/Ajax');
 var pageInfo = {
   title: 'Ajax请求'
 };
-
-
 
 var UserGist = React.createClass({
   getInitialState: function() {
@@ -71,7 +67,7 @@ var UserGist = React.createClass({
   render: function() {
     var renderHtml;
     if (this.state.loading) {
-      renderHtml = (<div className="am-text-center"><i className="am-icon-spinner am-icon-spin"></i></div>);
+      renderHtml = (<div className="ajax-loading"><i className="iqg-icon-spinner iqg-icon-spin"></i></div>);
     } else {
       renderHtml = (
         <div>
@@ -86,17 +82,16 @@ var UserGist = React.createClass({
 
 var Ajax = React.createClass({
   componentDidMount: function() {
-    AppActions.updateHeader(pageInfo);
+    AppActions.updateView(pageInfo);
   },
   render: function() {
     return (
-      <div className="ask-page">
-        <div className="ask-banner">
-          <RUI.Container>
-            <h1>Ajax请求</h1>
-            <p>Ajax 效果如下</p>
-            <UserGist source="https://api.github.com/users/octocat/gists" />
-          </RUI.Container>
+      <div className="iqg-page">
+        <div className="ajax-loading"><i className="iqg-icon-spinner iqg-icon-spin"></i></div>
+        <div className="iqg-banner">
+          <h1>Ajax请求</h1>
+          <p>Ajax 效果如下</p>
+          <UserGist source={$.Api.TEST} />
         </div>
       </div>
     );
