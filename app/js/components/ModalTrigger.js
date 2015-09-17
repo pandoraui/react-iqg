@@ -98,7 +98,7 @@ var ModalTrigger = React.createClass({
 
   render: function() {
     //TODO：临时解决方案
-    window.xxx_close_modal = this.close;
+    //window.xxx_close_modal = this.close;
 
     var child = React.Children.only(this.props.children);
     var props = {};

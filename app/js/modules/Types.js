@@ -4,10 +4,12 @@ var React = require('react');
 
 var AppActions = require('../actions/AppActions');
 
-var typeId, newType;
+//typeId 要存到 store 中
+var typeId, newType, close;
 
 var View = React.createClass({
   getInitialState: function() {
+    console.log('初始化')
     if(!typeId){
       var list = this.props.data;
       list.forEach(function(item) {
@@ -17,33 +19,41 @@ var View = React.createClass({
       });
     }
     return {
+      close: false,
       typeId: typeId
     };
   },
-  handleClick: function(e) {
-    newType = e.target.getAttribute('type');
-    newType = parseInt(newType);
+  handleClick: function(type) {
+    //newType = e.target.getAttribute('type');
+    typeId = parseInt(type);
     // if (this.state.typeId === newType) {
     //   return;
     // }
     this.setState({
-      typeId: newType
+      close: true,
+      typeId: typeId
     });
 
+    //close = true;
     //TODO：临时解决方案
-    window.xxx_close_modal && window.xxx_close_modal()
+    //window.xxx_close_modal && window.xxx_close_modal()
   },
+  //组件渲染完成后立马调用
   componentDidUpdate: function() {
-    //组件渲染完成后立马调用
-    if (this.props.callback) {
-      this.props.callback(this.state.typeId);
+    if(this.state.close){
+      this.props.onRequestClose();
     }
   },
-  shouldComponentUpdate: function() {
-    //组件是否进行 render 更新
-    console.log('是否更新');
-    return this.state.typeId !== newType
-  },
+  //组件是否进行 render 更新，此处无论选中哪个选项，都应该关闭弹窗
+  // shouldComponentUpdate: function() {
+  //   console.log('是否更新');
+  //   var isUpdate = (this.state.typeId !== typeId);
+  //   if(isUpdate) {
+  //     this.props.onRequestClose();
+  //   }
+
+  //   return this.state.typeId !== typeId
+  // },
   renderMap: function() {
     var list = this.props.data;
     return list.map(function(item) {
@@ -52,7 +62,7 @@ var View = React.createClass({
         className += ' iqg-btn-active';
       }
       
-      return (<a className={className} type={item.type} onClick={this.handleClick}>{item.name}</a>);
+      return (<a className={className} type={item.type} onClick={this.handleClick.bind(this, item.type)}>{item.name}</a>);
     }.bind(this) );
   },
   render: function() {

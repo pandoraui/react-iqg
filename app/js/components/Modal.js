@@ -225,7 +225,7 @@ var Modal = React.createClass({
     }
 
     if (this.isCustom()) {
-      return this.renderDimmer(this.renderPopup());
+      return this.renderDimmer(this.renderPopup(true));
     }
 
     var classSet = this.getClassSet();
