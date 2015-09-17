@@ -122,12 +122,12 @@ var View = React.createClass({
   },
   componentDidMount: function() {
     AppActions.updateView(pageInfo);
-    console.log('第一次请求')
-    //this.ajaxLoadOverview();
-    //this.ajaxLoadList();
+    console.log('第一次请求');
+    this.ajaxLoadOverview();
+    this.ajaxLoadList();
   },
   ajaxLoadOverview: function() {
-    console.log('请求数据的天数：' + this.props.days);
+    console.log('overview 请求的天数：' + this.props.days);
     this.setState({
       loading: true
     });
@@ -161,7 +161,7 @@ var View = React.createClass({
     });
   },
   ajaxLoadList: function() {
-    console.log('请求数据的天数：' + this.props.days);
+    console.log('list 请求的天数：' + this.props.days);
     this.setState({
       loading2: true
     });
@@ -196,8 +196,8 @@ var View = React.createClass({
     });
   },
   componentDidUpdate: function() {
-    console.log('当前天数：' + this.props.days);
     if (this.state.days !== this.props.days) {
+      console.log('更新天数：' + this.props.days);
       this.setState({
         days: this.props.days
       });

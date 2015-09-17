@@ -1,127 +1,12 @@
-// @import "../../node_modules/amazeui/less/variables";
-// @import "../../node_modules/amazeui/less/mixins";
 
-@ns: ~"iqg-";
-
-.clearfix() {
-  &:before,
-  &:after {
-    content: " ";
-    display: table;
-  }
-
-  &:after {
-    clear: both;
-  }
-}
-
-.@{ns}cf {
-  .clearfix();
-}
-
-.fl,.fr{display: inline;}
-.fl{float: left;}
-.fr{float: right;}
-.tc{text-align: center;}
-
-@black:           #000;
-@white:           #fff;
-@gray-darker:     lighten(@black, 13.5%); // #222
-@gray-dark:       lighten(@black, 20%);   // #333
-@gray:            lighten(@black, 33.5%); // #555
-@gray-light:      lighten(@black, 60%);   // #999
-@gray-lighter:    lighten(@black, 93.5%); // #eee
-
-@mainColor: #FC6522;
-@lightGray: #eee;
-@midGray: #ddd;
-@white: #fff;
-@smallGray: #999;
-
-
-@global-font-size:        1.6rem; //16px
-@global-line-height:      1.6;
-@font-size-base:          @global-font-size;
-
-// @fa-font-path: '//dn-amui.qbox.me/font-awesome/4.3.0/fonts';
-@fa-font-path: '../fonts';
-@fa-css-prefix: ~"@{ns}icon";
-@fa-version: '4.3.0';
-
-@font-face {
-  font-family: 'FontAwesome';
-  src: url('@{fa-font-path}/fontawesome-webfont.eot?v=@{fa-version}');
-  src: url('@{fa-font-path}/fontawesome-webfont.eot?#iefix&v=@{fa-version}') format('embedded-opentype'),
-  url('@{fa-font-path}/fontawesome-webfont.woff2?v=@{fa-version}') format('woff2'),
-  url('@{fa-font-path}/fontawesome-webfont.woff?v=@{fa-version}') format('woff'),
-  url('@{fa-font-path}/fontawesome-webfont.ttf?v=@{fa-version}') format('truetype'),
-  url('@{fa-font-path}/fontawesome-webfont.svg?v=@{fa-version}#fontawesomeregular') format('svg');
-  //  src: url('@{fa-font-path}/FontAwesome.otf') format('opentype'); // used when developing fonts
-  font-weight: normal;
-  font-style: normal;
-}
-.am-icon-font() {
-  display: inline-block; // 1
-  font: normal normal normal @global-font-size/1 "FontAwesome", sans-serif; // shortening font declaration
-  /*font-weight: normal; // 2
-  font-style: normal; // 2
-  vertical-align: baseline; // 3
-  line-height: 1; // 4*/
-  font-size: inherit; // can't have font-size inherit on line above, so need to override
-  text-rendering: auto; // optimizelegibility throws things off #1094
-  -webkit-font-smoothing: antialiased; // 5
-  -moz-osx-font-smoothing: grayscale;
-  transform: translate(0, 0); // ensures no half-pixel rendering in firefox
-}
-[class*="@{ns}icon-"] {
-  display: inline-block;
-  font-style: normal;
-
-  &:before {
-    .am-icon-font;
-  }
-}
-[class*="@{ns}icon-"]:before {
-  display: inline-block;
-  font: normal normal normal 1.6rem/1 FontAwesome,sans-serif;
-  font-size: inherit;
-  text-rendering: auto;
-  transform: translate(0,0);
-}
-@fa-var-spinner: "\f110";
-@fa-var-star: "\f005";
-@fa-var-bars: "\f0c9";
-.@{fa-css-prefix}-spinner:before {
-  content: @fa-var-spinner;
-}
-.@{fa-css-prefix}-star:before {
-  content: @fa-var-star;
-}
-.@{fa-css-prefix}-bars:before {
-  content: @fa-var-bars;
-}
-@keyframes icon-spin {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(359deg);
-  }
-}
-
-.@{ns}icon-spin {
-  animation: icon-spin 2s infinite linear;
-}
-
-
-@font-family-sans-serif: "Segoe UI", "Lucida Grande", Helvetica, Arial, "Microsoft YaHei", FreeSans, Arimo, "Droid Sans","wenquanyi micro hei","Hiragino Sans GB", "Hiragino Sans GB W3", "FontAwesome", sans-serif;
-
-@base-font-family: @font-family-sans-serif;
+@import "./base";
+@import "./mixins";
+@import "./components";
 
 h1,h2,h3,h4,p{margin:5px 0;}
 h3,h4{font-size: 14px;}
-html{-webkit-tap-highlight-color: rgba(0, 0, 0, 0); font-size: 10px;}
+html{height: 100%;-webkit-tap-highlight-color: rgba(0, 0, 0, 0); font-size: 10px;}
+.iqg-dimmer-active{height: 100%; overflow: hidden;}
 body,input,textarea,select,button{text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased;}
 a{text-decoration: none;}
 body{color: #333; font-family: @base-font-family; font-size: 14px; }
@@ -133,6 +18,19 @@ body{color: #333; font-family: @base-font-family; font-size: 14px; }
 .iqg-main { flex: 1;}
 
 .iqg-panel .pure-button{margin:5px;}
+.iqg-dimmer {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,.6);
+    z-index: 1100;
+    opacity: 0;
+}
+.iqg-dimmer.iqg-active {
+    opacity: 1;
+}
 
 .ajax-loading{
   // height: 100%;
@@ -151,23 +49,6 @@ body{color: #333; font-family: @base-font-family; font-size: 14px; }
 
 // headerBar
 .header-bar{height: 49px;}
-.@{ns}header{
-  position: relative;box-sizing: border-box; width: 100%; height: 49px; line-height: 49px; padding: 0 10px;
-  .@{ns}header-nav{ position: absolute; top: 0;
-    >a{display: inline-block; min-width: 40px; text-align: center;}
-    img{height: 16px; width: auto; vertical-align: middle;}
-  }
-  .@{ns}header-left{left: 5px;}
-  .@{ns}header-right{right: 5px;}
-  .@{ns}header-title{margin: 0 24%;font-size: 2rem;font-weight: 400;text-align: center;display: block;word-wrap: normal;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;}
-}
-.@{ns}header-default{
-  background-color: #0e90d2;
-  .@{ns}header-nav>a{color:@gray-lighter;}
-  .@{ns}header-title{ color: @white;}
-  .@{ns}header-icon{font-size: 20px;}
-}
-.@{ns}header-fixed{position: fixed; z-index: 100;}
 
 // tabs 日期选择 
 .box-title{ background-color:@lightGray; padding: 10px 26px;}
@@ -216,6 +97,26 @@ line-height: 44px; border-top: 1px solid @midGray;}
 
 .load-more{ text-align: center; height: 40px; line-height: 40px; cursor: pointer;}
 
+
+//弹层
+.iqg-dimmer{ background-color: rgba(255, 255, 255, 0.95)}
+.iqg-lay{
+  background: none;
+  .iqg-popup-hd,
+  .iqg-popup-bd{ border:none; background: none;}
+  .iqg-close{right: auto; left: 10px; top: 10px;border: none; width:50px; height:50px; background: none; color:@mainColor;font-size:30px; }
+  .iqg-close:hover{
+    transform: inherit;
+    color:@mainColor;
+    outline: none;
+  }
+}
+.iqg-types {
+  .lay-title{font-size: 14px; color: @smallGray; font-weight: normal; margin-bottom: 20px;}
+  .iqg-btn{ display: block;margin: 10px auto; width: 100px; height: 30px; line-height: 30px; color: @mainColor; text-align: center; }
+  .iqg-btn-active{ color: @white; background: @mainColor; border-radius: 3px; }
+}
+
 //详情列表
 .list-detail {
   margin: 10px 0;
@@ -238,10 +139,5 @@ line-height: 44px; border-top: 1px solid @midGray;}
   }
 }
 .iqg-chart{ text-align: center;}
-
-
-
-
-
 
 

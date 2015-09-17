@@ -1,0 +1,161 @@
+// @import "../../node_modules/amazeui/less/variables";
+// @import "../../node_modules/amazeui/less/mixins";
+
+@ns: ~"iqg-";
+
+@black:           #000;
+@white:           #fff;
+@gray-darker:     lighten(@black, 13.5%); // #222
+@gray-dark:       lighten(@black, 20%);   // #333
+@gray:            lighten(@black, 33.5%); // #555
+@gray-light:      lighten(@black, 60%);   // #999
+@gray-lighter:    lighten(@black, 93.5%); // #eee
+
+// Brand Colors
+// -----------------------------------------------------------------------------
+
+@global-primary:      #0e90d2; // #157EFB; //#428bca;
+@global-secondary:    lighten(@global-primary, 15%);
+@global-success:      #5eb95e; // #53D76A; //#5cb85c;
+@global-warning:      #F37B1D; // #FD9426; // #f0ad4e;
+@global-danger:       #dd514c; // #FC3159; //#da314b;
+@global-info:         @global-secondary;
+
+@mainColor: #FC6522;
+@lightGray: #eee;
+@midGray: #ddd;
+@white: #fff;
+@smallGray: #999;
+
+@global-background:       @white;
+@global-border:           #ddd;
+
+@font-family-sans-serif: "Segoe UI", "Lucida Grande", Helvetica, Arial, "Microsoft YaHei", FreeSans, Arimo, "Droid Sans","wenquanyi micro hei","Hiragino Sans GB", "Hiragino Sans GB W3", "FontAwesome", sans-serif;
+
+@font-family-serif: Georgia, "Times New Roman", Times, SimSun, "FontAwesome", serif; //FangSong, STFangSong
+
+@font-family-monospace: Monaco, Menlo, Consolas, "Courier New", "FontAwesome", monospace;
+
+@font-family-kai: Georgia, "Times New Roman", Times, Kai, "Kaiti SC", KaiTi, BiauKai, "FontAwesome", serif;
+
+// Font  size
+// -----------------------------------------------------------------------------
+
+@global-font-size:        1.6rem; //16px
+@global-line-height:      1.6;
+@font-size-base:          @global-font-size;
+
+@line-height-base:        @global-line-height;
+@line-height-computed:    floor(@font-size-base * @line-height-base); // 2
+
+
+@font-size-xxs:           @global-font-size - 0.6; // 10px - 1rem
+@font-size-xs:            @global-font-size - 0.4; // 12px
+@font-size-sm:            @global-font-size - 0.2; // 14px
+//@font-size-default:     @global-font-size;       // 16px
+@font-size-lg:            @global-font-size + 0.2; // 18px
+@font-size-xl:            @global-font-size + 0.8; // 24px
+@font-size-xxl:           @global-font-size * 2;   // 32px
+@font-size-xxxl:          @global-font-size * 2 + 1; // 42px
+
+
+// Global spacing
+// =============================================================================
+
+@global-spacing:                1.6rem;
+
+@global-spacing-xs:             0.5rem;
+@global-spacing-sm:             1rem;
+@global-spacing-lg:             2.4rem;
+@global-spacing-xl:             3.2rem;
+
+
+// Margin
+// -----------------------------------------------------------------------------
+
+@global-margin:                   @global-spacing;
+
+@global-margin-xs:                @global-spacing-xs;
+@global-margin-sm:                @global-spacing-sm;
+
+@global-margin-lg:                @global-spacing-lg;
+@global-margin-xl:                @global-spacing-xl;
+
+
+// Border radius
+// -----------------------------------------------------------------------------
+
+@global-radius:         0;
+@radius-normal:         2px;
+@radius-lg:             5px;
+@radius-sm:             1px;
+
+@global-rounded:         1000px;
+@global-square:           0;
+
+// Base
+// =============================================================================
+
+@base-background:             @global-background;
+@base-font-family:            @font-family-sans-serif;
+@base-font-weight:            normal;
+@base-font-size:              @global-font-size;
+@base-line-height:            @global-line-height;
+@base-text-color:             @gray-dark;
+
+// em element
+@base-em-color:                 #D05;
+
+// ins element
+@base-ins-background:           #ffa;
+@base-ins-color:                @gray-dark;
+
+// mark element
+@base-mark-background:          #ffa;
+@base-mark-color:               @gray-dark;
+
+// selection
+@base-selection-background:     @global-primary;
+@base-selection-color:          @white;
+
+@base-margin-vertical:          @global-spacing;
+
+
+// =============================================================================
+// Z-index
+// =============================================================================
+
+@global-z-index:            1000;
+
+@z-index-topbar-fixed:      @global-z-index;
+@z-index-sticky:            @global-z-index + 10;
+@z-index-dropdown:          @global-z-index + 20;
+@z-index-popover:           @global-z-index + 30;
+@z-index-offcanvas:         @global-z-index + 90;
+@z-index-dimmer:            @global-z-index + 100;
+@z-index-modal:             @global-z-index + 110;
+@z-index-datepicker:        @global-z-index + 120;
+@z-index-pureview:          @global-z-index + 120;
+@z-index-nprogress:         @global-z-index + 1000;
+
+.clearfix() {
+  &:before,
+  &:after {
+    content: " ";
+    display: table;
+  }
+
+  &:after {
+    clear: both;
+  }
+}
+
+.@{ns}cf {
+  .clearfix();
+}
+
+.fl,.fr{display: inline;}
+.fl{float: left;}
+.fr{float: right;}
+.tc{text-align: center;}
+

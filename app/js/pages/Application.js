@@ -10,9 +10,13 @@ var RouteHandler = Router.RouteHandler;
 var HeaderBar = require('../modules/HeaderBar');
 var AppStore = require('../stores/AppStore');
 
+//把页面操作选择的状态，进行统一设置
+//在此页面监控状态
+
 var Application = React.createClass({
   getInitialState: function() {
     return {
+      temps: '',
       days: AppStore.updateTime()
     };
   },
@@ -32,7 +36,7 @@ var Application = React.createClass({
       <div className="iqg">
         <HeaderBar />
         <main className="iqg-main">
-          <RouteHandler days={this.state.days} />
+          <RouteHandler temps={this.state.days} days={this.state.days} />
         </main>
       </div>
     );
