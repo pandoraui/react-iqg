@@ -120,8 +120,13 @@ var View = React.createClass({
       brand_id: this.props.params.brand_id
     };
   },
-  componentDidMount: function() {
+  //此处每次更新组件时，可以用来做数据变更检查，赋予初始值
+  componentWillMount: function() {
+    console.log('默认不执行？')
     AppActions.updateHeader(headerData);
+  },
+  componentDidMount: function() {
+    //AppActions.updateHeader(headerData);
     console.log('第一次请求');
     this.ajaxLoadOverview();
     this.ajaxLoadList();

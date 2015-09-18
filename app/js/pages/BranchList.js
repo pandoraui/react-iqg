@@ -17,7 +17,7 @@ var pageInfo = {
 
 var dataTopBar = {
   time: '2015年8月10日',
-  text: '品牌总体数据',
+  text: '分店总体数据',
   list: [
   {
     name: '昨天',
