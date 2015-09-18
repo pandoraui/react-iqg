@@ -7,13 +7,13 @@ var React = require('react');
 
 var AppActions = require('../actions/AppActions');
 
-var pageInfo = {
+var headerData = {
   title: '404'
 };
 
 var NotFound = React.createClass({
   componentDidMount: function() {
-    AppActions.updateView(pageInfo);
+    AppActions.updateHeader(headerData);
   },
   render: function() {
     return (

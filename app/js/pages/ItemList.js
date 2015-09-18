@@ -10,7 +10,7 @@ var ListOverview = require('../modules/ListOverview');
 var ListData = require('../modules/ListData');
 var SubTitle = require('../modules/SubTitle');
 
-var pageInfo = {
+var headerData = {
   title: '商品详情'
 };
 
@@ -77,7 +77,7 @@ var View = React.createClass({
     };
   },
   componentDidMount: function() {
-    AppActions.updateView(pageInfo);
+    AppActions.updateHeader(headerData);
   },
   componentDidUpdate: function() {
     console.log(333);

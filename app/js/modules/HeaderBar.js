@@ -8,7 +8,7 @@ var customIcon = (<img src="data:image/svg+xml;charset=utf-8,&lt;svg xmlns=&quot
 
 var View = React.createClass({
   getInitialState: function() {
-    return AppStore.updateView();
+    return AppStore.updateHeader();
   },
   componentDidMount: function() {
     AppStore.addChangeListener(this._onChange);
@@ -19,9 +19,9 @@ var View = React.createClass({
   _onChange: function() {
     //此处要更新一下 TDK，目前只提供 title 的
     //console.log(React.findDOMNode())
-    var pageInfo = AppStore.updateView();
-    document.title = pageInfo.title + '-爱抢购';
-    this.setState(pageInfo);
+    var headerData = AppStore.updateHeader();
+    document.title = headerData.title + '-爱抢购';
+    this.setState(headerData);
   },
   historyBack: function(e) {
     e.preventDefault();

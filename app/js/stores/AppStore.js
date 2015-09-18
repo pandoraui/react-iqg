@@ -7,22 +7,36 @@ var assign = require('object-assign');
 
 var CHANGE_EVENT = 'change';
 
-var _pageInfo = {
-  title: '推广效果',
-  timeLength: 1
+// headerBar 数据，包括 title
+var _headerData = {
+  title: '统计平台'
+};
+var headerData = assign({},_headerData);
+function updateHeader(data) {
+  if(data){
+    headerData = assign({}, headerData, data);
+  }
 }
-//默认选中一天
-var timeLength = 1;
 
-function update(data) {
+var _pageInfo = {
+  days: 1,
+  type: null,
+  order: 'desc'
+};
+var pageInfo = assign({},_headerData);
+function updatePage(data) {
   if(data){
     pageInfo = assign({}, pageInfo, data);
   }
 }
 
-var pageInfo = assign({},_pageInfo);
+var timeLength = 1;
 
+//全局对象
 var AppStore = assign({}, EventEmitter.prototype, {
+  updateHeader: function() {
+    return headerData;
+  },
   updateView: function() {
     return pageInfo;
   },
@@ -40,19 +54,28 @@ var AppStore = assign({}, EventEmitter.prototype, {
   }
 });
 
+// 注册回调事件
 // Register callback to handle all updates
 AppDispatcher.register( function(action) {
-  var text;
   switch (action.actionType) {
-    case AppConstants.APP_AJAX:
-      if (action.obj) {
-        update(action.content);
+    //view 级别公共状态数据监控，如 title 等
+    case AppConstants.APP_HEADER:
+      if (action.data) {
+        updateHeader(action.data);
       }
       AppStore.emitChange();
       break;
+
     case AppConstants.APP_VIEW:
       if (action.data) {
-        update(action.data);
+        updatePage(action.data);
+      }
+      AppStore.emitChange();
+      break;
+
+    case AppConstants.APP_AJAX:
+      if (action.obj) {
+        //update(action.content);
       }
       AppStore.emitChange();
       break;

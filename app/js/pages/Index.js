@@ -5,7 +5,7 @@ var React = require('react');
 var AppActions = require('../actions/AppActions');
 var NavLink = require('../components/NavLink');
 
-var pageInfo = {
+var headerData = {
   title: '入口页面'
 };
 
@@ -14,7 +14,7 @@ var Index = React.createClass({
     return {};
   },
   componentDidMount: function() {
-    AppActions.updateView(pageInfo);
+    AppActions.updateHeader(headerData);
   },
   render: function() {
     return (

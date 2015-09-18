@@ -12,7 +12,7 @@ var AppActions = require('../actions/AppActions');
 var $ = require('../utils/Ajax');
 // var $ = require('npm-zepto');
 
-var pageInfo = {
+var headerData = {
   title: 'Ajax请求'
 };
 
@@ -82,7 +82,7 @@ var UserGist = React.createClass({
 
 var Ajax = React.createClass({
   componentDidMount: function() {
-    AppActions.updateView(pageInfo);
+    AppActions.updateHeader(headerData);
   },
   render: function() {
     return (

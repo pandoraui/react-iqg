@@ -105,6 +105,10 @@ var dataList = {
     }
 ]};
 
+
+var headerData = {
+  title: "分店"
+};
 var View = React.createClass({
   getInitialState: function() {
     return {
@@ -114,7 +118,7 @@ var View = React.createClass({
     };
   },
   componentDidMount: function() {
-    AppActions.updateView(pageInfo);
+    AppActions.updateHeader(headerData);
   },
   componentDidUpdate: function() {
     console.log(333);

@@ -5,40 +5,54 @@ var React = require('react');
 var AppActions = require('../actions/AppActions');
 var AppStore = require('../stores/AppStore');
 
-var timeLength;
-var days;
+var tempList;
+var days = 1;  //辅助状态变量
 
 var View = React.createClass({
   getInitialState: function() {
-    timeLength = AppStore.updateTime();
+    days = AppStore.updateView().days;
     return {
-      timeLength: timeLength
+      days: days
     }
   },
-  handleClick: function(index) {
+  handleClick: function(newDays) {
     // e.preventDefault();
-    timeLength = days[index].value;
+    newDays = parseInt(newDays);
+    //点击变更天数了，要更新状态
+    if ( newDays == this.state.days) {
+      return;
+    }
+    days = newDays;
+
+    AppActions.updateView({days: newDays});
+
     this.setState({
-      timeLength: AppActions.updateTime(timeLength)
+      days: newDays
     });
   },
+  // componentWillReceiveProps: function() {
+  //   var days = AppStore.updateView().days;
+  //   this.setState({
+  //     days: newDays
+  //   });
+  // },
   renderMap: function() {
-    days = this.props.dataTopBar.days;
+    tempList = this.props.dataTopBar.days;
     //如果当前选中昨天，但最小值不是昨天，则自动变更为7天
-    if (timeLength === 1 && days[0].value !== 1) {
-      timeLength = 7;
+    if (days === 1 && tempList[0].value !== 1) {
+      days = 7;
+      AppActions.updateView({days: days})
     }
 
-    return days.map(function(day, i) {
+    return tempList.map(function(item, i) {
       var style = "iqg-tab";
-      if (day.value == timeLength) {
+      if (item.value == days) {
         style = "iqg-tab iqg-tab-active";
       }
       return (
         <a className={style}
-           onClick={this.handleClick.bind(this, i)}
-           key={i}>
-          {day.name}
+           onClick={this.handleClick.bind(this, item.value)} >
+          {item.name}
         </a>
       );
     }.bind(this) );

@@ -9,7 +9,7 @@ var Loading = require('../modules/Loading');
 var $ = require('../utils/Ajax');
 // var $ = require('npm-zepto');
 
-var pageInfo = {
+var headerData = {
   title: 'Ajax TEST'
 };
 var source;
@@ -45,7 +45,7 @@ var View = React.createClass({
     };
   },
   componentDidMount: function() {
-    AppActions.updateView(pageInfo);
+    AppActions.updateHeader(headerData);
 
     this.loadAjaxData();
     //setInterval(this.loadAjaxData, this.props.pollInterval);

@@ -32,7 +32,7 @@ var View = React.createClass({
               <span className="iqg-arr-btn iqg-btn">抢购率</span>
           </ModalTrigger>
           <span className="iqg-sort iqg-btn">
-            <i className="iqg-icon-arr"></i>
+            <i className="iqg-icon-sort-numeric-asc"></i>
           </span>
         </div>
       </div>

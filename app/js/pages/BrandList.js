@@ -14,8 +14,8 @@ var SubTitle = require('../modules/SubTitle');
 var Loading = require('../modules/Loading');
 var $ = require('../utils/Ajax');
 
-var pageInfo = {
-  title: '推广效果'
+var headerData = {
+  title: '品牌'
 };
 
 var dataTopBar = {
@@ -121,7 +121,7 @@ var View = React.createClass({
     };
   },
   componentDidMount: function() {
-    AppActions.updateView(pageInfo);
+    AppActions.updateHeader(headerData);
     console.log('第一次请求');
     this.ajaxLoadOverview();
     this.ajaxLoadList();

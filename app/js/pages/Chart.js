@@ -8,7 +8,7 @@ var AppActions = require('../actions/AppActions');
 var ReactChart = require('react-chartjs');
 var LineChart = ReactChart.Line;
 
-var pageInfo = {
+var headerData = {
   title: 'Chart 图表'
 };
 

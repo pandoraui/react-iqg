@@ -8,6 +8,10 @@ var TopBar = require('../modules/TopBar');
 var ListDetail = require('../modules/ListDetail');
 var Chart = require('../modules/Chart');
 
+var headerData = {
+  title: '详情'
+};
+
 var pageInfo = {
   title: '详情',
   days: 7,
@@ -98,11 +102,10 @@ var dataChart = {
 
 var View = React.createClass({
   componentDidMount: function() {
-    AppActions.updateView(pageInfo);
+    AppActions.updateHeader(headerData);
   },
   formatListData: function(days) {
     var days = days || 7;
-
   },
   formatChartData: function(days, opts) {
     var data = dataListDetail;

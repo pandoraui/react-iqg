@@ -50,15 +50,22 @@
 @fa-var-spinner: "\f110";
 @fa-var-star: "\f005";
 @fa-var-bars: "\f0c9";
+@fa-var-sort-numeric-asc: "\f162";
+@fa-var-sort-numeric-desc: "\f163";
+
 .@{fa-css-prefix}-spinner:before {
   content: @fa-var-spinner;
 }
 .@{fa-css-prefix}-star:before {
   content: @fa-var-star;
 }
-.@{fa-css-prefix}-bars:before {
-  content: @fa-var-bars;
+.@{fa-css-prefix}-sort-numeric-asc:before {
+  content: @fa-var-sort-numeric-asc;
 }
+.@{fa-css-prefix}-sort-numeric-desc:before {
+  content: @fa-var-sort-numeric-desc;
+}
+
 @keyframes icon-spin {
   0% {
     transform: rotate(0deg);
