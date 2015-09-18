@@ -17,10 +17,10 @@ var View = React.createClass({
     //如果当前选中昨天，但最小值不是昨天，则自动变更为7天
     if (days === 1 && list[0].value !== 1) {
       days = 7;
-      AppActions.updatePage({days: days});
       this.setState({
         days: days
       });
+      AppActions.updatePage({days: days});
     }
   },
   shouldComponentUpdate: function(nextProps, nextState) {

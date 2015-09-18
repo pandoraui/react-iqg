@@ -30,4 +30,8 @@ bower_components
 dist
 
 
+#ATOM
+.tag*
+
+
 

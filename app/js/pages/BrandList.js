@@ -115,24 +115,22 @@ var dataList = {
 var View = React.createClass({
   getInitialState: function() {
     return {
-      days: AppStore.updateTime(),
+      days: AppStore.updatePage().days,
       type: 'brand',
       brand_id: this.props.params.brand_id
     };
   },
   //此处每次更新组件时，可以用来做数据变更检查，赋予初始值
   componentWillMount: function() {
-    console.log('怎么没执行')
     AppActions.updateHeader(headerData);
   },
   componentDidMount: function() {
     //AppActions.updateHeader(headerData);
-    console.log('第一次请求');
     this.ajaxLoadOverview();
     this.ajaxLoadList();
   },
   ajaxLoadOverview: function() {
-    console.log('overview 请求的天数：' + this.props.days);
+    console.log('overview 请求的天数：' + AppStore.updatePage().days);
     this.setState({
       loading: true
     });
@@ -146,7 +144,7 @@ var View = React.createClass({
       success: function(response, status, xhr) {
         if(this.isMounted()){
           dataOverview = response.data.list;
-          this.setState({ 
+          this.setState({
             loading: false
           });
         }
@@ -166,7 +164,7 @@ var View = React.createClass({
     });
   },
   ajaxLoadList: function() {
-    console.log('list 请求的天数：' + this.props.days);
+    console.log('list 请求的天数：' + AppStore.updatePage().days);
     this.setState({
       loading2: true
     });
@@ -174,14 +172,14 @@ var View = React.createClass({
       type: "GET",
       url: $.Api.TJ_LIST,
       data: {
-        days: this.props.days
+        days: AppStore.updatePage().days
       },
       dataType: 'json',
       success: function(response, status, xhr) {
         if(this.isMounted()){
           dataSubTitle.filter = response.data.types;
           dataList = response.data;
-          this.setState({ 
+          this.setState({
             loading2: false
           });
         }
@@ -201,10 +199,10 @@ var View = React.createClass({
     });
   },
   componentDidUpdate: function() {
-    if (this.state.days !== this.props.days) {
-      console.log('更新天数：' + this.props.days);
+    if (this.state.days !== AppStore.updatePage().days) {
+      console.log('更新天数：' + AppStore.updatePage().days);
       this.setState({
-        days: this.props.days
+        days: AppStore.updatePage().days
       });
       this.ajaxLoadOverview();
       this.ajaxLoadList();
@@ -216,6 +214,7 @@ var View = React.createClass({
     }
   },
   render: function() {
+    console.log('render');
     return (
       <div className="iqg-page">
         <TopBar data={dataTopBar} />

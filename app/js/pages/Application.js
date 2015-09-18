@@ -11,25 +11,27 @@ var HeaderBar = require('../modules/HeaderBar');
 var AppStore = require('../stores/AppStore');
 
 
-//状态变化：
-//单页面应用一个 View 具有当前 view 的状态维护，比如 title
-//而对于一个类型的连贯性操作，为一系列共用状态，应共同维护，如上 title
-//划分级别，公共状态级别高低，为全局还是某项目内
-//目前关于统计项目，全部在公共级别状态中，包含有以下字段
-// 不含 [brand_id,branch_id,item_id,detail_id]，在 url 中
-// title 标题
-// days  时间 (默认值为 1，detail 页面默认为 7)
-// type  数据类型 (根据 days是否为1，数据有变化)
-// order 排序方式 (默认倒序 desc, 可选 dsc )
-
+/*状态变化：
+单页面应用一个 View 具有当前 view 的状态维护，比如 title
+而对于一个类型的连贯性操作，为一系列共用状态，应共同维护，如上 title
+划分级别，公共状态级别高低，为全局还是某项目内
+目前关于统计项目，全部在公共级别状态中，包含有以下字段
+不含 [brand_id,branch_id,item_id,detail_id]，在 url 中
+headerData: {title: '标题'}
+pageInfo: {
+  days: Number,  //时间 (默认值为 1，detail 页面默认为 7)
+  type: 数据类型 (根据 days是否为1，数据有变化)
+  order: 排序方式 (默认倒序 desc, 可选 dsc )
+}
 //默认页面状态数据
 var headerData = {
   title: '加载中...'
 };
+*/
 
 /* 组件生命周期
 
-        
+
 getInitialState: function() {
   //在组件挂载之前调用一次。返回值将会作为 this.state 的初始值。
 
@@ -49,7 +51,7 @@ displayName: '',  //用于输出调试信息
 componentWillMount: function() {
   //挂载，只调用一次，在初始化渲染执行之前立刻调用。每个 view 会重新 mount
 
-}, 
+},
 componentDidMount: function() {
   //在初始化渲染执行之后立刻调用一次，仅客户端有效（服务器端不会调用）。
   //如果想和其它 JavaScript 框架集成，使用 setTimeout 或者 setInterval 来设置定时器，或者发送 AJAX 请求，可以在该方法中执行这些操作。
@@ -83,23 +85,23 @@ componentWillUnmount: function() {
 
 
 var Application = React.createClass({
-  // getInitialState: function() {
-  //   return {
-  //     view: AppStore.updateView()
-  //   };
-  // },
-  // componentDidMount: function() {
-  //   AppStore.addChangeListener(this._onChange);
-  // },
-  // componentWillUnmount: function() {
-  //   AppStore.removeChangeListener(this._onChange);
-  // },
-  // _onChange: function() {
-  //   console.log('触发更新');
-  //   this.setState({
-  //     view: AppStore.updateView()
-  //   });
-  // },
+  getInitialState: function() {
+    return {
+      pageInfo: AppStore.updatePage()
+    };
+  },
+  componentDidMount: function() {
+    AppStore.addChangeListener(this._onChange);
+  },
+  componentWillUnmount: function() {
+    AppStore.removeChangeListener(this._onChange);
+  },
+  _onChange: function() {
+    console.log('触发更新');
+    this.setState({
+      pageInfo: AppStore.updatePage()
+    });
+  },
   render: function() {
     return (
       <div className="iqg">
@@ -113,3 +115,65 @@ var Application = React.createClass({
 });
 
 module.exports = Application;
+
+/*
+随着应用不断变大，保证组件被正确使用变得非常有用。
+React.PropTypes 提供很多验证器 (validator) 来验证传入数据的有效性。
+!!! 注意为了性能考虑，只在开发环境验证 propTypes。
+
+propTypes: {
+  // 可以声明 prop 为指定的 JS 基本类型。默认
+  // 情况下，这些 prop 都是可传可不传的。
+  optionalArray: React.PropTypes.array,
+  optionalBool: React.PropTypes.bool,
+  optionalFunc: React.PropTypes.func,
+  optionalNumber: React.PropTypes.number,
+  optionalObject: React.PropTypes.object,
+  optionalString: React.PropTypes.string,
+
+  // 所有可以被渲染的对象：数字，
+  // 字符串，DOM 元素或包含这些类型的数组。
+  optionalNode: React.PropTypes.node,
+
+  // React 元素
+  optionalElement: React.PropTypes.element,
+
+  // 用 JS 的 instanceof 操作符声明 prop 为类的实例。
+  optionalMessage: React.PropTypes.instanceOf(Message),
+
+  // 用 enum 来限制 prop 只接受指定的值。
+  optionalEnum: React.PropTypes.oneOf(['News', 'Photos']),
+
+  // 指定的多个对象类型中的一个
+  optionalUnion: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.number,
+    React.PropTypes.instanceOf(Message)
+  ]),
+
+  // 指定类型组成的数组
+  optionalArrayOf: React.PropTypes.arrayOf(React.PropTypes.number),
+
+  // 指定类型的属性构成的对象
+  optionalObjectOf: React.PropTypes.objectOf(React.PropTypes.number),
+
+  // 特定形状参数的对象
+  optionalObjectWithShape: React.PropTypes.shape({
+    color: React.PropTypes.string,
+    fontSize: React.PropTypes.number
+  }),
+
+  // 以后任意类型加上 `isRequired` 来使 prop 不可空。
+  requiredFunc: React.PropTypes.func.isRequired,
+
+  // 不可空的任意类型
+  requiredAny: React.PropTypes.any.isRequired,
+
+  // 自定义验证器。如果验证失败需要返回一个 Error 对象。不要直接
+  // 使用 `console.warn` 或抛异常，因为这样 `oneOfType` 会失效。
+  customProp: function(props, propName, componentName) {
+    if (!/matchme/.test(props[propName])) {
+      return new Error('Validation failed!');
+    }
+  }
+*/
