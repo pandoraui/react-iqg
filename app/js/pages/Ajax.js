@@ -81,7 +81,7 @@ var UserGist = React.createClass({
 });
 
 var Ajax = React.createClass({
-  componentDidMount: function() {
+  componentWillMount: function() {
     AppActions.updateHeader(headerData);
   },
   render: function() {

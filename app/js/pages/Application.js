@@ -10,6 +10,7 @@ var RouteHandler = Router.RouteHandler;
 var HeaderBar = require('../modules/HeaderBar');
 var AppStore = require('../stores/AppStore');
 
+
 //状态变化：
 //单页面应用一个 View 具有当前 view 的状态维护，比如 title
 //而对于一个类型的连贯性操作，为一系列共用状态，应共同维护，如上 title
@@ -22,11 +23,8 @@ var AppStore = require('../stores/AppStore');
 // order 排序方式 (默认倒序 desc, 可选 dsc )
 
 //默认页面状态数据
-var Info = {
-  title: '统计平台',
-  days: 1,
-  type: null,
-  order: 'desc'
+var headerData = {
+  title: '加载中...'
 };
 
 /* 组件生命周期

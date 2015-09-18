@@ -10,7 +10,7 @@ var View = React.createClass({
   getInitialState: function() {
     return AppStore.updateHeader();
   },
-  componentDidMount: function() {
+  componentWillMount: function() {
     AppStore.addChangeListener(this._onChange);
   },
   componentWillUnmount: function() {

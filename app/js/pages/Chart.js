@@ -51,8 +51,8 @@ var chartOptions = {
 };
 
 var View = React.createClass({
-  componentDidMount: function() {
-    // AppActions.updateView(pageInfo);
+  componentWillMount: function() {
+    AppActions.updateHeader(headerData);
   },
   render: function() {
     return (

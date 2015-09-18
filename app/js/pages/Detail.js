@@ -101,7 +101,7 @@ var dataChart = {
 };
 
 var View = React.createClass({
-  componentDidMount: function() {
+  componentWillMount: function() {
     AppActions.updateHeader(headerData);
   },
   formatListData: function(days) {

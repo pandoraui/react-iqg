@@ -12,7 +12,7 @@ var headerData = {
 };
 
 var NotFound = React.createClass({
-  componentDidMount: function() {
+  componentWillMount: function() {
     AppActions.updateHeader(headerData);
   },
   render: function() {

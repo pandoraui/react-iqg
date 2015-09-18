@@ -117,7 +117,7 @@ var View = React.createClass({
       branch_id: this.props.params.branch_id
     };
   },
-  componentDidMount: function() {
+  componentWillMount: function() {
     AppActions.updateHeader(headerData);
   },
   componentDidUpdate: function() {

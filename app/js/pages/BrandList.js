@@ -122,7 +122,7 @@ var View = React.createClass({
   },
   //此处每次更新组件时，可以用来做数据变更检查，赋予初始值
   componentWillMount: function() {
-    console.log('默认不执行？')
+    console.log('怎么没执行')
     AppActions.updateHeader(headerData);
   },
   componentDidMount: function() {

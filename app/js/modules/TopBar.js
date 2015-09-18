@@ -25,7 +25,7 @@ var View = React.createClass({
   },
   shouldComponentUpdate: function(nextProps, nextState) {
     //如果天数不变，不要更新(减少渲染次数)
-    //此组件是否渲染只跟天数相关，nextProps 发生变动不用刷新
+    //此组件是否渲染只跟天数相关，nextProps 发生变动不用 render
     return nextState.days !== this.state.days;
   },
   handleClick: function(newDays) {

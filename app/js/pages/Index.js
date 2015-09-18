@@ -13,7 +13,7 @@ var Index = React.createClass({
   getInitialState: function() {
     return {};
   },
-  componentDidMount: function() {
+  componentWillMount: function() {
     AppActions.updateHeader(headerData);
   },
   render: function() {
