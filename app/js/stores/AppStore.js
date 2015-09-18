@@ -23,7 +23,7 @@ var _pageInfo = {
   type: null,
   order: 'desc'
 };
-var pageInfo = assign({},_headerData);
+var pageInfo = assign({},_pageInfo);
 function updatePage(data) {
   if(data){
     pageInfo = assign({}, pageInfo, data);
@@ -37,7 +37,7 @@ var AppStore = assign({}, EventEmitter.prototype, {
   updateHeader: function() {
     return headerData;
   },
-  updateView: function() {
+  updatePage: function() {
     return pageInfo;
   },
   updateTime: function() {
@@ -66,7 +66,7 @@ AppDispatcher.register( function(action) {
       AppStore.emitChange();
       break;
 
-    case AppConstants.APP_VIEW:
+    case AppConstants.APP_PAGE:
       if (action.data) {
         updatePage(action.data);
       }

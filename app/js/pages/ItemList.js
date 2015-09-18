@@ -17,7 +17,7 @@ var headerData = {
 var dataTopBar = {
   time: '2015年8月10日',
   text: '品牌总体数据',
-  days: [
+  list: [
   {
     name: '昨天',
     value: 1
@@ -96,7 +96,7 @@ var View = React.createClass({
   render: function() {
     return (
       <div className="iqg-page">
-        <TopBar dataTopBar={dataTopBar} index="0" />
+        <TopBar data={dataTopBar} index="0" />
         <div className="iqg-list">
           <ListOverview data={dataOverview} params={this.props.params} />
         </div>

@@ -26,9 +26,9 @@ var AppActions = {
       data: data
     });
   },
-  updateView: function(data) {
+  updatePage: function(data) {
     AppDispatcher.dispatch({
-      actionType: AppConstants.APP_VIEW,
+      actionType: AppConstants.APP_PAGE,
       data: data
     });
   },

@@ -49,7 +49,7 @@ statics: {},      //静态方法
 displayName: '',  //用于输出调试信息
 
 componentWillMount: function() {
-  //挂载，只调用一次，在初始化渲染执行之前立刻调用。
+  //挂载，只调用一次，在初始化渲染执行之前立刻调用。每个 view 会重新 mount
 
 }, 
 componentDidMount: function() {

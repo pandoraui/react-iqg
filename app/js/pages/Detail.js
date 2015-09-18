@@ -19,7 +19,7 @@ var pageInfo = {
 };
 
 var dataTopBar = {
-  days: [
+  list: [
   {
     name: '7天',
     value: 7
@@ -124,7 +124,7 @@ var View = React.createClass({
   render: function() {
     return (
       <div className="iqg-page">
-        <TopBar dataTopBar={dataTopBar} />
+        <TopBar data={dataTopBar} />
         <Chart data={this.formatChartData()} />
         <ListDetail dataListDetail={dataListDetail} opts={detailOpt[pageInfo.opts]} />
       </div>

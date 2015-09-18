@@ -5,14 +5,22 @@ var React = require('react');
 var AppActions = require('../actions/AppActions');
 var AppStore = require('../stores/AppStore');
 
-var tempList;
-var days = 1;  //辅助状态变量
-
 var View = React.createClass({
   getInitialState: function() {
-    days = AppStore.updateView().days;
     return {
-      days: days
+      days: AppStore.updatePage().days
+    }
+  },
+  componentWillMount: function() {
+    var list = this.props.data.list;
+    var days = AppStore.updatePage().days;
+    //如果当前选中昨天，但最小值不是昨天，则自动变更为7天
+    if (days === 1 && list[0].value !== 1) {
+      days = 7;
+      AppActions.updatePage({days: days});
+      this.setState({
+        days: days
+      });
     }
   },
   handleClick: function(newDays) {
@@ -22,31 +30,16 @@ var View = React.createClass({
     if ( newDays == this.state.days) {
       return;
     }
-    days = newDays;
-
-    AppActions.updateView({days: newDays});
-
+    AppActions.updatePage({days: newDays});
     this.setState({
       days: newDays
     });
   },
-  // componentWillReceiveProps: function() {
-  //   var days = AppStore.updateView().days;
-  //   this.setState({
-  //     days: newDays
-  //   });
-  // },
   renderMap: function() {
-    tempList = this.props.dataTopBar.days;
-    //如果当前选中昨天，但最小值不是昨天，则自动变更为7天
-    if (days === 1 && tempList[0].value !== 1) {
-      days = 7;
-      AppActions.updateView({days: days})
-    }
-
-    return tempList.map(function(item, i) {
+    var list = this.props.data.list;
+    return list.map(function(item, i) {
       var style = "iqg-tab";
-      if (item.value == days) {
+      if (item.value === this.state.days) {
         style = "iqg-tab iqg-tab-active";
       }
       return (
@@ -58,8 +51,9 @@ var View = React.createClass({
     }.bind(this) );
   },
   render: function() {
-    var time = this.props.dataTopBar.time;
-    var text = time + ' ' +this.props.dataTopBar.text;
+    console.log('当前天数: ' + this.state.days);
+    var time = this.props.data.time;
+    var text = time + ' ' +this.props.data.text;
     var titleText;
     if (time) {
       titleText = (<p className="gray">{text}</p>);
