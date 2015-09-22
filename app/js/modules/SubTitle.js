@@ -9,8 +9,6 @@ var Modal = require('../components/Modal');
 var ModalTrigger = require('../components/ModalTrigger');
 var Types = require('../modules/Types');
 
-
-
 var View = React.createClass({
   getInitialState: function() {
     var pageInfo = AppStore.getPageInfo();

@@ -18,6 +18,9 @@ var View = React.createClass({
         }
       });
     }
+    AppActions.updatePage({
+      type: typeId
+    });
     return {
       close: false,
       typeId: typeId

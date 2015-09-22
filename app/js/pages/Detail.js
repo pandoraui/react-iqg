@@ -3,14 +3,15 @@
 var React = require('react');
 
 var AppActions = require('../actions/AppActions');
+var AppStore = require('../stores/AppStore');
+var dateUtil = require('../utils/DateUtil');
 
 var TopBar = require('../modules/TopBar');
 var ListDetail = require('../modules/ListDetail');
 var Chart = require('../modules/Chart');
 
-var headerData = {
-  title: '详情'
-};
+var Loading = require('../modules/Loading');
+var $ = require('../utils/Ajax');
 
 var pageInfo = {
   title: '详情',
@@ -46,7 +47,97 @@ var dataListDetail = [
     num: 0.12
   },
   {
-    time: '9月26日~9月3日',
+    time: '9月26日~9月3',
+    value: 454,
+    num: 0.22
+  },
+  {
+    time: '10月1日',
+    value: 334,
+    num: 0.54
+  },
+  {
+    time: '10月5日~12日',
+    value: 530,
+    num: 0.42
+  },
+  {
+    time: '10月26日~9月3日',
+    value: 1254,
+    num: 0.12
+  },
+  {
+    time: '11月1日',
+    value: 1534,
+    num: 0.54
+  },
+  {
+    time: '8月5日~12日',
+    value: 164,
+    num: 0.12
+  },
+  {
+    time: '9月26日~9月3',
+    value: 454,
+    num: 0.22
+  },
+  {
+    time: '10月1日',
+    value: 334,
+    num: 0.54
+  },
+  {
+    time: '10月5日~12日',
+    value: 530,
+    num: 0.42
+  },
+  {
+    time: '10月26日~9月3日',
+    value: 1254,
+    num: 0.12
+  },
+  {
+    time: '11月1日',
+    value: 1534,
+    num: 0.54
+  },
+  {
+    time: '8月5日~12日',
+    value: 164,
+    num: 0.12
+  },
+  {
+    time: '9月26日~9月3',
+    value: 454,
+    num: 0.22
+  },
+  {
+    time: '10月1日',
+    value: 334,
+    num: 0.54
+  },
+  {
+    time: '10月5日~12日',
+    value: 530,
+    num: 0.42
+  },
+  {
+    time: '10月26日~9月3日',
+    value: 1254,
+    num: 0.12
+  },
+  {
+    time: '11月1日',
+    value: 1534,
+    num: 0.54
+  },
+  {
+    time: '8月5日~12日',
+    value: 164,
+    num: 0.12
+  },
+  {
+    time: '9月26日~9月3',
     value: 454,
     num: 0.22
   },
@@ -101,32 +192,192 @@ var dataChart = {
 };
 
 var View = React.createClass({
+  getInitialState: function() {
+    var pageInfo = AppStore.getPageInfo();
+    var params = this.props.params;
+    return {
+      brand_id: params.brand_id || '',
+      branch_id: params.branch_id || '',
+      item_id: params.item_id || '',
+      detail_id: params.detail_id,
+      detailName: detailOpt[params.detail_id],
+      // pageInfo: pageInfo,
+      days: pageInfo.days,
+      pageType: 'brand',
+      pageTypeName: '品牌',
+      list: []
+    };
+  },
+  componentDidMount: function() {
+    AppStore.addChangeListener(this._onChange);
+
+    console.log("当前页面类型："+this.state.pageType);
+    //AppActions.updateHeader(headerData);
+    this.ajaxLoadDetail();
+  },
+  isChange: function(opt) {
+    var pageInfo = AppStore.getPageInfo();
+    if (pageInfo[opt]) {
+      return (this.state[opt] !== pageInfo[opt]);
+    }
+    return false;
+  },
+  _onChange: function() {
+    if ( this.isChange('days') ) {
+      this.setState({
+        days: AppStore.getPageInfo().days
+      });
+      this.ajaxLoadDetail();
+    }
+  },
   componentWillMount: function() {
-    AppActions.updateHeader(headerData);
+    // var headerData = {
+    //   title: detailOpt[this.state.detail_id]
+    // };
+    AppActions.updateHeader({
+      title: detailOpt[this.state.detail_id]
+    });
+  },
+  ajaxLoadDetail: function() {
+    this.setState({
+      loading: true
+    });
+    $._ajax({
+      type: "GET",
+      url: $.Api.TJ_DETAIL,
+      data: {
+        days: AppStore.getPageInfo().days,
+        cb_id: this.state.item_id,
+        branch_id: this.state.branch_id,
+        brand_id: this.state.brand_id
+      },
+      dataType: 'json',
+      success: function(response, status, xhr) {
+        if(this.isMounted()){
+          console.log(response)
+          // var title = response.data.type_name;
+          // //更新头部
+          // if(title && (title != headerData.title) ){
+          //   headerData.title = title;
+          //   //headerData.time = response.status.server_time;
+          //   AppActions.updateHeader(headerData);
+          // }
+          this.setState({
+            list: response.data.list,
+            loading: false
+          });
+        }
+      }.bind(this),
+      error: function(xhr, errorType, error) {
+        console.log(error)
+        // this.setState({
+        //   err: err,
+        //   data: [],
+        //   loading: false
+        // });
+        //console.error(this.props.url, status, err.toString());
+      }.bind(this),
+      complete: function(xhr, status) {
+
+      }.bind(this)
+    });
   },
   formatListData: function(days) {
     var days = days || 7;
   },
-  formatChartData: function(days, opts) {
-    var data = dataListDetail;
-    var labels = [];
-    var datasets = [];
-    data.forEach(function(item, i) {
-      labels.push(item.time);
-      datasets.push(item.value);
-    });
+  //按自然周准备数据
+  getDataByWeek: function(length, data) {
+    var labels = [],
+        datasets = [];
+    var temp, startDate, endDate, sumValue = 0, tempDate;
+    var j = 0;
+    var nowDate = new Date(),
+        year = nowDate.getFullYear() + '年';
+    var month = '';
+
+    for (var i = 0; i < length; i++, j++) {
+      temp = data.shift();
+      console.log(temp);
+      sumValue += temp.value;
+      if (j === 0) {
+        startDate = dateUtil.format(temp.date*1000, 'Y年M月D日').replace(year,'');
+        month = dateUtil.format(temp.date*1000, 'M月');
+      }
+      if (j === 6 || i === length-1) {
+        endDate = dateUtil.format(temp.date*1000, 'Y年M月D日').replace(year,'').replace(month,'');
+        //处理一下只有一天的起止日期
+        if (startDate == endDate || (length%7 == 1 && i == length - 1 ) ) {
+          tempDate = startDate
+        } else {
+          tempDate = startDate + '-' + endDate;
+        }
+        labels.push(tempDate);
+        datasets.push(sumValue);
+
+        sumValue = 0;
+        j = 0;
+      }
+    }
+
     return {
+      labels: labels,
+      datasets: datasets
+    };
+  },
+  formatChartData: function(days, opts) {
+    var data = this.state.list || [],
+        days = this.state.days,
+        labels = [],
+        datasets = [];
+    //处理日历数据
+    if (data.length) {
+      //今年的日期，不显示年，替换掉
+      var nowDate = new Date(),
+          year = nowDate.getFullYear() + '年';
+
+      if (days === 90) {
+        //按自然周划分，每周始于周一
+        var yestoday = new Date(data[0].date*1000);
+        var diff = 7 - yestoday.getDay() + 1;
+
+        var temp = this.getDataByWeek(diff, data);
+        var length = data.length;
+        var temp2 = this.getDataByWeek(length, data);
+
+        labels = temp.labels.concat(temp2.labels);
+        datasets = temp.datasets.concat(temp2.datasets);
+      } else {
+        var month = '';
+        data.forEach(function(item, i) {
+          var tempMonth = dateUtil.format(item.date*1000, 'M月');
+          labels.push(dateUtil.format(item.date*1000, 'Y年M月D日')
+                      .replace(year,'')
+                      .replace(month,'')
+                    );
+          if(month || month !== tempMonth){
+            month = tempMonth;
+          }
+          datasets.push(item.value);
+        });
+      }
+    }
+
+    var result = {
       title: pageInfo.title,
       labels: labels,
       datasets: datasets
     };
+    console.log(result);
+    return result;
   },
   render: function() {
     return (
       <div className="iqg-page">
         <TopBar data={dataTopBar} pageTypeName='' />
-        <Chart data={this.formatChartData()} />
-        <ListDetail data={dataListDetail} opts={detailOpt[pageInfo.opts]} />
+        <Loading loading={this.state.loading}>
+          <Chart data={this.formatChartData()} title={this.state.detailName} />
+          <ListDetail data={this.state.list} opts={detailOpt[this.state.detail_id]} />
+        </Loading>
       </div>
     );
   }

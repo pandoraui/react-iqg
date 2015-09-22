@@ -3,32 +3,42 @@
 var React = require('react');
 
 var AppActions = require('../actions/AppActions');
+var dateUtil = require('../utils/DateUtil');
 
 var View = React.createClass({
   renderMap: function() {
     var data = this.props.data;
     var opts = this.props.opts;
-    return opts.numTitle ? data.map(function(item) {
+
+    var year = (new Date()).getFullYear() + '年';
+    return (opts.numTitle && this.hasPercentData() ) ? data.map(function(item) {
+      var date = dateUtil.format(item.date*1000, 'Y年M月D日').replace(year, '');
       return (
         <li>
           <span className="num">{item.num*100}%</span>
           <span className="value">{item.value}</span>
-          <span className="time">{item.time}</span>
+          <span className="time">{date}</span>
         </li>
       );
     }) : data.map(function(item) {
+      var date = dateUtil.format(item.date*1000, 'Y年M月D日').replace(year, '');
       return (
         <li>
           <span className="value">{item.value}</span>
-          <span className="time">{item.time}</span>
+          <span className="time">{date}</span>
         </li>
       );
     });
   },
+  hasPercentData: function() {
+    var data = this.props.data;
+    return !!(data[0] && data[0].num);
+  },
   render: function() {
+    var data = this.props.data;
     var opts = this.props.opts;
     var numTitle;
-    if(opts.numTitle){
+    if(opts.numTitle && this.hasPercentData() ){
       numTitle = (<span className="num">{opts.numTitle}</span>);
     }
     return (

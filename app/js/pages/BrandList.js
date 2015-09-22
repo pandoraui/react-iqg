@@ -114,10 +114,11 @@ var dataList = {
 var View = React.createClass({
   getInitialState: function() {
     var pageInfo = AppStore.getPageInfo();
+    var params = this.props.params;
     return {
-      brand_id: this.props.params.brand_id || '',
-      branch_id: this.props.params.branch_id || '',
-      item_id: this.props.params.item_id || '',
+      brand_id: params.brand_id || '',
+      branch_id: params.branch_id || '',
+      item_id: params.item_id || '',
       // pageInfo: pageInfo,
       days: pageInfo.days,
       type: pageInfo.type,
@@ -128,6 +129,9 @@ var View = React.createClass({
       pageType: 'brand',
       pageTypeName: '品牌'
     };
+  },
+  isItemPage: function() {
+    return this.state.pageType === 'item';
   },
   // getInitialState: function() {
   //   return {
@@ -157,7 +161,7 @@ var View = React.createClass({
     if ( this.isChange('days') ) {
       this.ajaxLoadOverview();
     }
-    if ( this.isChange('brand_id') || this.isChange('type') || this.isChange('order') ) {
+    if ( !this.isItemPage() && (this.isChange('brand_id') || this.isChange('type') || this.isChange('order_by') ) ) {
       this.ajaxLoadList();
     }
     this.setState({
@@ -166,7 +170,6 @@ var View = React.createClass({
       typeName: pageInfo.typeName,
       order_by: pageInfo.order_by
     });
-
   },
   //此处每次更新组件时，可以用来做数据变更检查，赋予初始值
   componentWillMount: function() {
@@ -200,12 +203,12 @@ var View = React.createClass({
 
     console.log("当前页面类型："+this.state.pageType);
     //AppActions.updateHeader(headerData);
-    this.setState({
-      loading: true,
-      loading2: true,
-    });
+    // this.setState({
+    //   loading: true,
+    //   loading2: true,
+    // });
     this.ajaxLoadOverview();
-    this.ajaxLoadList();
+    !this.isItemPage() && this.ajaxLoadList();
   },
   ajaxLoadOverview: function() {
     console.log('overview 请求的天数：' + AppStore.getPageInfo().days);
@@ -216,7 +219,10 @@ var View = React.createClass({
       type: "GET",
       url: $.Api.TJ_ALL,
       data: {
-        days: AppStore.getPageInfo().days
+        days: AppStore.getPageInfo().days,
+        cb_id: this.state.item_id,
+        branch_id: this.state.branch_id,
+        brand_id: this.state.brand_id
       },
       dataType: 'json',
       success: function(response, status, xhr) {
@@ -250,7 +256,8 @@ var View = React.createClass({
   },
   ajaxLoadList: function() {
     var pageInfo = AppStore.getPageInfo();
-    console.log('list 请求的天数：' + pageInfo.days);
+    console.log('list 请求的参数：');
+    console.log(pageInfo);
 
     this.setState({
       loading2: true
@@ -259,12 +266,13 @@ var View = React.createClass({
       type: "GET",
       url: $.Api.TJ_LIST,
       data: {
-        brand_id: this.state.brand_id,
+        days: this.state.days,
+        type: this.state.type,
+        order_by: this.state.order_by,
+        last_id: '',
+        cb_id: this.state.item_id,
         branch_id: this.state.branch_id,
-        days: pageInfo.days,
-        type: pageInfo.type,
-        order_by: pageInfo.order_by,
-        last_id: ''
+        brand_id: this.state.brand_id
       },
       dataType: 'json',
       success: function(response, status, xhr) {
@@ -279,8 +287,10 @@ var View = React.createClass({
           });
           //还需要更新最新默认的 type
           curListInfo.dataList = response.data;
-
           this.setState(curListInfo);
+          AppActions.updatePage({
+            type: curListInfo.type
+          });
         }
       }.bind(this),
       error: function(xhr, errorType, error) {
@@ -326,6 +336,22 @@ var View = React.createClass({
     //   });
     // }
   },
+  renderList: function() {
+    var listHtml;
+    if ( !this.isItemPage() ) {
+      listHtml = (<div className="sub-list-box">
+        <SubTitle data={this.state.dataList}
+                  typeName={this.state.typeName}
+                  pageTypeName={this.state.pageTypeName} />
+        <div className="iqg-list sub-list">
+          <Loading loading={this.state.loading2}>
+              <ListData data={this.state.dataList} params={this.props.params} />
+          </Loading>
+        </div>
+      </div>);
+    }
+    return listHtml;
+  },
   render: function() {
     console.log('render');
     console.log(this.state.typeName)
@@ -337,16 +363,7 @@ var View = React.createClass({
             <ListOverview data={this.state.dataOverview} params={this.props.params} />
           </Loading>
         </div>
-        <div className="sub-list-box">
-          <SubTitle data={this.state.dataList}
-                    typeName={this.state.typeName}
-                    pageTypeName={this.state.pageTypeName} />
-          <div className="iqg-list sub-list">
-            <Loading loading={this.state.loading2}>
-                <ListData data={this.state.dataList} params={this.props.params} />
-            </Loading>
-          </div>
-        </div>
+        {this.renderList()}
       </div>
     );
   }

@@ -48,16 +48,25 @@ var chartOptions = {
 
 var View = React.createClass({
   render: function() {
-    var data = this.props.data;
+    var data = this.props.data,
+        length = data.datasets.length,
+        sum = 0;
     chartData.labels = data.labels;
     chartData.datasets[0].data = data.datasets;
-    var sum = data.datasets.reduce(function(a, b) {
-      return parseInt(a) + parseInt(b);
-    });
+    if(length){
+      sum = data.datasets.reduce(function(a, b) {
+        return parseInt(a) + parseInt(b);
+      });
+    }
+    var canvasWidth = length>8 ? 30*length : 320;
     return (
       <div className="iqg-chart">
-        <h3>{data.title}（{sum}）</h3>
-        <LineChart data={chartData} options={chartOptions} width="320" height="280" />
+        <h3>{this.props.title}（{sum}）</h3>
+        <div className="chart-box">
+          <div className="scroll-box">
+            <LineChart data={chartData} options={chartOptions} width={canvasWidth} height="280" />
+          </div>
+        </div>
       </div>
     );
   }
