@@ -58,7 +58,7 @@ var View = React.createClass({
         return parseInt(a) + parseInt(b);
       });
     }
-    var canvasWidth = length>8 ? 30*length : 320;
+    var canvasWidth = length>8 ? 30*length : 280;
     return (
       <div className="iqg-chart">
         <h3>{this.props.title}（{sum}）</h3>
