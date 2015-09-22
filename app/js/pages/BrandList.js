@@ -309,33 +309,6 @@ var View = React.createClass({
       }.bind(this)
     });
   },
-  componentDidUpdate: function() {
-    // var pageInfo = AppStore.getPageInfo();
-    // if ( this.isChange('days') ) {
-    //   console.log('更新天数：' + pageInfo.days);
-    //   // this.setState({
-    //   //   days: pageInfo.days
-    //   // });
-    //   this.ajaxLoadOverview();
-    //   this.ajaxLoadList();
-    // }
-    // if ( this.isChange('branch_id') || this.isChange('type') || this.isChange('order_by') ) {
-    //   this.setState({
-    //     branch_id: this.isChange('branch_id'),
-    //     type: pageInfo.type,
-    //     order_by: pageInfo.order_by
-    //   });
-    //   this.ajaxLoadList();
-    // }
-
-    /*
-    */
-    // if ( this.isChange('brand_id') || this.isChange('type') || this.isChange('order') ) {
-    //   this.setState({
-    //     brand_id: this.props.params.brand_id
-    //   });
-    // }
-  },
   renderList: function() {
     var listHtml;
     if ( !this.isItemPage() ) {
@@ -368,10 +341,5 @@ var View = React.createClass({
     );
   }
 });
-
-/*
-
-
- */
 
 module.exports = View;

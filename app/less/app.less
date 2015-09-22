@@ -53,11 +53,14 @@ body{color: #333; font-family: @base-font-family; font-size: 14px; }
 // tabs 日期选择
 .box-title{ background-color:@lightGray; padding: 10px 26px;}
 .box-title p{margin: 6px 0 0;}
-.iqg-tabs{ border-bottom: 1px solid @midGray;
+.iqg-tabs{
+  border-bottom: 1px solid @midGray;
+  width: 100%;
+  box-sizing: border-box;
   .iqg-tab{ display: inline-block;color: @mainColor; font-size: 14px; width: 44px; height: 34px; line-height: 34px; text-align: center; border-radius: 2px; margin-right: 10px;cursor: pointer;}
   .iqg-tab-active{ background-color:@mainColor; color: @white; }
 }
-.iqg-topbar{min-height: 80px;}
+.iqg-topbar{min-height: 82px;}
 
 .iqg-list{
   .list-box{ overflow: hidden;}
