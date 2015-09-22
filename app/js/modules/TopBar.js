@@ -8,12 +8,12 @@ var AppStore = require('../stores/AppStore');
 var View = React.createClass({
   getInitialState: function() {
     return {
-      days: AppStore.updatePage().days
+      days: AppStore.getPageInfo().days
     }
   },
   componentWillMount: function() {
     var list = this.props.data.list;
-    var days = AppStore.updatePage().days;
+    var days = AppStore.getPageInfo().days;
     //如果当前选中昨天，但最小值不是昨天，则自动变更为7天
     if (days === 1 && list[0].value !== 1) {
       days = 7;
@@ -57,10 +57,11 @@ var View = React.createClass({
   },
   render: function() {
     console.log('当前天数: ' + this.state.days);
-    var time = this.props.data.time;
-    var text = time + ' ' +this.props.data.text;
+    var timeInfo = AppStore.getPageInfo().timeInfo;
     var titleText;
-    if (time) {
+    var text = this.props.pageTypeName + '总体数据';
+    if (this.props.pageTypeName) {
+      text = timeInfo + ' ' + text;
       titleText = (<p className="gray">{text}</p>);
     }
     return (

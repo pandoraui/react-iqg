@@ -23,11 +23,14 @@ var routes = (
   <Route name="home" path="/" handler={Application}>
     <DefaultRoute handler={Index}/>
     <Route name='brand' path="/brand/:brand_id" handler={BrandList} />
-    <Route name="branch" path="/brand/:brand_id/branch/:branch_id" handler={BranchList} />
-    <Route name="item" path="/brand/:brand_id/branch/:branch_id/item/:item_id" handler={ItemList} />
-    
+    <Route name="branch" path="/brand/:brand_id/branch/:branch_id" handler={BrandList} />
+    <Route name="item" path="/brand/:brand_id/branch/:branch_id/item/:item_id" handler={BrandList} />
+    <Route name="detailBrand" path="/brand/:brand_id/detail/:detail_id" handler={Detail}/>
+    <Route name="detailBranch" path="/brand/:brand_id/branch/:branch_id/detail/:detail_id" handler={Detail}/>
+    <Route name="detailItem" path="/brand/:brand_id/branch/:branch_id/item/:item_id/detail/:detail_id" handler={Detail}/>
+
     <Route name="chart" handler={Chart}/>
-    <Route name="detail" path="detail/:detail_id" handler={Detail}/>
+
     <Route name="ajax" path="ajax" handler={Ajax}/>
     <Route name="test" path="test" handler={Test}/>
 

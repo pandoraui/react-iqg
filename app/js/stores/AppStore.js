@@ -4,6 +4,7 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var AppConstants = require('../constants/AppConstants');
 var assign = require('object-assign');
+var dateUtil = require('../utils/DateUtil');
 
 var CHANGE_EVENT = 'change';
 
@@ -18,13 +19,37 @@ function updateHeader(data) {
   }
 }
 
+//var server_time = +new Date();
+var clientTime = +new Date() - 86400000;
+
 var _pageInfo = {
+  time: clientTime,
+  timeInfo: dateUtil.format(clientTime, 'Y年M月D日'),
   days: 1,
-  type: null,
-  order: 'desc'
+  type: 0,
+  typeName: '展示',
+  order_by: 'desc'
 };
 var pageInfo = assign({},_pageInfo);
+
 function updatePage(data) {
+  var nowTime = +new Date(),
+      days = parseInt(data.days);
+
+  if (days) {
+    //默认昨天
+    var timeInfo =  dateUtil.format( nowTime - 86400000, 'Y年M月D日');
+
+    //如果是时间段，则拼接一下
+    if (days !== 1) {
+      timeInfo = dateUtil.format( nowTime - 86400000 * days, 'Y年M月D日') + '-' + timeInfo;
+    }
+    pageInfo = assign({}, pageInfo, {
+      time: nowTime,
+      timeInfo: timeInfo,
+    });
+  }
+
   if(data){
     pageInfo = assign({}, pageInfo, data);
   }
@@ -37,7 +62,7 @@ var AppStore = assign({}, EventEmitter.prototype, {
   updateHeader: function() {
     return headerData;
   },
-  updatePage: function() {
+  getPageInfo: function() {
     return pageInfo;
   },
   updateTime: function() {

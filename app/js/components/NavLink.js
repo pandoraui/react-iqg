@@ -14,7 +14,9 @@ var NavLink = React.createClass({
           <h2>测试链接</h2>
           <a className="pure-button" href="#/brand/23">品牌23</a>
           <a className="pure-button" href="#/brand/23/branch/34">分店34</a>
-          <a className="pure-button" href="#/detail/25">详情展示</a>
+          <a className="pure-button" href="#/brand/23/branch/34/item/45">商品</a>
+          <br />
+          <a className="pure-button" href="#/brand/23/detail/25">详情展示</a>
           <a className="pure-button" href="#/notfound">404</a>
           <br />
           <a className="pure-button" href="#/ajax">Ajax</a>

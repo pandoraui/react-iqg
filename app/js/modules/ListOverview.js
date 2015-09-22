@@ -5,22 +5,20 @@ var React = require('react');
 var AppActions = require('../actions/AppActions');
 
 var View = React.createClass({
-  getInitialState: function() {
-    return {
-    };
-  },
   renderMap: function() {
     var data = this.props.data,
-        params = this.props.params;
+        params = this.props.params || {};
 
     var preLink = '#/brand/' + params.brand_id;
-    if(!params.branch_id){
-      preLink += '/branch/'
-    }else{
-      preLink += '/branch/' + params.branch_id + '/item/';
+    if (params.branch_id) {
+      preLink += '/branch/' + params.branch_id;
+      if(params.item_id) {
+        preLink += '/item/' + params.item_id;
+      }
     }
+    console.log(params);
     return data.map(function(item) {
-      var link = "#detail/" + (item.id || item.type);
+      var link = preLink + "/detail/" + (item.id || item.type);
       return (
         <a className="link-block" href={link}>
           <div className="item">

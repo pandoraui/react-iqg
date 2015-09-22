@@ -7,7 +7,7 @@ var AppActions = require('../actions/AppActions');
 var View = React.createClass({
   renderMap: function() {
     var data = this.props.data,
-        list = data.list,
+        list = data.list || [],
         
         params = this.props.params;
 

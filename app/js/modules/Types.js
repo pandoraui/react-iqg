@@ -23,7 +23,7 @@ var View = React.createClass({
       typeId: typeId
     };
   },
-  handleClick: function(type) {
+  handleClick: function(type, name) {
     //newType = e.target.getAttribute('type');
     typeId = parseInt(type);
     // if (this.state.typeId === newType) {
@@ -34,9 +34,10 @@ var View = React.createClass({
       typeId: typeId
     });
 
-    //close = true;
-    //TODO：临时解决方案
-    //window.xxx_close_modal && window.xxx_close_modal()
+    AppActions.updatePage({
+      type: parseInt(type),
+      typeName: name
+    });
   },
   //组件渲染完成后立马调用
   componentDidUpdate: function() {
@@ -61,8 +62,8 @@ var View = React.createClass({
       if ( this.state.typeId === parseInt(item.type)) {
         className += ' iqg-btn-active';
       }
-      
-      return (<a className={className} type={item.type} onClick={this.handleClick.bind(this, item.type)}>{item.name}</a>);
+
+      return (<a className={className} type={item.type} onClick={this.handleClick.bind(this, item.type, item.name )}>{item.name}</a>);
     }.bind(this) );
   },
   render: function() {

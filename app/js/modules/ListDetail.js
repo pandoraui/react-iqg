@@ -6,7 +6,7 @@ var AppActions = require('../actions/AppActions');
 
 var View = React.createClass({
   renderMap: function() {
-    var data = this.props.dataListDetail;
+    var data = this.props.data;
     var opts = this.props.opts;
     return opts.numTitle ? data.map(function(item) {
       return (

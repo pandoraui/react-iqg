@@ -85,23 +85,23 @@ componentWillUnmount: function() {
 
 
 var Application = React.createClass({
-  getInitialState: function() {
-    return {
-      pageInfo: AppStore.updatePage()
-    };
-  },
-  componentDidMount: function() {
-    AppStore.addChangeListener(this._onChange);
-  },
-  componentWillUnmount: function() {
-    AppStore.removeChangeListener(this._onChange);
-  },
-  _onChange: function() {
-    console.log('触发更新');
-    this.setState({
-      pageInfo: AppStore.updatePage()
-    });
-  },
+  // getInitialState: function() {
+  //   return {
+  //     pageInfo: AppStore.getPageInfo()
+  //   };
+  // },
+  // componentDidMount: function() {
+  //   AppStore.addChangeListener(this._onChange);
+  // },
+  // componentWillUnmount: function() {
+  //   AppStore.removeChangeListener(this._onChange);
+  // },
+  // _onChange: function() {
+  //   console.log('触发更新');
+  //   this.setState({
+  //     pageInfo: AppStore.getPageInfo()
+  //   });
+  // },
   render: function() {
     return (
       <div className="iqg">

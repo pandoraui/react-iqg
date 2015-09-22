@@ -19,7 +19,6 @@ var headerData = {
 };
 
 var dataTopBar = {
-  time: '2015年8月10日',
   text: '品牌总体数据',
   list: [
   {
@@ -114,37 +113,123 @@ var dataList = {
 
 var View = React.createClass({
   getInitialState: function() {
+    var pageInfo = AppStore.getPageInfo();
     return {
-      days: AppStore.updatePage().days,
-      type: 'brand',
-      brand_id: this.props.params.brand_id
+      brand_id: this.props.params.brand_id || '',
+      branch_id: this.props.params.branch_id || '',
+      item_id: this.props.params.item_id || '',
+      // pageInfo: pageInfo,
+      days: pageInfo.days,
+      type: pageInfo.type,
+      typeName: pageInfo.typeName,
+      order_by: pageInfo.order_by,
+      dataOverview: [],
+      dataList: {},
+      pageType: 'brand',
+      pageTypeName: '品牌'
     };
+  },
+  // getInitialState: function() {
+  //   return {
+  //     pageInfo: AppStore.getPageInfo()
+  //   };
+  // },
+  // componentDidMount: function() {
+  //   AppStore.addChangeListener(this._onChange);
+  // },
+  componentWillUnmount: function() {
+    AppStore.removeChangeListener(this._onChange);
+  },
+  isChange: function(opt) {
+    var pageInfo = AppStore.getPageInfo();
+    var params = this.props.params;
+    if (pageInfo[opt]) {
+      return (this.state[opt] !== pageInfo[opt]);
+    }
+    if (params[opt]) {
+      return (this.state[opt] !== params[opt]);
+    }
+    return false;
+  },
+  _onChange: function() {
+    console.log('触发更新');
+    var pageInfo = AppStore.getPageInfo();
+    if ( this.isChange('days') ) {
+      this.ajaxLoadOverview();
+    }
+    if ( this.isChange('brand_id') || this.isChange('type') || this.isChange('order') ) {
+      this.ajaxLoadList();
+    }
+    this.setState({
+      days: pageInfo.days,
+      type: pageInfo.type,
+      typeName: pageInfo.typeName,
+      order_by: pageInfo.order_by
+    });
+
   },
   //此处每次更新组件时，可以用来做数据变更检查，赋予初始值
   componentWillMount: function() {
+    var params = this.props.params;
+    var pageType = '',
+        pageTypeName = '';
+    if (params.item_id) {
+      pageType = 'item';
+      pageTypeName = '商品';
+      //TODO:这个名称可能要从 ajax 获取？
+      headerData.title = '标题是商品名';
+    } else if (params.branch_id) {
+      pageType = 'branch';
+      pageTypeName = '门店';
+      headerData.title = '标题是分店名称';
+    } else {
+      pageType = 'brand';
+      pageTypeName = '品牌';
+      headerData.title = '标题是品牌名称';
+    }
+    if (this.state.pageType !== pageType) {
+      this.setState({
+        pageType: pageType,
+        pageTypeName: pageTypeName
+      });
+    }
     AppActions.updateHeader(headerData);
   },
   componentDidMount: function() {
+    AppStore.addChangeListener(this._onChange);
+
+    console.log("当前页面类型："+this.state.pageType);
     //AppActions.updateHeader(headerData);
+    this.setState({
+      loading: true,
+      loading2: true,
+    });
     this.ajaxLoadOverview();
     this.ajaxLoadList();
   },
   ajaxLoadOverview: function() {
-    console.log('overview 请求的天数：' + AppStore.updatePage().days);
+    console.log('overview 请求的天数：' + AppStore.getPageInfo().days);
     this.setState({
       loading: true
     });
-    $.ajax({
+    $._ajax({
       type: "GET",
       url: $.Api.TJ_ALL,
       data: {
-        days: this.props.days
+        days: AppStore.getPageInfo().days
       },
       dataType: 'json',
       success: function(response, status, xhr) {
         if(this.isMounted()){
-          dataOverview = response.data.list;
+          var title = response.data.title;
+          //更新头部
+          if(title && (title != headerData.title) ){
+            headerData.title = title;
+            //headerData.time = response.status.server_time;
+            AppActions.updateHeader(headerData);
+          }
           this.setState({
+            dataOverview: response.data.list,
             loading: false
           });
         }
@@ -164,24 +249,38 @@ var View = React.createClass({
     });
   },
   ajaxLoadList: function() {
-    console.log('list 请求的天数：' + AppStore.updatePage().days);
+    var pageInfo = AppStore.getPageInfo();
+    console.log('list 请求的天数：' + pageInfo.days);
+
     this.setState({
       loading2: true
     });
-    $.ajax({
+    $._ajax({
       type: "GET",
       url: $.Api.TJ_LIST,
       data: {
-        days: AppStore.updatePage().days
+        brand_id: this.state.brand_id,
+        branch_id: this.state.branch_id,
+        days: pageInfo.days,
+        type: pageInfo.type,
+        order_by: pageInfo.order_by,
+        last_id: ''
       },
       dataType: 'json',
       success: function(response, status, xhr) {
         if(this.isMounted()){
-          dataSubTitle.filter = response.data.types;
-          dataList = response.data;
-          this.setState({
-            loading2: false
+          var types = response.data.types;
+          var curListInfo = {};
+          types.forEach(function(item){
+            if (item.selected) {
+              curListInfo.type = item.type;
+              curListInfo.typeName = item.name;
+            }
           });
+          //还需要更新最新默认的 type
+          curListInfo.dataList = response.data;
+
+          this.setState(curListInfo);
         }
       }.bind(this),
       error: function(xhr, errorType, error) {
@@ -194,46 +293,68 @@ var View = React.createClass({
         //console.error(this.props.url, status, err.toString());
       }.bind(this),
       complete: function(xhr, status) {
-
+        this.setState({
+          loading2: false
+        });
       }.bind(this)
     });
   },
   componentDidUpdate: function() {
-    if (this.state.days !== AppStore.updatePage().days) {
-      console.log('更新天数：' + AppStore.updatePage().days);
-      this.setState({
-        days: AppStore.updatePage().days
-      });
-      this.ajaxLoadOverview();
-      this.ajaxLoadList();
-    }
-    if (this.state.brand_id !== this.props.params.brand_id) {
-      this.setState({
-        brand_id: this.props.params.brand_id
-      });
-    }
+    // var pageInfo = AppStore.getPageInfo();
+    // if ( this.isChange('days') ) {
+    //   console.log('更新天数：' + pageInfo.days);
+    //   // this.setState({
+    //   //   days: pageInfo.days
+    //   // });
+    //   this.ajaxLoadOverview();
+    //   this.ajaxLoadList();
+    // }
+    // if ( this.isChange('branch_id') || this.isChange('type') || this.isChange('order_by') ) {
+    //   this.setState({
+    //     branch_id: this.isChange('branch_id'),
+    //     type: pageInfo.type,
+    //     order_by: pageInfo.order_by
+    //   });
+    //   this.ajaxLoadList();
+    // }
+
+    /*
+    */
+    // if ( this.isChange('brand_id') || this.isChange('type') || this.isChange('order') ) {
+    //   this.setState({
+    //     brand_id: this.props.params.brand_id
+    //   });
+    // }
   },
   render: function() {
     console.log('render');
+    console.log(this.state.typeName)
     return (
       <div className="iqg-page">
-        <TopBar data={dataTopBar} />
+        <TopBar data={dataTopBar} pageTypeName={this.state.pageTypeName} />
         <div className="iqg-list">
           <Loading loading={this.state.loading}>
-            <ListOverview data={dataOverview} params={this.props.params} />
+            <ListOverview data={this.state.dataOverview} params={this.props.params} />
           </Loading>
         </div>
-          <div className="sub-list-box">
-            <SubTitle dataSubTitle={dataSubTitle} />
+        <div className="sub-list-box">
+          <SubTitle data={this.state.dataList}
+                    typeName={this.state.typeName}
+                    pageTypeName={this.state.pageTypeName} />
+          <div className="iqg-list sub-list">
             <Loading loading={this.state.loading2}>
-              <div className="iqg-list sub-list">
-                <ListData data={dataList} params={this.props.params} />
-              </div>
+                <ListData data={this.state.dataList} params={this.props.params} />
             </Loading>
           </div>
+        </div>
       </div>
     );
   }
 });
+
+/*
+
+
+ */
 
 module.exports = View;
