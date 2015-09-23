@@ -27,8 +27,7 @@ var View = React.createClass({
     AppActions.updatePage({order_by: order_by});
   },
   renderModal: function() {
-    var data = this.props.data,
-        types = data.types || [],
+    var types = this.props.data || [],
         title = '';
 
     var listHtml = (<Types data={types} />);

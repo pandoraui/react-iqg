@@ -5,6 +5,8 @@ var React = require('react');
 var AppActions = require('../actions/AppActions');
 var AppStore = require('../stores/AppStore');
 
+var height;
+
 var View = React.createClass({
   getInitialState: function() {
     return {
@@ -29,15 +31,20 @@ var View = React.createClass({
     return nextState.days !== this.state.days;
   },
   componentDidMount: function() {
-    this.setFixHeight();
+    //初始化立即执行一次，但父级页面还未 render 完成时，交互 DOM 会出现误差
+    this.setFixHeight(300);
   },
   componentDidUpdate: function() {
     this.setFixHeight();
   },
-  setFixHeight: function() {
+  setFixHeight: function(time) {
     //这里要更新滚动悬浮的盒子高度，针对不同的设备，切换的不同天数，导致换行，高度要动态变化；
-    var height = React.findDOMNode(this.refs.fixbox).offsetHeight;
-    React.findDOMNode(this.refs.fixOutbox).setAttribute("style", 'height:' + height + 'px');
+    var time = time || 0;
+    var self = this;
+    setTimeout(function(){
+      var height = React.findDOMNode(self.refs.fixbox).offsetHeight;
+      React.findDOMNode(self.refs.fixOutbox).setAttribute("style", 'height:' + height + 'px');
+    }, time);
   },
   handleClick: function(newDays) {
     // e.preventDefault();
