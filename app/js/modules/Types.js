@@ -3,6 +3,7 @@
 var React = require('react');
 
 var AppActions = require('../actions/AppActions');
+var AppStore = require('../stores/AppStore');
 
 //typeId 要存到 store 中
 var typeId, newType, close;
@@ -10,25 +11,26 @@ var typeId, newType, close;
 var View = React.createClass({
   getInitialState: function() {
     console.log('初始化')
-    if(!typeId){
-      var list = this.props.data;
-      list.forEach(function(item) {
-        if(item.selected){
-          typeId = parseInt(item.type);
-        }
-      });
-    }
-    AppActions.updatePage({
-      type: typeId
-    });
+    // if(!typeId){
+    //   var list = this.props.data;
+    //   list.forEach(function(item) {
+    //     if(item.selected){
+    //       typeId = parseInt(item.type);
+    //     }
+    //   });
+    //   AppActions.updatePage({
+    //     type: typeId
+    //   });
+    // }
+    console.log(AppStore.getPageInfo().type)
     return {
       close: false,
-      typeId: typeId
+      typeId: AppStore.getPageInfo().type || 1
     };
   },
   handleClick: function(type, name) {
     //newType = e.target.getAttribute('type');
-    typeId = parseInt(type);
+    var typeId = parseInt(type);
     // if (this.state.typeId === newType) {
     //   return;
     // }
@@ -38,10 +40,11 @@ var View = React.createClass({
     });
 
     AppActions.updatePage({
-      type: parseInt(type),
+      type: typeId,
       typeName: name
     });
   },
+
   //组件渲染完成后立马调用
   componentDidUpdate: function() {
     if(this.state.close){

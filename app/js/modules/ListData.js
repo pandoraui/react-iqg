@@ -3,8 +3,11 @@
 var React = require('react');
 
 var AppActions = require('../actions/AppActions');
+var FormatData = require('../mixins/FormatData');
 
 var View = React.createClass({
+  mixins: [FormatData],
+
   renderMap: function() {
     var list = this.props.data,
         params = this.props.params;
@@ -22,7 +25,7 @@ var View = React.createClass({
       var cssStyle = {
         width: item.rating * 20 + '%'
       };
-      var outValue = isPercentValue ? (item.value * 100 + '%') : item.value;
+      var outValue = isPercentValue ? ( this.formatNumber(item.value) ) : item.value;
       return (
         <a className="link-block" href={link}>
           <div className="item">
@@ -34,7 +37,7 @@ var View = React.createClass({
           </div>
         </a>
       );
-    });
+    }.bind(this) );
   },
   render: function() {
     var moreList;

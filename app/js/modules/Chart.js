@@ -58,10 +58,11 @@ var View = React.createClass({
         return parseInt(a) + parseInt(b);
       });
     }
+    var title = this.props.opts.valueTitle;
     var canvasWidth = length>8 ? 30*length : 280;
     return (
       <div className="iqg-chart">
-        <h3>{this.props.title}（{sum}）</h3>
+        <h3>{title}（{sum}）{this.props.opts.numTitle}</h3>
         <div className="chart-box">
           <div className="scroll-box">
             <LineChart data={chartData} options={chartOptions} width={canvasWidth} height="280" />

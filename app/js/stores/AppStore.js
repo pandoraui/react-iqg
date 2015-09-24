@@ -32,11 +32,11 @@ var _pageInfo = {
   time: clientTime,
   timeInfo: dateUtil.format(clientTime, 'Y年M月D日'),
   days: 1,
-  type: 0,
+  type: 1,
   typeName: '展示',
   order_by: 'desc'
 };
-var pageInfo = assign({},_pageInfo);
+var pageInfo = assign({}, _pageInfo);
 
 function updatePage(data) {
   var nowTime = +new Date(),
@@ -50,14 +50,14 @@ function updatePage(data) {
     if (days !== 1) {
       timeInfo = dateUtil.format( nowTime - 86400000 * days, 'Y年M月D日') + '-' + timeInfo;
     }
-    pageInfo = assign({}, pageInfo, {
+    pageInfo = assign(pageInfo, {
       time: nowTime,
       timeInfo: timeInfo,
     });
   }
 
   if(data){
-    pageInfo = assign({}, pageInfo, data);
+    pageInfo = assign(pageInfo, data);
   }
 }
 

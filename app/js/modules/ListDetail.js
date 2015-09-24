@@ -15,7 +15,7 @@ var View = React.createClass({
       var date = dateUtil.format(item.date*1000, 'Y年M月D日').replace(year, '');
       return (
         <li>
-          <span className="num">{item.num*100}%</span>
+          <span className="num">{item.percent}</span>
           <span className="value">{item.value}</span>
           <span className="time">{date}</span>
         </li>
@@ -32,7 +32,7 @@ var View = React.createClass({
   },
   hasPercentData: function() {
     var data = this.props.data;
-    return !!(data[0] && data[0].num);
+    return !!(data[0] && data[0].percent);
   },
   render: function() {
     var data = this.props.data;

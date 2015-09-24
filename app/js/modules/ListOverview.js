@@ -18,7 +18,10 @@ var View = React.createClass({
     }
     console.log(params);
     return data.map(function(item) {
-      var link = preLink + "/detail/" + (item.id || item.type);
+      var link = preLink + "/detail/" + item.type;
+      if (item.type === 6 || item.type === 8) {
+        return;
+      }
       return (
         <a className="link-block" href={link}>
           <div className="item">

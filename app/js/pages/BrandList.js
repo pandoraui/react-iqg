@@ -119,7 +119,7 @@ var View = React.createClass({
     return {
       // pageInfo: pageInfo,
       days: pageInfo.days,
-      type: pageInfo.type,
+      type: pageInfo.type || 1,
       typeName: pageInfo.typeName,
       order_by: pageInfo.order_by,
       dataOverview: [],
@@ -191,8 +191,10 @@ var View = React.createClass({
     var pageInfo = AppStore.getPageInfo();
     if ( this.isChange('days') ) {
       this.ajaxLoadOverview();
-    }
-    if ( !this.isItemPage() && (this.isChange('days') || this.isChange('type') || this.isChange('order_by') ) ) {
+      if (!this.isItemPage()) {
+        this.ajaxLoadList();
+      }
+    } else if ( !this.isItemPage() && ( this.isChange('type') || this.isChange('order_by') ) ) {
       this.ajaxLoadList();
     }
     this.setState({
@@ -276,9 +278,9 @@ var View = React.createClass({
     var params = _.extend({}, this.props.params, params, resetData);
 
     var ajaxParams = {
-      days: this.state.days,
-      type: this.state.type,
-      order_by: this.state.order_by,
+      days: pageInfo.days,
+      type: pageInfo.type,
+      order_by: pageInfo.order_by,
       last_id: params.last_id || 0,
       cb_id: params.item_id,
       branch_id: params.branch_id,
@@ -313,18 +315,19 @@ var View = React.createClass({
               curListInfo.typeName = item.name;
             }
           });
-          this.setState({
+          this.setState(_.extend({
             loading2: false,
             dataList: tempList,
             types: response.data.types,
-            type: curListInfo.type,
-            typeName: curListInfo.typeName,
             hasMore: response.pagination.has_more,
             last_id: response.pagination.last_id || ''
-          });
-          AppActions.updatePage({
-            type: curListInfo.type
-          });
+          }, curListInfo));
+          if (curListInfo.type && (AppStore.getPageInfo().type != curListInfo.type) ) {
+            AppActions.updatePage({
+              type: curListInfo.type,
+              typeName: curListInfo.typeName
+            });
+          }
         }
       }.bind(this),
       error: function(xhr, errorType, error) {
@@ -351,16 +354,17 @@ var View = React.createClass({
       var isPercentValue = (this.state.type ==6 || this.state.type == 8);
       listHtml = (<div className="sub-list-box">
         <SubTitle data={this.state.types}
+                  type={this.state.type}
                   typeName={this.state.typeName}
                   pageTypeName={this.state.pageTypeName} />
         <div className="iqg-list sub-list">
           <Loading loading={this.state.loading2}>
             <ListData data={this.state.dataList}
-            params={this.props.params}
-            last_id={this.state.last_id}
-            isPercentValue={isPercentValue}
-            loadMore={this.loadMore}
-            hasMore={this.state.hasMore} />
+                params={this.props.params}
+                last_id={this.state.last_id}
+                isPercentValue={isPercentValue}
+                loadMore={this.loadMore}
+                hasMore={this.state.hasMore} />
           </Loading>
         </div>
       </div>);

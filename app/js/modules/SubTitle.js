@@ -17,9 +17,9 @@ var View = React.createClass({
     }
   },
   handleSelect: function() {
-    var order_by = 'desc';
-    if( this.state.order_by === 'desc' ) {
-      order_by = 'asc';
+    var order_by = "desc";
+    if( this.state.order_by === "desc" ) {
+      order_by = "asc";
     }
     this.setState({
       order_by: order_by
@@ -30,13 +30,13 @@ var View = React.createClass({
     var types = this.props.data || [],
         title = '';
 
-    var listHtml = (<Types data={types} />);
+    var listHtml = (<Types data={types} type={this.props.type} />);
     return (<Modal className="iqg-lay" closeViaDimmer="true" type="custom" title={title}>{listHtml}</Modal>);
   },
   render: function() {
     var timeInfo = AppStore.getPageInfo().timeInfo;
     var title = timeInfo + ' ' + this.props.pageTypeName + '总体数据';
-    var className = 'iqg-icon-sort-numeric-' + this.state.order_by;
+    var className = 'iqg-icon-sort-numeric-' + (this.state.order_by);
     return (
       <div className="sub-list-title box-title iqg-cf">
         <h3 className="gray">{title}</h3>

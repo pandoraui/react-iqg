@@ -4,6 +4,7 @@ var React = require('react');
 
 var AppActions = require('../actions/AppActions');
 var AppStore = require('../stores/AppStore');
+var FormatData = require('../mixins/FormatData');
 var dateUtil = require('../utils/DateUtil');
 var _ = require('lodash');
 
@@ -165,6 +166,7 @@ var dataListDetail = [
 ];
 
 var detailOpt = [
+  {},
   {
     valueTitle: '展示数'
   },
@@ -194,6 +196,8 @@ var dataChart = {
 };
 
 var View = React.createClass({
+  mixins: [FormatData],
+
   getInitialState: function() {
     var pageInfo = AppStore.getPageInfo();
     var params = this.props.params;
@@ -255,7 +259,7 @@ var View = React.createClass({
       type: "GET",
       url: $.Api.TJ_DETAIL,
       data: {
-        type: this.props.detail_id,
+        type: this.props.params.detail_id,
         days: AppStore.getPageInfo().days,
         cb_id: this.state.item_id,
         branch_id: this.state.branch_id,
@@ -272,8 +276,23 @@ var View = React.createClass({
           //   //headerData.time = response.status.server_time;
           //   AppActions.updateHeader(headerData);
           // }
+          var list = response.data.list;
+          if ( list[0] && list[0].stock !== 'undefined' ) {
+            list.forEach(function(item, i) {
+              var percent = '0%';
+
+              if (item.stock) {
+                percent = this.formatNumber(item.value/item.stock);
+              } else {
+                percents.push( '0%' );
+              }
+              list[i].percent = percent;
+
+            }.bind(this) )
+          }
+
           this.setState({
-            list: response.data.list,
+            list: list,
             loading: false
           });
         }
@@ -338,13 +357,13 @@ var View = React.createClass({
     var data = _.sortBy(_.clone(this.state.list),'date') || [],
         days = this.state.days,
         labels = [],
+        percents = [],
         datasets = [];
     //处理日历数据
     if (data.length) {
       //今年的日期，不显示年，替换掉
       var nowDate = new Date(),
           year = nowDate.getFullYear() + '年';
-
       if (days === 90) {
         //按自然周划分，每周始于周一
         var yestoday = new Date(data[0].date*1000);
@@ -367,14 +386,18 @@ var View = React.createClass({
           if(month || month !== tempMonth){
             month = tempMonth;
           }
+          if(item.percent){
+            percents.push(item.percent);
+          }
           datasets.push(item.value);
-        });
+        }.bind(this) );
       }
     }
 
     var result = {
       title: pageInfo.title,
       labels: labels,
+      percents: percents,
       datasets: datasets
     };
     console.log(result);
@@ -386,7 +409,7 @@ var View = React.createClass({
         <TopBar data={dataTopBar} pageTypeName='' />
         <Loading loading={this.state.loading}>
           <div>
-          <Chart data={this.formatChartData()} title={this.state.detailName} />
+          <Chart data={this.formatChartData()} opts={detailOpt[this.state.detail_id]} />
           <ListDetail data={this.state.list} opts={detailOpt[this.state.detail_id]} />
           </div>
         </Loading>
