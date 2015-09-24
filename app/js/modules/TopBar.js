@@ -10,7 +10,8 @@ var height;
 var View = React.createClass({
   getInitialState: function() {
     return {
-      days: AppStore.getPageInfo().days
+      days: AppStore.getPageInfo().days,
+      pageTypeName: this.props.pageTypeName
     }
   },
   componentWillMount: function() {
@@ -25,10 +26,18 @@ var View = React.createClass({
       AppActions.updatePage({days: days});
     }
   },
+  componentWillReceiveProps: function(nextProps) {
+    if ( this.props.pageTypeName !== nextProps.pageTypeName ) {
+      this.setState({
+        pageTypeName: nextProps.pageTypeName
+      })
+    }
+  },
   shouldComponentUpdate: function(nextProps, nextState) {
     //如果天数不变，不要更新(减少渲染次数)
     //此组件是否渲染只跟天数相关，nextProps 发生变动不用 render
-    return nextState.days !== this.state.days;
+    //fixed: 还与 pageTypeName 有关
+    return nextState.days !== this.state.days || nextState.pageTypeName !== this.state.pageTypeName;
   },
   componentDidMount: function() {
     //初始化立即执行一次，但父级页面还未 render 完成时，交互 DOM 会出现误差
@@ -75,10 +84,11 @@ var View = React.createClass({
   },
   render: function() {
     console.log('当前天数: ' + this.state.days);
+    console.log(this.state.pageTypeName)
     var timeInfo = AppStore.getPageInfo().timeInfo;
     var titleText;
-    var text = this.props.pageTypeName + '总体数据';
-    if (this.props.pageTypeName) {
+    var text = this.state.pageTypeName + '总体数据';
+    if (this.state.pageTypeName) {
       text = timeInfo + ' ' + text;
       titleText = (<p className="gray">{text}</p>);
     }

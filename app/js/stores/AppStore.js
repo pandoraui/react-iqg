@@ -10,8 +10,14 @@ var CHANGE_EVENT = 'change';
 
 // headerBar 数据，包括 title
 var _headerData = {
-  title: '统计平台'
+  title: '统计平台',
+  hideHeaderBar: true
 };
+var hostname = location.hostname;
+if ( hostname.match(/^localhost$/) ) {
+  _headerData.hideHeaderBar = false;
+}
+
 var headerData = assign({},_headerData);
 function updateHeader(data) {
   if(data){

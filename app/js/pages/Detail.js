@@ -297,7 +297,6 @@ var View = React.createClass({
 
     for (var i = 0; i < length; i++, j++) {
       temp = data.shift();
-      console.log(temp);
       sumValue += temp.value;
       if (j === 0) {
         startDate = dateUtil.format(temp.date*1000, 'Y年M月D日').replace(year,'');

@@ -172,6 +172,17 @@ gulp.task('watch', function() {
 // 启动预览服务，并监视 Dist 目录变化自动刷新浏览器
 gulp.task('dev', ['default', 'watch'], function () {
   browserSync({
+    // port: 5000, //默认3000
+    // ui: {    //更改默认端口weinre 3001
+    //     port: 5001,
+    //     weinre: {
+    //         port: 9090
+    //     }
+    // },
+    // server: {
+    //   baseDir: 'dist/docs'
+    // },
+    open: "local", //external
     notify: false,
     logPrefix: 'ASK',
     server: 'dist'

@@ -32,8 +32,11 @@ var View = React.createClass({
     console.log(e);
   },
   render: function() {
+    var cssStyle = {
+      display:  this.state.hideHeaderBar ? 'none' : 'block'
+    };
     return (
-      <div className="header-bar">
+      <div className="header-bar" style={cssStyle}>
         <header className="iqg-header iqg-header-default iqg-header-fixed">
           <div className="iqg-header-nav iqg-header-left">
             <a href="#left-link" onClick={this.historyBack}>

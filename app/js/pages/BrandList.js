@@ -274,7 +274,7 @@ var View = React.createClass({
       });
     }
     var params = _.extend({}, this.props.params, params, resetData);
-    
+
     var ajaxParams = {
       days: this.state.days,
       type: this.state.type,
