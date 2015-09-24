@@ -18,7 +18,7 @@ if ( hostname.match(/^localhost$/) ) {
   _headerData.hideHeaderBar = false;
 }
 
-var headerData = assign({},_headerData);
+var headerData = assign({}, _headerData);
 function updateHeader(data) {
   if(data){
     headerData = assign({}, headerData, data);

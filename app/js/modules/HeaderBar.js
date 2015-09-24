@@ -20,7 +20,7 @@ var View = React.createClass({
     //此处要更新一下 TDK，目前只提供 title 的
     //console.log(React.findDOMNode())
     var headerData = AppStore.updateHeader();
-    document.title = headerData.title + '-爱抢购';
+    document.title = headerData.title;
     this.setState(headerData);
   },
   historyBack: function(e) {

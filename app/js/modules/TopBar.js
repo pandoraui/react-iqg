@@ -84,7 +84,6 @@ var View = React.createClass({
   },
   render: function() {
     console.log('当前天数: ' + this.state.days);
-    console.log(this.state.pageTypeName)
     var timeInfo = AppStore.getPageInfo().timeInfo;
     var titleText;
     var text = this.state.pageTypeName + '总体数据';

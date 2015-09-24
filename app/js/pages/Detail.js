@@ -5,6 +5,7 @@ var React = require('react');
 var AppActions = require('../actions/AppActions');
 var AppStore = require('../stores/AppStore');
 var dateUtil = require('../utils/DateUtil');
+var _ = require('lodash');
 
 var TopBar = require('../modules/TopBar');
 var ListDetail = require('../modules/ListDetail');
@@ -180,6 +181,7 @@ var detailOpt = [
     numTitle: '购买率',
     valueTitle: '购买的'
   },
+  {},
   {
     numTitle: '兑换率',
     valueTitle: '兑换数'
@@ -196,6 +198,7 @@ var View = React.createClass({
     var pageInfo = AppStore.getPageInfo();
     var params = this.props.params;
     return {
+      loading: true,
       brand_id: params.brand_id || '',
       branch_id: params.branch_id || '',
       item_id: params.item_id || '',
@@ -230,13 +233,19 @@ var View = React.createClass({
       this.ajaxLoadDetail();
     }
   },
+  componentWillUnmount: function() {
+    AppStore.removeChangeListener(this._onChange);
+  },
   componentWillMount: function() {
     // var headerData = {
     //   title: detailOpt[this.state.detail_id]
     // };
-    AppActions.updateHeader({
-      title: detailOpt[this.state.detail_id]
-    });
+    var title = detailOpt[this.state.detail_id].valueTitle;
+    if (title) {
+      AppActions.updateHeader({
+        title: title
+      });
+    }
   },
   ajaxLoadDetail: function() {
     this.setState({
@@ -246,6 +255,7 @@ var View = React.createClass({
       type: "GET",
       url: $.Api.TJ_DETAIL,
       data: {
+        type: this.props.detail_id,
         days: AppStore.getPageInfo().days,
         cb_id: this.state.item_id,
         branch_id: this.state.branch_id,
@@ -295,18 +305,19 @@ var View = React.createClass({
         year = nowDate.getFullYear() + '年';
     var month = '';
 
-    for (var i = 0; i < length; i++, j++) {
+    for (var i = 0; i < length; i++) {
       temp = data.shift();
       sumValue += temp.value;
       if (j === 0) {
         startDate = dateUtil.format(temp.date*1000, 'Y年M月D日').replace(year,'');
         month = dateUtil.format(temp.date*1000, 'M月');
       }
+      j++;
       if (j === 6 || i === length-1) {
         endDate = dateUtil.format(temp.date*1000, 'Y年M月D日').replace(year,'').replace(month,'');
         //处理一下只有一天的起止日期
         if (startDate == endDate || (length%7 == 1 && i == length - 1 ) ) {
-          tempDate = startDate
+          tempDate = startDate;
         } else {
           tempDate = startDate + '-' + endDate;
         }
@@ -324,7 +335,7 @@ var View = React.createClass({
     };
   },
   formatChartData: function(days, opts) {
-    var data = this.state.list || [],
+    var data = _.sortBy(_.clone(this.state.list),'date') || [],
         days = this.state.days,
         labels = [],
         datasets = [];
@@ -374,8 +385,10 @@ var View = React.createClass({
       <div className="iqg-page">
         <TopBar data={dataTopBar} pageTypeName='' />
         <Loading loading={this.state.loading}>
+          <div>
           <Chart data={this.formatChartData()} title={this.state.detailName} />
           <ListDetail data={this.state.list} opts={detailOpt[this.state.detail_id]} />
+          </div>
         </Loading>
       </div>
     );

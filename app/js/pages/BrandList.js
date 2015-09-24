@@ -192,7 +192,7 @@ var View = React.createClass({
     if ( this.isChange('days') ) {
       this.ajaxLoadOverview();
     }
-    if ( !this.isItemPage() && (this.isChange('type') || this.isChange('order_by') ) ) {
+    if ( !this.isItemPage() && (this.isChange('days') || this.isChange('type') || this.isChange('order_by') ) ) {
       this.ajaxLoadList();
     }
     this.setState({
