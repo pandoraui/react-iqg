@@ -212,6 +212,7 @@ var View = React.createClass({
       days: pageInfo.days,
       pageType: 'brand',
       pageTypeName: '品牌',
+      valueSum: 0,
       list: []
     };
   },
@@ -241,6 +242,12 @@ var View = React.createClass({
     AppStore.removeChangeListener(this._onChange);
   },
   componentWillMount: function() {
+    var title = this.props.query && this.props.query.title || '推广效果';
+    if (title != AppStore.getPageInfo().title ) {
+      AppActions.updateHeader({
+        title: title
+      });
+    }
     // var headerData = {
     //   title: detailOpt[this.state.detail_id]
     // };
@@ -252,6 +259,7 @@ var View = React.createClass({
     // }
   },
   ajaxLoadDetail: function() {
+    console.warn('ajax');
     this.setState({
       loading: true
     });
@@ -276,22 +284,38 @@ var View = React.createClass({
           //   //headerData.time = response.status.server_time;
           //   AppActions.updateHeader(headerData);
           // }
+          var stockSum = 0,
+              valueSum = 0,
+              isPercent = false;
           var list = response.data.list;
           if ( list[0] && list[0].stock !== 'undefined' ) {
-            list.forEach(function(item, i) {
-              var percent = '0%';
+            isPercent = true;
+          }
 
+          list.forEach(function(item, i) {
+            var percent = '0%';
+
+            if (isPercent) {
+              list[i].stock = item.stock* 10000;
               if (item.stock) {
-                percent = this.formatNumber(item.value/item.stock);
+                percent = this.formatNumber(item.value/item.stock, '');
               } else {
                 percents.push( '0%' );
               }
               list[i].percent = percent;
+              stockSum += parseInt(item.stock);
+            }
 
-            }.bind(this) )
-          }
+            valueSum += parseInt(item.value);
+          }.bind(this) );
+
+          // list.valueSum = valueSum;
+          // if (isPercent) {
+          //   list.stockSum =  this.formatNumber(valueSum/stockSum, '');
+          // }
 
           this.setState({
+            valueSum: valueSum,
             list: list,
             loading: false
           });
@@ -317,8 +341,9 @@ var View = React.createClass({
   //按自然周准备数据
   getDataByWeek: function(length, data) {
     var labels = [],
+        percents = [],
         datasets = [];
-    var temp, startDate, endDate, sumValue = 0, tempDate;
+    var temp, startDate, endDate, sumValue = 0, sumStock = 0, tempDate;
     var j = 0;
     var nowDate = new Date(),
         year = nowDate.getFullYear() + '年';
@@ -327,6 +352,9 @@ var View = React.createClass({
     for (var i = 0; i < length; i++) {
       temp = data.shift();
       sumValue += temp.value;
+      if (temp.stock !== 'undefined') {
+        sumStock += temp.stock || 0;
+      }
       if (j === 0) {
         startDate = dateUtil.format(temp.date*1000, 'Y年M月D日').replace(year,'');
         month = dateUtil.format(temp.date*1000, 'M月');
@@ -342,6 +370,10 @@ var View = React.createClass({
         }
         labels.push(tempDate);
         datasets.push(sumValue);
+        console.log(sumStock)
+        if (sumStock) {
+          percents.push( this.formatNumber(sumValue/sumStock, '') );
+        }
 
         sumValue = 0;
         j = 0;
@@ -350,6 +382,7 @@ var View = React.createClass({
 
     return {
       labels: labels,
+      percents: percents,
       datasets: datasets
     };
   },
@@ -396,6 +429,8 @@ var View = React.createClass({
 
     var result = {
       title: pageInfo.title,
+      valueSum: data.valueSum,
+      stockSum: data.stockSum,
       labels: labels,
       percents: percents,
       datasets: datasets
@@ -404,15 +439,17 @@ var View = React.createClass({
     return result;
   },
   render: function() {
+    var detailHtml = this.state.loading ? (<Loading loading={this.state.loading}></Loading>) : (
+      <div>
+        <Chart data={this.formatChartData()}
+               valueSum={this.state.valueSum}
+               opts={detailOpt[this.state.detail_id]} />
+        <ListDetail data={this.state.list} opts={detailOpt[this.state.detail_id]} />
+      </div>);
     return (
       <div className="iqg-page">
         <TopBar data={dataTopBar} pageTypeName='' />
-        <Loading loading={this.state.loading}>
-          <div>
-          <Chart data={this.formatChartData()} opts={detailOpt[this.state.detail_id]} />
-          <ListDetail data={this.state.list} opts={detailOpt[this.state.detail_id]} />
-          </div>
-        </Loading>
+        {detailHtml}
       </div>
     );
   }

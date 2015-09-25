@@ -15,7 +15,7 @@ var View = React.createClass({
       var date = dateUtil.format(item.date*1000, 'Y年M月D日').replace(year, '');
       return (
         <li>
-          <span className="num">{item.percent}</span>
+          <span className="num">{item.percent}%</span>
           <span className="value">{item.value}</span>
           <span className="time">{date}</span>
         </li>

@@ -213,7 +213,6 @@ var View = React.createClass({
     });
   },
   componentWillReceiveProps: function(nextProps) {
-    console.log('componentWillReceiveProps');
     //判断 params 参数是否发生变化
     if ( !_.isEqual(this.props.params, nextProps.params) ) {
       this.updateHeader(nextProps);

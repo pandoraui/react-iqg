@@ -46,23 +46,49 @@ var chartData = {
 var chartOptions = {
 };
 
+var dataType = 'datasets';
+
 var View = React.createClass({
+  getInitialState: function() {
+    console.warn(dataType);
+    if (!this.props.opts.numTitle) {
+      dataType = 'datasets';
+    }
+    return {
+      dataType: dataType
+    };
+  },
+  handleClick: function() {
+    if (!this.props.opts.numTitle) {
+      return;
+    }
+    dataType = this.state.dataType === 'datasets' ? 'percents' : 'datasets';
+    this.setState({
+      dataType: dataType
+    });
+  },
   render: function() {
     var data = this.props.data,
         length = data.datasets.length,
-        sum = 0;
+        title,
+        sum;
+
     chartData.labels = data.labels;
-    chartData.datasets[0].data = data.datasets;
-    if(length){
-      sum = data.datasets.reduce(function(a, b) {
-        return parseInt(a) + parseInt(b);
-      });
+    if (this.state.dataType !== 'percents') {
+      chartData.datasets[0].data = data.datasets;
+      if(length){
+        sum = this.props.valueSum;
+      }
+      title = this.props.opts.valueTitle + '('+ sum +')';
+    } else {
+      chartData.datasets[0].data = data.percents;
+      title = this.props.opts.numTitle + '(%)';
     }
-    var title = this.props.opts.valueTitle;
+
     var canvasWidth = length>8 ? 30*length : 280;
     return (
       <div className="iqg-chart">
-        <h3>{title}（{sum}）{this.props.opts.numTitle}</h3>
+        <h3 onClick={this.handleClick}>{title}</h3>
         <div className="chart-box">
           <div className="scroll-box">
             <LineChart data={chartData} options={chartOptions} width={canvasWidth} height="280" />

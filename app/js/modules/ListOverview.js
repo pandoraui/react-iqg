@@ -5,11 +5,6 @@ var React = require('react');
 var AppActions = require('../actions/AppActions');
 
 var View = React.createClass({
-  handleClick: function(title) {
-    AppActions.updateHeader({
-      title: title
-    });
-  },
   renderMap: function() {
     var data = this.props.data,
         params = this.props.params || {};
@@ -28,7 +23,7 @@ var View = React.createClass({
         return;
       }
       return (
-        <a className="link-block" href={link} onClick={this.handleClick.bind(this, item.name)}>
+        <a className="link-block" href={link} >
           <div className="item">
             <span className="num">{item.value}</span>
             <span className="title">{item.name}</span>

@@ -8,11 +8,6 @@ var FormatData = require('../mixins/FormatData');
 var View = React.createClass({
   mixins: [FormatData],
 
-  handleClick: function(title) {
-    AppActions.updateHeader({
-      title: title
-    });
-  },
   renderMap: function() {
     var list = this.props.data,
         params = this.props.params;
@@ -30,10 +25,10 @@ var View = React.createClass({
       var cssStyle = {
         width: item.rating * 20 + '%'
       };
-      var outValue = isPercentValue ? ( this.formatNumber(item.value) ) : item.value;
+      var outValue = isPercentValue ? ( this.formatNumber(item.value, '%') ) : item.value;
       var name = item.name;
       return (
-        <a className="link-block" href={link} onClick={this.handleClick.bind(this, name)}>
+        <a className="link-block" href={link} >
           <div className="item">
             <span className="num">{outValue}</span>
             <div className="title">
