@@ -57,6 +57,8 @@ var Router = require('react-router');
 var routes = require('./routes');
 
 /*
+Router.run(routes, Router.HistoryLocation, callback);
+
 <Route path="/" handler={App}>
   // When the url is `/`, this route will be active.
   <DefaultRoute handler={Home}/>
@@ -71,10 +73,27 @@ var routes = require('./routes');
   </Route>
 </Route>
 */
+//
+// function hashListener(state) {
+//   window.addEventListener('popstate', function(e){
+//     console.warn('popstate')
+//     console.warn(history.state)
+//     if (history.state){
+//       var state = e.state;
+//       console.log('hash 变化')
+//       console.log(state)
+//       //do something(state.url, state.title);
+//     }
+//   });
+// };
+
+
+
 //    // Router.HashLocation,
 document.addEventListener('DOMContentLoaded', function() {
   Router.run(routes,
-    function(Handler) {
-      React.render(<Handler />, document.body);
+    Router.HashLocation,
+    function(Root, state) {
+      React.render(<Root />, document.body);
     });
 });

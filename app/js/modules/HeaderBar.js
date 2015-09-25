@@ -31,6 +31,14 @@ var View = React.createClass({
     e.preventDefault();
     console.log(e);
   },
+  /*
+
+  <div className="iqg-header-nav iqg-header-right">
+    <a href="#right-link" onClick={this.onSelect}>
+      <span className="iqg-icon-bars iqg-header-icon" icon="bars"></span>
+    </a>
+  </div>
+  */
   render: function() {
     var cssStyle = {
       display:  this.state.hideHeaderBar ? 'none' : 'block'
@@ -44,11 +52,6 @@ var View = React.createClass({
             </a>
           </div>
           <h1 className="iqg-header-title">{this.state.title}</h1>
-          <div className="iqg-header-nav iqg-header-right">
-            <a href="#right-link" onClick={this.onSelect}>
-              <span className="iqg-icon-bars iqg-header-icon" icon="bars"></span>
-            </a>
-          </div>
         </header>
       </div>
     );

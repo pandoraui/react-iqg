@@ -244,12 +244,12 @@ var View = React.createClass({
     // var headerData = {
     //   title: detailOpt[this.state.detail_id]
     // };
-    var title = detailOpt[this.state.detail_id].valueTitle;
-    if (title) {
-      AppActions.updateHeader({
-        title: title
-      });
-    }
+    // var title = detailOpt[this.state.detail_id].valueTitle;
+    // if (title) {
+    //   AppActions.updateHeader({
+    //     title: title
+    //   });
+    // }
   },
   ajaxLoadDetail: function() {
     this.setState({

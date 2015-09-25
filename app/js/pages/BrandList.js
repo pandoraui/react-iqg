@@ -16,7 +16,7 @@ var $ = require('../utils/Ajax');
 var _ = require('lodash');
 
 var headerData = {
-  title: '品牌'
+  title: '推广效果'
 };
 
 var dataTopBar = {
@@ -39,7 +39,7 @@ var dataTopBar = {
     value: 90
   }
 ]};
-
+/*
 var dataOverview = [
   {
     id: 1,
@@ -111,6 +111,7 @@ var dataList = {
       rating: 4.5
     }
 ]};
+*/
 
 var View = React.createClass({
   getInitialState: function() {
@@ -132,11 +133,11 @@ var View = React.createClass({
   },
   //此处每次更新组件时，可以用来做数据变更检查，赋予初始值
   componentWillMount: function() {
-    var params = this.props.params;
-    this.updateHeader(params);
+    this.updateHeader(this.props);
   },
-  updateHeader: function(params) {
-    var pageType = '',
+  updateHeader: function(nextProps) {
+    var params = nextProps.params,
+        pageType = '',
         pageTypeName = '';
     if (params.item_id) {
       pageType = 'item';
@@ -154,6 +155,12 @@ var View = React.createClass({
     }
     //这里要检查更新 pageType 以及页面参数
     console.log('页面参数变化');
+    var title = nextProps.query && nextProps.query.title || '推广效果';
+    if (title != AppStore.getPageInfo().title ) {
+      AppActions.updateHeader({
+        title: title
+      });
+    }
     if (this.state.pageType !== pageType) {
       this.setState({
         last_id: 0,
@@ -167,7 +174,7 @@ var View = React.createClass({
     AppStore.addChangeListener(this._onChange);
 
     console.log("当前页面类型："+this.state.pageType);
-    AppActions.updateHeader(headerData);
+    //AppActions.updateHeader(headerData);
     this.setState({
       loading: true,
       loading2: true,
@@ -209,7 +216,7 @@ var View = React.createClass({
     console.log('componentWillReceiveProps');
     //判断 params 参数是否发生变化
     if ( !_.isEqual(this.props.params, nextProps.params) ) {
-      this.updateHeader(nextProps.params);
+      this.updateHeader(nextProps);
       this.ajaxLoadOverview(nextProps.params);
       !this.isItemPage() && this.ajaxLoadList(nextProps.params);
     }
@@ -236,12 +243,12 @@ var View = React.createClass({
       success: function(response, status, xhr) {
         if(this.isMounted()){
           var title = response.data.title;
-          //更新头部
-          if(title && (title != headerData.title) ){
-            headerData.title = title;
-            //headerData.time = response.status.server_time;
-            AppActions.updateHeader(headerData);
-          }
+          //拉取数据不更新头部，第一次直接 native 设置
+          // if(title && (title != headerData.title) ){
+          //   headerData.title = title;
+          //   //headerData.time = response.status.server_time;
+          //   AppActions.updateHeader(headerData);
+          // }
           this.setState({
             dataOverview: response.data.list,
             loading: false

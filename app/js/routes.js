@@ -11,13 +11,21 @@ var NotFoundRoute = Router.NotFoundRoute;
 var Application = require('./pages/Application');
 var Index = require('./pages/Index');
 var BrandList = require('./pages/BrandList');
-var BranchList = require('./pages/BranchList');
-var ItemList = require('./pages/ItemList');
-var Chart = require('./pages/Chart');
+// var BranchList = require('./pages/BranchList');
+// var ItemList = require('./pages/ItemList');
+// var Chart = require('./pages/Chart');
 var Detail = require('./pages/Detail');
-var Ajax = require('./pages/Ajax');
-var Test = require('./pages/Test');
+// var Ajax = require('./pages/Ajax');
+// var Test = require('./pages/Test');
 var NotFound = require('./pages/NotFound');
+
+
+/*
+<Route name="chart" handler={Chart}/>
+
+<Route name="ajax" path="ajax" handler={Ajax}/>
+<Route name="test" path="test" handler={Test}/>
+*/
 
 var routes = (
   <Route name="home" path="/" handler={Application}>
@@ -28,11 +36,6 @@ var routes = (
     <Route name="detailBrand" path="/brand/:brand_id/detail/:detail_id" handler={Detail}/>
     <Route name="detailBranch" path="/brand/:brand_id/branch/:branch_id/detail/:detail_id" handler={Detail}/>
     <Route name="detailItem" path="/brand/:brand_id/branch/:branch_id/item/:item_id/detail/:detail_id" handler={Detail}/>
-
-    <Route name="chart" handler={Chart}/>
-
-    <Route name="ajax" path="ajax" handler={Ajax}/>
-    <Route name="test" path="test" handler={Test}/>
 
     <NotFoundRoute handler={NotFound} />
   </Route>

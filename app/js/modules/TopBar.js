@@ -50,9 +50,12 @@ var View = React.createClass({
     //这里要更新滚动悬浮的盒子高度，针对不同的设备，切换的不同天数，导致换行，高度要动态变化；
     var time = time || 0;
     var self = this;
+    var fixboxDom = React.findDOMNode(self.refs.fixbox);
+    var fixOutboxDom = React.findDOMNode(self.refs.fixOutbox);
     setTimeout(function(){
-      var height = React.findDOMNode(self.refs.fixbox).offsetHeight;
-      React.findDOMNode(self.refs.fixOutbox).setAttribute("style", 'height:' + height + 'px');
+      var height = fixboxDom.offsetHeight;
+      var top = fixboxDom.offsetTop;
+      fixOutboxDom.setAttribute("style", ('height:' + height + 'px;top:' + top + 'px;'));
     }, time);
   },
   handleClick: function(newDays) {

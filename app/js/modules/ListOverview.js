@@ -5,6 +5,11 @@ var React = require('react');
 var AppActions = require('../actions/AppActions');
 
 var View = React.createClass({
+  handleClick: function(title) {
+    AppActions.updateHeader({
+      title: title
+    });
+  },
   renderMap: function() {
     var data = this.props.data,
         params = this.props.params || {};
@@ -18,19 +23,19 @@ var View = React.createClass({
     }
     console.log(params);
     return data.map(function(item) {
-      var link = preLink + "/detail/" + item.type;
+      var link = preLink + "/detail/" + item.type + '?title=' + item.name;
       if (item.type === 6 || item.type === 8) {
         return;
       }
       return (
-        <a className="link-block" href={link}>
+        <a className="link-block" href={link} onClick={this.handleClick.bind(this, item.name)}>
           <div className="item">
             <span className="num">{item.value}</span>
             <span className="title">{item.name}</span>
           </div>
         </a>
       );
-    });
+    }.bind(this) );
   },
   render: function() {
     return (
