@@ -32,9 +32,18 @@ var paths = {
   dist: {
     base: 'dist',
     js: 'dist/js',
+    venders: 'dist/venders',
     css: 'dist/css',
     i: 'dist/i',
     fonts: 'dist/fonts'
+  },
+  venders: {
+    src: [
+      // './node_modules/react/dist/react-with-addons.min.js',
+      //'./node_modules/lodash/index.js',
+      './node_modules/react/dist/react.min.js'
+    ],
+    app: 'app/venders'
   }
 };
 
@@ -58,14 +67,39 @@ gulp.task('images', function () {
     .pipe($.size({title: 'images'}));
 });
 
+// 拷贝相关外部依赖
+gulp.task('copy:venders', function () {
+  return gulp.src(
+    paths.venders.src, {
+    dot: true
+  })
+  // .pipe($.rename(function(path){
+  //   if (path.basename === 'index') {
+  //     path.basename = 'lodash';
+  //   }
+  // }))
+  // lodash 太大了，uglify 之后还 51k,所以不全部引用了，按需引用
+  // .pipe($.uglify())
+  .pipe(gulp.dest(function(file) {
+    var filePath = file.path.toLowerCase();
+    console.log(filePath)
+    // if (filePath.indexOf('lodash/index.js') > -1) {
+    //   filePath = filePath.replace('index','lodash')
+    // }
+    return paths.venders.app;
+  }))
+    .pipe($.size({title: 'copy:venders'}));
+});
 // 拷贝相关资源
 gulp.task('copy', function () {
   return gulp.src([
-    'app/*',
+    'app/**/*',
     '!app/*.html',
-    '!app/js',
+    '!app/js/**/*',
+    // '!app/venders',
+    // '!app/i',
     '!app/less',
-    '!app/i',
+    '!app/less/*',
     'bower_components/pure/pure-min.css'
   ], {
     dot: true
@@ -74,7 +108,7 @@ gulp.task('copy', function () {
     if (filePath.indexOf('.css') > -1) {
       return paths.dist.css;
     } else if (filePath.indexOf('fontawesome') > -1) {
-      return paths.dist.fonts;
+      return paths.dist.base;
     }
     return paths.dist.base;
   }))
@@ -104,6 +138,14 @@ var b = browserify({
 
 
 /*
+browserify . -d -o bundle.js
+
+venders: [
+  './node_modules/losash/index.js',
+  // './node_modules/react/dist/react-with-addons.min.js',
+  './node_modules/react/dist/react.min.js'
+],
+
 debug: true是告知Browserify在运行同时生成内联sourcemap用于调试。
 引入gulp-sourcemaps并设置loadMaps: true是为了读取上一步得到的内联sourcemap，并将其转写为一个单独的sourcemap文件。
 vinyl-source-stream用于将Browserify的bundle()的输出转换为Gulp可用的vinyl（一种虚拟文件格式）流。
@@ -125,7 +167,7 @@ var bundle = function() {
       .on('error', $.util.log.bind($.util, 'Browserify Error'))
       .pipe(source('app.js'))
       .pipe(buffer())
-      // .pipe($.sourcemaps.init({loadMaps: true}))
+      // .pipe($.sourcemaps.init())
       // .pipe($.sourcemaps.write("."))
       .pipe(gulp.dest(paths.dist.js))
       .pipe($.size({title: 'script'}))
@@ -158,7 +200,12 @@ gulp.task('html', function () {
 
 // 洗刷刷
 gulp.task('clean', function(cb) {
-  del(['dist/*', '!dist/.git', '!dist/fonts', '!dist/venders'], {dot: true}, cb);
+  del([
+    'dist/*',
+    //'!dist/fonts',
+    //'!dist/venders',
+    '!dist/.git'
+  ], {dot: true}, cb);
 });
 
 // 监视源文件变化自动cd编译
@@ -194,5 +241,102 @@ gulp.task('dev', ['default', 'watch'], function () {
 // 默认任务
 gulp.task('default', function (cb) {
   //runSequence('clean', ['styles', 'jshint', 'html', 'images', 'copy', 'browserify'], cb);
-  runSequence('clean', ['styles', 'html', 'images', 'copy', 'browserify'], cb);
+  runSequence('clean', ['styles', 'html', 'images', 'copy:venders', 'copy', 'browserify'], cb);
 });
+
+
+
+
+/*
+
+### 开发
+
+    gulp dev
+
+### 生产环境构建
+设置 Node 环境变量为 production 后，HTML 中引用的 CSS 和 JS 会替换为 minify 的版本。
+
+    NODE_ENV=production gulp
+
+
+
+
+    gulp.task('javascript', function () {
+      // set up the browserify instance on a task basis
+      var b = browserify({
+        entries: './entry.js',
+        debug: true
+      });
+
+      return b.bundle()
+        .pipe(source('app.js'))
+        .pipe(buffer())
+        .pipe(sourcemaps.init({loadMaps: true}))
+            // Add transformation tasks to the pipeline here.
+            .pipe(uglify())
+            .on('error', gutil.log)
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest('./dist/js/'));
+    });
+
+
+    {
+      "browserify": {
+        "transform": [ "browserify-shim" ]
+      },
+      "browser": {
+        "x"    :  "./vendor/x.js",
+        "x-ui" :  "./vendor/x-ui.js",
+        "y"    :  "./vendor/y.js",
+        "z"    :  "./vendor/z.js"
+      },
+       "browserify-shim": {
+        "x"    :  "$",
+        "x-ui" :  { "depends": [ "x" ] },
+        "y"    :  { "exports": "Y", "depends": [ "x:$" ] },
+        "z"    :  { "exports": "zorro", "depends": [ "x:$", "y:YNOT" ] }
+      }
+    }
+
+
+
+    "peerDependencies": {
+      "react": "*",
+      "chart.js": "*"
+    },
+    "browser": {},
+    "browserify-shim": {
+      "react": "global:React",
+      "lodash": "global:_",
+      "chart": "global:Chart"
+    }
+
+
+    {
+      "browserify": {
+        "transform": [ "browserify-shim" ]
+      },
+      "browserify-shim": "./config/shim.js"
+    }
+
+    module.exports = {
+      '../vendor/x.js'    :  { 'exports': '$' },
+      '../vendor/x-ui.js' :  { 'depends': { '../vendor/x.js': null } },
+      '../vendor/y.js'    :  { 'exports': 'Y', 'depends': { '../vendor/x.js': '$' } },
+      '../vendor/z.js'    :  { 'exports': 'zorro', 'depends': { '../vendor/x.js': '$', '../vendor/y.js': 'YNOT' } }
+    }
+
+    //上传到远程服务器任务
+    gulp.task('upload', function () {
+        return gulp.src('./build/**')
+            .pipe($.sftp({
+                host: config.sftp.host,
+                user: config.sftp.user,
+                port: config.sftp.port,
+                key: config.sftp.key,
+                remotePath: config.sftp.remotePath
+            }));
+    });
+
+
+*/

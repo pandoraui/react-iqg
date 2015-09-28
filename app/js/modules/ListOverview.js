@@ -6,7 +6,7 @@ var AppActions = require('../actions/AppActions');
 
 var View = React.createClass({
   renderMap: function() {
-    var data = this.props.data,
+    var data = this.props.data || [],
         params = this.props.params || {};
 
     var preLink = '#/brand/' + params.brand_id;
@@ -17,7 +17,7 @@ var View = React.createClass({
       }
     }
     console.log(params);
-    return data.map(function(item) {
+    return !data.length ? (<p className="blank">暂无数据</p>) : data.map(function(item) {
       var link = preLink + "/detail/" + item.type + '?title=' + item.name;
       if (item.type === 6 || item.type === 8) {
         return;

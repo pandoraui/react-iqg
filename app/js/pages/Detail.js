@@ -6,7 +6,8 @@ var AppActions = require('../actions/AppActions');
 var AppStore = require('../stores/AppStore');
 var FormatData = require('../mixins/FormatData');
 var dateUtil = require('../utils/DateUtil');
-var _ = require('lodash');
+// var _ = require('lodash');
+var _ = require('../utils/Lodash');
 
 var TopBar = require('../modules/TopBar');
 var ListDetail = require('../modules/ListDetail');

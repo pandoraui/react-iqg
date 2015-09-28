@@ -13,7 +13,8 @@ var SubTitle = require('../modules/SubTitle');
 
 var Loading = require('../modules/Loading');
 var $ = require('../utils/Ajax');
-var _ = require('lodash');
+// var _ = require('lodash');
+var _ = require('../utils/Lodash');
 
 var headerData = {
   title: '推广效果'
@@ -300,9 +301,9 @@ var View = React.createClass({
       success: function(response, status, xhr) {
         if(this.isMounted()){
           var curListInfo = {},
-              types = response.data.types;
+              types = response.data.types || [];
 
-          var tempList = response.data.list;
+          var tempList = response.data.list || [];
           //如果是翻页操作，不更新其他 state，只更新数据
           if (this.state.last_id) {
             tempList = this.state.dataList.concat(tempList);

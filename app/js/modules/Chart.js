@@ -50,13 +50,15 @@ var dataType = 'datasets';
 
 var View = React.createClass({
   getInitialState: function() {
-    console.warn(dataType);
-    if (!this.props.opts.numTitle) {
+    if ( this.hasPercent() ) {
       dataType = 'datasets';
     }
     return {
       dataType: dataType
     };
+  },
+  hasPercent: function() {
+    return !!this.props.opts.numTitle;
   },
   handleClick: function() {
     if (!this.props.opts.numTitle) {
@@ -71,24 +73,33 @@ var View = React.createClass({
     var data = this.props.data,
         length = data.datasets.length,
         title,
+        percents = [],
+        percentsTitle = '',
         sum;
 
     chartData.labels = data.labels;
+    chartData.datasets[0].data = data.datasets;
+    if(length){
+      sum = this.props.valueSum;
+    }
+    title = this.props.opts.valueTitle + '('+ sum +')';
+
+    var selectClass;
+    if ( this.hasPercent() ) {
+      percents = chartData.datasets[0].data = data.percents;
+      percentsTitle = this.props.opts.numTitle + '(%)';
+      percentsTitle = '<span onClick={this.handleClick}>' + percentsTitle + '</span>';
+    }
     if (this.state.dataType !== 'percents') {
-      chartData.datasets[0].data = data.datasets;
-      if(length){
-        sum = this.props.valueSum;
-      }
-      title = this.props.opts.valueTitle + '('+ sum +')';
+      title = '<span className="strong">'+ title +'</span>' + percentsTitle;
     } else {
-      chartData.datasets[0].data = data.percents;
-      title = this.props.opts.numTitle + '(%)';
+      title = '<span onClick={this.handleClick}>'+ title +'</span> <span className="strong">' + percentsTitle + '</span>';
     }
 
     var canvasWidth = length>8 ? 30*length : 280;
     return (
       <div className="iqg-chart">
-        <h3 onClick={this.handleClick}>{title}</h3>
+        <h3>{title}</h3>
         <div className="chart-box">
           <div className="scroll-box">
             <LineChart data={chartData} options={chartOptions} width={canvasWidth} height="280" />

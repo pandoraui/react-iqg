@@ -47,6 +47,10 @@
     "gulp-uglify": "^1.0.1",
     "gulp-util": "^3.0.4",
     "keymirror": "^0.1.1",
+    "lodash.assign": "^3.2.0",
+    "lodash.clone": "^3.0.3",
+    "lodash.isequal": "^3.0.4",
+    "lodash.sortby": "^3.1.5",
     "npm-zepto": "^1.1.7",
     "object-assign": "^4.0.1",
     "qwest": "^2.0.7",
@@ -65,6 +69,7 @@
     "react": "*",
     "chart.js": "*"
   },
+  "browser": {},
   "browserify-shim": {
     "react": "global:React",
     "chart": "global:Chart"
