@@ -288,7 +288,9 @@ var View = React.createClass({
           var stockSum = 0,
               valueSum = 0,
               isPercent = false;
-          var list = response.data.list || [];
+
+          var defaultList = this.props.query.debug ? dataListDetail : [];
+          var list = response.data.list || defaultList || [];
           if ( list[0] && list[0].stock !== 'undefined' ) {
             isPercent = true;
           }
