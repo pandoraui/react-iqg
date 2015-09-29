@@ -440,12 +440,13 @@ var View = React.createClass({
     return result;
   },
   render: function() {
+    var typeId = 5;//this.state.detail_id;
     var detailHtml = this.state.loading ? (<Loading loading={this.state.loading}></Loading>) : (
       <div>
         <Chart data={this.formatChartData()}
                valueSum={this.state.valueSum}
-               opts={detailOpt[this.state.detail_id]} />
-        <ListDetail data={this.state.list} opts={detailOpt[this.state.detail_id]} />
+               opts={detailOpt[typeId]} />
+        <ListDetail data={this.state.list} opts={detailOpt[typeId]} />
       </div>);
     return (
       <div className="iqg-page">

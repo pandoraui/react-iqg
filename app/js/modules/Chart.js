@@ -93,7 +93,10 @@ var View = React.createClass({
       }
       return (<h3><span className="strong">{title}</span> {percentsTitle}</h3>);
     } else {
-      return (<h3><span onClick={this.handleClick}>{title}</span> <span className="strong">{percentsTitle}</span></h3>);
+      if ( this.hasPercent() ) {
+        percentsTitle = (<span className="strong">{percentsTitle}</span>);
+      }
+      return (<h3><span onClick={this.handleClick}>{title}</span> {percentsTitle}</h3>);
     }
 
     //(<span className="strong">{title}</span>{percentsTitle});
@@ -104,7 +107,13 @@ var View = React.createClass({
         length = data.datasets.length;
 
     chartData.labels = data.labels;
-    chartData.datasets[0].data = data.datasets;
+    //chartData.datasets[0].data = data.datasets;
+
+    if (this.state.dataType !== 'percents') {
+      chartData.datasets[0].data = data.datasets;
+    } else {
+      chartData.datasets[0].data = data.percents;
+    }
 
     var canvasWidth = length>8 ? 30*length : 280;
     return (
