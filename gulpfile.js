@@ -6,6 +6,7 @@
 
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
+var md5 = require('gulp-md5-plus');
 var del = require('del');
 var runSequence = require('run-sequence');
 var browserSync = require('browser-sync');
@@ -37,6 +38,7 @@ var paths = {
     i: 'dist/i',
     fonts: 'dist/fonts'
   },
+  quoteSrc: 'dist/index.html',
   venders: {
     src: [
       // './node_modules/react/dist/react-with-addons.min.js',
@@ -175,6 +177,7 @@ var bundle = function() {
 
   return !isProduction ? s : s.pipe($.uglify())
     .pipe($.rename({suffix: '.min'}))
+    .pipe(md5(10, paths.quoteSrc))
     .pipe(gulp.dest(paths.dist.js))
     .pipe($.size({
       title: 'script minify'

@@ -38,6 +38,7 @@
     "gulp-imagemin": "^2.0.0",
     "gulp-less": "^3.0.2",
     "gulp-load-plugins": "^0.10.0",
+    "gulp-md5-plus": "^0.1.7",
     "gulp-minify-html": "0.1.5",
     "gulp-plumber": "^1.0.1",
     "gulp-rename": "^1.2.2",

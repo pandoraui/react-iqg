@@ -40,129 +40,129 @@ var dataTopBar = {
 
 var dataListDetail = [
   {
-    time: '8月1日',
+    date: 1443492376,
     value: 123,
-    num: 0.45
+    stock: 1000
   },
   {
-    time: '8月5日~12日',
+    date: 1443492376,
     value: 164,
-    num: 0.12
+    stock: 1000
   },
   {
-    time: '9月26日~9月3',
+    date: 1443492376,
     value: 454,
-    num: 0.22
+    stock: 1000
   },
   {
-    time: '10月1日',
+    date: 1443492376,
     value: 334,
-    num: 0.54
+    stock: 1000
   },
   {
-    time: '10月5日~12日',
+    date: 1443492376,
     value: 530,
-    num: 0.42
+    stock: 1000
   },
   {
-    time: '10月26日~9月3日',
+    date: 1443492376,
     value: 1254,
-    num: 0.12
+    stock: 1000
   },
   {
-    time: '11月1日',
+    date: 1443492376,
     value: 1534,
-    num: 0.54
+    stock: 1000
   },
   {
-    time: '8月5日~12日',
+    date: 1443492376,
     value: 164,
-    num: 0.12
+    stock: 1000
   },
   {
-    time: '9月26日~9月3',
+    date: 1443492376,
     value: 454,
-    num: 0.22
+    stock: 1000
   },
   {
-    time: '10月1日',
+    date: 1443492376,
     value: 334,
-    num: 0.54
+    stock: 1000
   },
   {
-    time: '10月5日~12日',
+    date: 1443492376,
     value: 530,
-    num: 0.42
+    stock: 1000
   },
   {
-    time: '10月26日~9月3日',
+    date: 1443492376,
     value: 1254,
-    num: 0.12
+    stock: 1000
   },
   {
-    time: '11月1日',
+    date: 1443492376,
     value: 1534,
-    num: 0.54
+    stock: 1000
   },
   {
-    time: '8月5日~12日',
+    date: 1443492376,
     value: 164,
-    num: 0.12
+    stock: 1000
   },
   {
-    time: '9月26日~9月3',
+    date: 1443492376,
     value: 454,
-    num: 0.22
+    stock: 1000
   },
   {
-    time: '10月1日',
+    date: 1443492376,
     value: 334,
-    num: 0.54
+    stock: 1000
   },
   {
-    time: '10月5日~12日',
+    date: 1443492376,
     value: 530,
-    num: 0.42
+    stock: 1000
   },
   {
-    time: '10月26日~9月3日',
+    date: 1443492376,
     value: 1254,
-    num: 0.12
+    stock: 1000
   },
   {
-    time: '11月1日',
+    date: 1443492376,
     value: 1534,
-    num: 0.54
+    stock: 1000
   },
   {
-    time: '8月5日~12日',
+    date: 1443492376,
     value: 164,
-    num: 0.12
+    stock: 1000
   },
   {
-    time: '9月26日~9月3',
+    date: 1443492376,
     value: 454,
-    num: 0.22
+    stock: 1000
   },
   {
-    time: '10月1日',
+    date: 1443492376,
     value: 334,
-    num: 0.54
+    stock: 1000
   },
   {
-    time: '10月5日~12日',
+    date: 1443492376,
     value: 530,
-    num: 0.42
+    stock: 1000
   },
   {
-    time: '10月26日~9月3日',
+    date: 1443492376,
     value: 1254,
-    num: 0.12
+    stock: 1000
   },
   {
-    time: '11月1日',
+    date: 1443492376,
     value: 1534,
-    num: 0.54
+    stock: 1000
   }
 ];
 
@@ -288,7 +288,7 @@ var View = React.createClass({
           var stockSum = 0,
               valueSum = 0,
               isPercent = false;
-          var list = response.data.list;
+          var list = response.data.list || dataListDetail || [];
           if ( list[0] && list[0].stock !== 'undefined' ) {
             isPercent = true;
           }

@@ -69,7 +69,7 @@ var View = React.createClass({
       dataType: dataType
     });
   },
-  render: function() {
+  renderChartTitle: function() {
     var data = this.props.data,
         length = data.datasets.length,
         title,
@@ -77,8 +77,6 @@ var View = React.createClass({
         percentsTitle = '',
         sum;
 
-    chartData.labels = data.labels;
-    chartData.datasets[0].data = data.datasets;
     if(length){
       sum = this.props.valueSum;
     }
@@ -86,20 +84,32 @@ var View = React.createClass({
 
     var selectClass;
     if ( this.hasPercent() ) {
-      percents = chartData.datasets[0].data = data.percents;
-      percentsTitle = this.props.opts.numTitle + '(%)';
-      percentsTitle = '<span onClick={this.handleClick}>' + percentsTitle + '</span>';
+      //percents = chartData.datasets[0].data = data.percents;
+      percentsTitle = (this.props.opts.numTitle || '') + '(%)';
     }
     if (this.state.dataType !== 'percents') {
-      title = '<span className="strong">'+ title +'</span>' + percentsTitle;
+      if ( this.hasPercent() ) {
+        percentsTitle = (<span onClick={this.handleClick}>{percentsTitle}</span>);
+      }
+      return (<h3><span className="strong">{title}</span> {percentsTitle}</h3>);
     } else {
-      title = '<span onClick={this.handleClick}>'+ title +'</span> <span className="strong">' + percentsTitle + '</span>';
+      return (<h3><span onClick={this.handleClick}>{title}</span> <span className="strong">{percentsTitle}</span></h3>);
     }
+
+    //(<span className="strong">{title}</span>{percentsTitle});
+    //(<span onClick={this.handleClick}>{title}</span> <span className="strong">{percentsTitle}</span>)
+  },
+  render: function() {
+    var data = this.props.data,
+        length = data.datasets.length;
+
+    chartData.labels = data.labels;
+    chartData.datasets[0].data = data.datasets;
 
     var canvasWidth = length>8 ? 30*length : 280;
     return (
       <div className="iqg-chart">
-        <h3>{title}</h3>
+        {this.renderChartTitle()}
         <div className="chart-box">
           <div className="scroll-box">
             <LineChart data={chartData} options={chartOptions} width={canvasWidth} height="280" />
