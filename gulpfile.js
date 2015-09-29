@@ -38,7 +38,7 @@ var paths = {
     i: 'dist/i',
     fonts: 'dist/fonts'
   },
-  quoteSrc: 'dist/index.html',
+  quoteSrc: ['dist/index.html'],//, 'dist/index.html.twig'
   venders: {
     src: [
       // './node_modules/react/dist/react-with-addons.min.js',
@@ -119,12 +119,15 @@ gulp.task('copy', function () {
 
 // 编译 Less，添加浏览器前缀
 gulp.task('styles', function () {
-  return gulp.src(['app/less/app.less'])
+  var s = (
+    gulp.src(['app/less/app.less'])
     .pipe($.less())
     .pipe($.autoprefixer({browsers: AUTOPREFIXER_BROWSERS}))
     .pipe(gulp.dest('dist/css'))
-    .pipe($.csso())
+  );
+  return !isProduction ? s : s.pipe($.csso())
     .pipe($.rename({suffix: '.min'}))
+    .pipe(md5(10, paths.quoteSrc))
     .pipe(gulp.dest('dist/css'))
     .pipe($.size({title: 'styles'}));
 });
@@ -195,7 +198,7 @@ gulp.task('browserify', function() {
 // 压缩 HTML
 gulp.task('html', function () {
   return gulp.src('app/**/*.html')
-    .pipe($.minifyHtml())
+    //.pipe($.minifyHtml())
     .pipe($.replace(/\{\{__VERSION__\}\}/g, isProduction ? '.min' : ''))
     .pipe(gulp.dest('dist'))
     .pipe($.size({title: 'html'}));
@@ -213,7 +216,6 @@ gulp.task('clean', function(cb) {
 
 // 监视源文件变化自动cd编译
 gulp.task('watch', function() {
-  console.log('生产环境：' + isProduction);
   gulp.watch('app/**/*.html', ['html']);
   gulp.watch('app/less/**/*less', ['styles']);
   gulp.watch('app/i/**/*', ['images']);
@@ -243,12 +245,87 @@ gulp.task('dev', ['default', 'watch'], function () {
 
 // 默认任务
 gulp.task('default', function (cb) {
+  console.log('生产环境：' + isProduction);
   //runSequence('clean', ['styles', 'jshint', 'html', 'images', 'copy', 'browserify'], cb);
   runSequence('clean', ['styles', 'html', 'images', 'copy:venders', 'copy', 'browserify'], cb);
 });
 
 
+// 转为 twig 格式发布
+var publish = {
+  assets: '/Users/jack/github/iqg/iqianggou_php/src/DWD/WebBundle/Resources/public/stats',
+  twig: '/Users/jack/github/iqg/iqianggou_php/src/DWD/WebBundle/Resources/views/Stats'
+};
 
+/*
+$.rename({
+  dirname: "main/text/ciao",
+  basename: "aloha",
+  prefix: "bonjour-",
+  suffix: "-hola",
+  extname: ".md"
+})
+*/
+
+
+
+gulp.task('publish', ['html:twig'], function () {
+  return gulp.src([
+    'dist/**/*',
+    '!dist/index.html',
+    '!dist/manifest.*',
+    '!.DS_Store'
+  ], {
+    dot: true
+  })
+  // .pipe($.rename(function(path){
+  //   console.log(path)
+  //     if (path.basename === 'index' && path.extname === '.html') {
+  //       //path.dirname += "h5/app";
+  //       //path.basename += "index";
+  //       path.extname = ".html.twig";
+  //       return path;
+  //     }
+  //   }))
+  .pipe(gulp.dest(function(file) {
+    var filePath = file.path.toLowerCase();
+    console.log(filePath);
+    if (filePath.indexOf('.html.twig') > -1) {
+      return publish.twig;
+    }
+    return publish.assets;
+  }))
+    .pipe($.size({title: 'publish'}));
+});
+
+//正则标识符g 表示:reg.exec 会扫描到content最后一个匹配项,直到返回null
+var twigVar=/(<!--[\n\r\s]*?)({% set (.+?) %})([\n\r\s]*?-->)/gm
+var link_reg=/(<link(?:.*?)href=[\"\'])(.+?)([\"\'](?!<)(?:.*)\>(?:[\n\r\s]*?)(?:<\/link>)*)/gm;
+var js_reg=/(<script(?:.*?)src=[\"\'])(.+?)([\"\'](?!<)(?:.*)\>(?:[\n\r\s]*?)(?:<\/script>)*)/gm;
+var img_reg=/(<img(?:.*?[\n\r\s]*.*?)src=[\'\"])(.+?)([\'\"](?!<)(?:.*?[\n\r\s]*.*?)\/*>)/gm;
+var twigPath = "$1{{ asset(path ~ '$2') }}$3";
+
+gulp.task('html:twig', function () {
+  return gulp.src('dist/*.html')
+    //.pipe($.minifyHtml())
+    .pipe($.replace(twigVar, '$2'))
+    .pipe($.replace(link_reg, twigPath))
+    .pipe($.replace(js_reg, twigPath))
+    .pipe($.rename('index.html.twig'))
+    .pipe(gulp.dest('dist'))
+    .pipe($.size({title: 'html:twig'}));
+});
+
+gulp.task('shell', $.shell.task('gulp'))
+
+
+// gulp.task('start', function () {
+//   nodemon({
+//     script: 'server.js'
+//   , ext: 'js html'
+//   , env: { 'NODE_ENV': 'production' }
+//   })
+// })
 
 /*
 
@@ -262,6 +339,34 @@ gulp.task('default', function (cb) {
     NODE_ENV=production gulp
 
 
+    gulp.task('start', function () {
+      nodemon({
+        script: 'server.js'
+      , ext: 'js html'
+      , env: { 'NODE_ENV': 'development' }
+      })
+    })
+
+    var gulp = require('gulp')
+    var shell = require('./')
+
+    var paths = {
+      js: ['*.js', 'test/*.js']
+    }
+
+    gulp.task('test', shell.task('mocha -R spec'))
+
+    gulp.task('coverage', ['test'], shell.task('istanbul cover _mocha -- -R spec'))
+
+    gulp.task('coveralls', ['coverage'], shell.task('cat coverage/lcov.info | coveralls'))
+
+    gulp.task('lint', shell.task('eslint ' + paths.js.join(' ')))
+
+    gulp.task('default', ['coverage', 'lint'])
+
+    gulp.task('watch', function () {
+      gulp.watch(paths.js, ['default'])
+    })
 
 
     gulp.task('javascript', function () {

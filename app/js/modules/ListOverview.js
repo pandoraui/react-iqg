@@ -17,7 +17,7 @@ var View = React.createClass({
       }
     }
     console.log(params);
-    return !data.length ? (<p className="blank">暂无数据</p>) : data.map(function(item) {
+    return !data.length ? (<p className="blank">没有数据</p>) : data.map(function(item) {
       var link = preLink + "/detail/" + item.type + '?title=' + item.name;
       if (item.type === 6 || item.type === 8) {
         return;

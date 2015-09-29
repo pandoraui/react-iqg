@@ -178,11 +178,11 @@ var detailOpt = [
     valueTitle: '传播人数'
   },
   {
-    valueTitle: '了解数'
-  },
-  {
     numTitle: '购买率',
     valueTitle: '购买的'
+  },
+  {
+    valueTitle: '了解数'
   },
   {},
   {
@@ -288,7 +288,7 @@ var View = React.createClass({
           var stockSum = 0,
               valueSum = 0,
               isPercent = false;
-          var list = response.data.list || dataListDetail || [];
+          var list = response.data.list || [];
           if ( list[0] && list[0].stock !== 'undefined' ) {
             isPercent = true;
           }
@@ -440,7 +440,7 @@ var View = React.createClass({
     return result;
   },
   render: function() {
-    var typeId = 5;//this.state.detail_id;
+    var typeId = this.state.detail_id;
     var detailHtml = this.state.loading ? (<Loading loading={this.state.loading}></Loading>) : (
       <div>
         <Chart data={this.formatChartData()}
@@ -448,6 +448,9 @@ var View = React.createClass({
                opts={detailOpt[typeId]} />
         <ListDetail data={this.state.list} opts={detailOpt[typeId]} />
       </div>);
+    if (!this.state.loading && !this.state.list.length) {
+      detailHtml = (<p className="blank">没有数据</p>);
+    }
     return (
       <div className="iqg-page">
         <TopBar data={dataTopBar} pageTypeName='' />

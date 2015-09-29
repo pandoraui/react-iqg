@@ -58,7 +58,8 @@ var View = React.createClass({
     };
   },
   hasPercent: function() {
-    return !!this.props.opts.numTitle;
+    var percents = this.props.data && this.props.data.percents;
+    return !!(this.props.opts.numTitle && percents.length);
   },
   handleClick: function() {
     if (!this.props.opts.numTitle) {
@@ -80,7 +81,7 @@ var View = React.createClass({
     if(length){
       sum = this.props.valueSum;
     }
-    title = this.props.opts.valueTitle + '('+ sum +')';
+    title = this.props.opts.valueTitle + '('+ (sum || 0) +')';
 
     var selectClass;
     if ( this.hasPercent() ) {

@@ -16,7 +16,7 @@ body{color: #333; font-family: @base-font-family; font-size: 14px; }
 .iqg-header {margin-bottom: 0;}
 
 .iqg-main { flex: 1;}
-
+.iqg p.blank { padding: 10px 26px;}
 .iqg-panel .pure-button{margin:5px;}
 .iqg-dimmer {
     position: fixed;
@@ -64,8 +64,11 @@ body{color: #333; font-family: @base-font-family; font-size: 14px; }
 
 .iqg-list{
   .list-box{ overflow: hidden;}
-  p.blank { padding: 10px 26px;}
-  .link-block{display: block;box-sizing: border-box; overflow: hidden; padding: 1px 26px; width: 100%; margin-top: -1px;}
+  .link-block{display: block;box-sizing: border-box; overflow: hidden; padding: 1px 26px; width: 100%; margin-top: -1px;
+    &:active{
+      background-color: #E3E3E3;
+    }
+  }
   .link-block .item{overflow: hidden; margin-top: -1px; min-height: 44px;
 line-height: 44px; border-top: 1px solid @midGray;}
   a{
