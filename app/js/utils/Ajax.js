@@ -3,6 +3,18 @@
 var $ = require('npm-zepto');
 var ApiPath = require('./ApiPath');
 
+var filterParams = function(params) {
+  var params = params || {};
+  //过滤无效值
+  var ajaxParams = {};
+  for (var key in params) {
+    if (typeof params[key] !== "undefined") {
+      ajaxParams[key] = params[key];
+    }
+  }
+  return ajaxParams;
+};
+
 //这里统一添加一些公共参数
 var dealParams = function(params) {
   params = params || {};
@@ -14,6 +26,8 @@ var dealParams = function(params) {
     header.version = params.data.apiVersion;
     delete params.data.apiVersion;
   }
+
+  params.data = filterParams(params.data);
 
   params = $.extend({
     //tech: "reactUI"
@@ -35,6 +49,7 @@ var dealParams = function(params) {
 //统一处理成功及报错 code
 function _ajax(options) {
   var params = dealParams(options);
+
   return $.ajax(params);
 }
 

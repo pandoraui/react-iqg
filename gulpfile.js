@@ -338,6 +338,9 @@ gulp.task('shell', $.shell.task('gulp'))
 
     NODE_ENV=production gulp
 
+### 转化为 twig 格式，发布到生产
+
+    gulp publish
 
     gulp.task('start', function () {
       nodemon({

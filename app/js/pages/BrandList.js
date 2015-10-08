@@ -162,6 +162,7 @@ var View = React.createClass({
         title: title
       });
     }
+    this.pageType = pageType;
     if (this.state.pageType !== pageType) {
       this.setState({
         last_id: 0,
@@ -215,14 +216,21 @@ var View = React.createClass({
   },
   componentWillReceiveProps: function(nextProps) {
     //判断 params 参数是否发生变化
+    console.log('params变化了')
     if ( !_.isEqual(this.props.params, nextProps.params) ) {
       this.updateHeader(nextProps);
+      if (!nextProps.params.branch_id) {
+        nextProps.params.branch_id = undefined;
+      }
+      if (!nextProps.params.item_id) {
+        nextProps.params.item_id = undefined;
+      }
       this.ajaxLoadOverview(nextProps.params);
       !this.isItemPage() && this.ajaxLoadList(nextProps.params);
     }
   },
   isItemPage: function() {
-    return this.state.pageType === 'item';
+    return this.pageType === 'item' || this.pageType === 'branch';
   },
   ajaxLoadOverview: function(params) {
     console.log('overview 请求的天数：' + AppStore.getPageInfo().days);

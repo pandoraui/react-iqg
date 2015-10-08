@@ -44,6 +44,7 @@ var chartData = {
 
 //默认参数
 var chartOptions = {
+  scaleFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif"
 };
 
 var dataType = 'datasets';
@@ -104,6 +105,7 @@ var View = React.createClass({
     //(<span onClick={this.handleClick}>{title}</span> <span className="strong">{percentsTitle}</span>)
   },
   render: function() {
+    console.warn("chart渲染次数")
     var data = this.props.data,
         length = data.datasets.length;
 
@@ -116,7 +118,7 @@ var View = React.createClass({
       chartData.datasets[0].data = data.percents;
     }
 
-    var canvasWidth = length>8 ? 30*length : 280;
+    var canvasWidth = length>8 ? 40*length : 280;
     return (
       <div className="iqg-chart">
         {this.renderChartTitle()}

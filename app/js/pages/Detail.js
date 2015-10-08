@@ -204,9 +204,9 @@ var View = React.createClass({
     var params = this.props.params;
     return {
       loading: true,
-      brand_id: params.brand_id || '',
-      branch_id: params.branch_id || '',
-      item_id: params.item_id || '',
+      brand_id: params.brand_id,
+      branch_id: params.branch_id,
+      item_id: params.item_id,
       detail_id: params.detail_id,
       detailName: detailOpt[params.detail_id],
       // pageInfo: pageInfo,
@@ -287,23 +287,24 @@ var View = React.createClass({
           // }
           var stockSum = 0,
               valueSum = 0,
+              percents = [],
               isPercent = false;
 
           var defaultList = this.props.query.debug ? dataListDetail : [];
           var list = response.data.list || defaultList || [];
-          if ( list[0] && list[0].stock !== 'undefined' ) {
+          if ( list[0] && typeof list[0].stock !== 'undefined' ) {
             isPercent = true;
           }
 
           list.forEach(function(item, i) {
-            var percent = '0%';
+            var percent = '0';
 
             if (isPercent) {
-              list[i].stock = item.stock* 10000;
+              list[i].stock = item.stock;
               if (item.stock) {
                 percent = this.formatNumber(item.value/item.stock, '');
               } else {
-                percents.push( '0%' );
+                percents.push( '0' );
               }
               list[i].percent = percent;
               stockSum += parseInt(item.stock);

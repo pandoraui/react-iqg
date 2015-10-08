@@ -16,11 +16,11 @@ var NavLink = React.createClass({
     return (
       <div className="iqg-panel">
           <h2>测试链接</h2>
-          <a className="pure-button" href="#/brand/2069?title=品牌大标题">品牌23</a>
-          <a className="pure-button" href="#/brand/2069/branch/11331?title=分店标题">分店34</a>
-          <a className="pure-button" href="#/brand/2069/branch/11331/item/45?title=商品名">商品</a>
+          <a className="pure-button" href="#/brand/2175?title=品牌大标题">品牌23</a>
+          <a className="pure-button" href="#/brand/2175/branch/11331?title=分店标题">分店34</a>
+          <a className="pure-button" href="#/brand/2175/branch/11331/item/45?title=商品名">商品</a>
           <br />
-          <a className="pure-button" href="#/brand/2069/detail/2">详情展示</a>
+          <a className="pure-button" href="#/brand/2175/detail/2">详情展示</a>
           <a className="pure-button" href="#/notfound">404</a>
       </div>
     );
