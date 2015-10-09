@@ -1,6 +1,6 @@
-# Amaze UI React Starter Kit
+# ReactUI Starter
 
-Amaze UI React 快速入门套件，基于 React、Amaze UI 组件、react-router 及 gulp 开发 SPA。
+ReactUI 快速入门套件，基于 React、Amaze UI 组件、react-router 及 gulp 开发 SPA。
 
 **套件中目前只包含客户部代码**。
 
@@ -50,5 +50,5 @@ NODE_ENV=production gulp
 ### 转化为 twig 格式，发布到生产(因为服务端用的 php 路由以及 twig 模板)
 
 ```
-    gulp publish
+gulp publish
 ```
