@@ -47,8 +47,8 @@ gulp dev
 NODE_ENV=production gulp
 ```
 
-**[fish](http://fishshell.com/)**:
+### 转化为 twig 格式，发布到生产(因为服务端用的 php 路由以及 twig 模板)
 
 ```
-env NODE_ENV=production gulp
+    gulp publish
 ```
