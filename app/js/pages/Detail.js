@@ -260,6 +260,7 @@ var View = React.createClass({
     // }
   },
   ajaxLoadDetail: function() {
+    var brand_id;
     console.warn('ajax');
     this.setState({
       loading: true
@@ -272,7 +273,7 @@ var View = React.createClass({
         days: AppStore.getPageInfo().days,
         cb_id: this.state.item_id,
         branch_id: this.state.branch_id,
-        brand_id: this.state.brand_id
+        brand_id: (this.state.brand_id == '-1') ? brand_id : this.state.brand_id
       },
       dataType: 'json',
       success: function(response, status, xhr) {

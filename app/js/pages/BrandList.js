@@ -238,6 +238,7 @@ var View = React.createClass({
     this.setState({
       loading: true
     });
+    var brand_id;
     $._ajax({
       type: "GET",
       url: $.Api.TJ_ALL,
@@ -245,7 +246,7 @@ var View = React.createClass({
         days: AppStore.getPageInfo().days,
         cb_id: params.item_id,
         branch_id: params.branch_id,
-        brand_id: params.brand_id
+        brand_id: (params.brand_id == '-1') ? brand_id : params.brand_id
       },
       dataType: 'json',
       success: function(response, status, xhr) {
@@ -291,7 +292,7 @@ var View = React.createClass({
       });
     }
     var params = _.extend({}, this.props.params, params, resetData);
-
+    var brand_id;
     var ajaxParams = {
       days: pageInfo.days,
       type: pageInfo.type,
@@ -299,7 +300,7 @@ var View = React.createClass({
       last_id: params.last_id || 0,
       cb_id: params.item_id,
       branch_id: params.branch_id,
-      brand_id: params.brand_id
+      brand_id: (params.brand_id == '-1') ? brand_id : params.brand_id
     };
     $._ajax({
       type: "GET",

@@ -47,9 +47,9 @@ gulp dev
 NODE_ENV=production gulp
 ```
 
-### 发布到生产
+### 发布
 
-由于现有服务端用的 php 路由以及 twig 模板，需要转化为 twig 格式形式
+由于现有服务端用的 php 路由以及 twig 模板，需要转化为 twig 格式形式发布到生产。
 
 ```
 gulp publish
