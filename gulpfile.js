@@ -93,7 +93,7 @@ gulp.task('copy:venders', function () {
     .pipe($.size({title: 'copy:venders'}));
 });
 // 拷贝相关资源
-gulp.task('copy', function () {
+gulp.task('copy', ['copy:venders'], function () {
   return gulp.src([
     'app/**/*',
     '!app/*.html',
@@ -247,7 +247,7 @@ gulp.task('dev', ['default', 'watch'], function () {
 gulp.task('default', function (cb) {
   console.log('生产环境：' + isProduction);
   //runSequence('clean', ['styles', 'jshint', 'html', 'images', 'copy', 'browserify'], cb);
-  runSequence('clean', ['styles', 'html', 'images', 'copy:venders', 'copy', 'browserify'], cb);
+  runSequence('clean', ['styles', 'html', 'images', 'copy', 'browserify'], cb);
 });
 
 
