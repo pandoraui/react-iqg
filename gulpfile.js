@@ -162,7 +162,7 @@ if (!isProduction) {
   b = watchify(b);
 }
 
-// 如果想把 React 打包进去，可以把下面一行注释去掉
+// 如果想把 React 打包进去，可以把下面一行注释掉
 b.transform('browserify-shim', {global: true});
 
 
