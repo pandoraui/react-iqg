@@ -20,11 +20,12 @@ var NotFound = React.createClass({
       <div className="iqg-page">
         <div className="iqg-banner">
           <h1>404 页面未找到！！！</h1>
-          <p>点此返回 <a className="pure-button" href="#/">首页</a></p>
         </div>
       </div>
     );
   }
 });
+
+//<p>点此返回 <a className="pure-button" href="#/">首页</a></p>
 
 module.exports = NotFound;

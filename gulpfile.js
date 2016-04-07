@@ -121,8 +121,10 @@ gulp.task('copy', ['copy:venders'], function () {
 gulp.task('styles', function () {
   var s = (
     gulp.src(['app/less/app.less'])
+    .pipe($.sourcemaps.init())
     .pipe($.less())
     .pipe($.autoprefixer({browsers: AUTOPREFIXER_BROWSERS}))
+    .pipe($.sourcemaps.write())
     .pipe(gulp.dest('dist/css'))
   );
   return !isProduction ? s : s.pipe($.csso())
@@ -334,6 +336,7 @@ gulp.task('shell', $.shell.task('gulp'))
     gulp dev
 
 ### 生产环境构建
+
 设置 Node 环境变量为 production 后，HTML 中引用的 CSS 和 JS 会替换为 minify 的版本。
 
     NODE_ENV=production gulp

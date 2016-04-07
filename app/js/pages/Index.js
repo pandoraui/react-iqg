@@ -6,8 +6,14 @@ var AppActions = require('../actions/AppActions');
 var NavLink = require('../components/NavLink');
 
 var headerData = {
-  title: '入口页面'
+  title: '统计平台'
 };
+
+var Debug = false;
+var host = window.location.host;
+if(host.match(/^localhost/i) ){
+  Debug = true;
+}
 
 var Index = React.createClass({
   getInitialState: function() {
@@ -19,11 +25,10 @@ var Index = React.createClass({
   render: function() {
     return (
       <div className="iqg-page">
-        <NavLink/>
+        {Debug ? (<NavLink/>) : (<p></p>) }
         <div className="iqg-banner">
           <div>
-            <h1>Hello World!</h1>
-            <h2>欢迎使用 ReactUI 入门套件。</h2>
+            <h2>请在爱抢购商户 App 中使用</h2>
           </div>
         </div>
       </div>
