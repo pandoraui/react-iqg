@@ -55,6 +55,11 @@ var View = React.createClass({
     AppActions.updateHeader(headerData);
   },
   render: function() {
+    if(chartData.length) {
+      return (
+        <div className="ask-page"></div>
+      );
+    }
     return (
       <div className="ask-page">
         <div className="am-padding-vertical-lg">
