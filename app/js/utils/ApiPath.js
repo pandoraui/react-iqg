@@ -15,7 +15,8 @@ var originApiHost = apiHost.prod;
 var defaultApiHost = apiHost.prod;
 var hostname = location.hostname;
 
-if (hostname.match(/^localhost$/) || hostname.match(/^10\.0\.0\.[\d]+$/) || hostname.match(/yanzhanjun|lab/)) {
+//http://stats-h5.staging.iqianggou.lab:12345/#/brand/9538
+if (hostname.match(/^localhost$/) || hostname.match(/^10\.0\.0\.[\d]+$/) || hostname.match(/h5\.staging|lab/)) {
   debugApi = true;
   // testApiHost = apiHost.dev;
   testApiHost = apiHost.staging;
