@@ -224,7 +224,7 @@ gulp.task('watch', function() {
 });
 
 // 启动预览服务，并监视 Dist 目录变化自动刷新浏览器
-gulp.task('dev', ['default', 'watch'], function () {
+gulp.task('serve', ['watch'], function () {
   browserSync({
     // port: 5000, //默认3000
     // ui: {    //更改默认端口weinre 3001
@@ -244,6 +244,22 @@ gulp.task('dev', ['default', 'watch'], function () {
 
   gulp.watch(['dist/**/*'], reload);
 });
+
+gulp.task('dev', function (cb) {
+  isProduction = false;
+  runSequence('default', 'serve', cb);
+});
+gulp.task('pro', function (cb) {
+  isProduction = true;
+  runSequence('default', 'serve', cb);
+});
+// gulp.task('pro', $.shell.task([
+//   'NODE_ENV=production gulp'
+// ]));
+// gulp.task('pro:serve', $.shell.task([
+//   'NODE_ENV=production gulp',
+//   'gulp serve'
+// ]));
 
 // 默认任务
 gulp.task('default', function (cb) {

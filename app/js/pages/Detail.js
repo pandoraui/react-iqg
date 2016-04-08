@@ -243,7 +243,7 @@ var View = React.createClass({
     AppStore.removeChangeListener(this._onChange);
   },
   componentWillMount: function() {
-    var title = this.props.query && this.props.query.title || '推广效果';
+    var title = this.props.query && this.props.query.title || '广告效果';
     if (title != AppStore.getPageInfo().title ) {
       AppActions.updateHeader({
         title: title

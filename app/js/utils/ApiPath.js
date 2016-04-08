@@ -17,8 +17,8 @@ var hostname = location.hostname;
 
 if (hostname.match(/^localhost$/) || hostname.match(/^10\.0\.0\.[\d]+$/) || hostname.match(/yanzhanjun|lab/)) {
   debugApi = true;
-  testApiHost = apiHost.dev;
-  // testApiHost = apiHost.staging;
+  // testApiHost = apiHost.dev;
+  testApiHost = apiHost.staging;
 } else {
   debugApi = false;
 }

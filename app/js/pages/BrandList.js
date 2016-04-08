@@ -17,7 +17,7 @@ var $ = require('../utils/Ajax');
 var _ = require('../utils/Lodash');
 
 var headerData = {
-  title: '推广效果'
+  title: '广告效果'
 };
 
 var dataTopBar = {
@@ -156,7 +156,7 @@ var View = React.createClass({
     }
     //这里要检查更新 pageType 以及页面参数
     console.log('页面参数变化');
-    var title = nextProps.query && nextProps.query.title || '推广效果';
+    var title = nextProps.query && nextProps.query.title || '广告效果';
     if (title != AppStore.getPageInfo().title ) {
       AppActions.updateHeader({
         title: title

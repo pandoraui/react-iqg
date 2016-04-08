@@ -44,7 +44,7 @@ gulp dev
 设置 Node 环境变量为 `production` 后，HTML 中引用的 CSS 和 JS 会替换为 minify 的版本。
 
 ```
-NODE_ENV=production gulp
+gulp pro
 ```
 
 ### 发布
@@ -52,5 +52,6 @@ NODE_ENV=production gulp
 由于现有服务端用的 php 路由以及 twig 模板，需要转化为 twig 格式形式发布到生产。
 
 ```
+//先运行 gulp pro
 gulp publish
 ```

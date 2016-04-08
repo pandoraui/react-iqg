@@ -10,7 +10,7 @@ var CHANGE_EVENT = 'change';
 
 // headerBar 数据，包括 title
 var _headerData = {
-  title: '推广效果',
+  title: '广告效果',
   hideHeaderBar: true
 };
 var hostname = location.hostname;
